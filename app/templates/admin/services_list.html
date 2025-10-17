@@ -1,0 +1,70 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Услуги - Админка OilFusion{% endblock %}
+
+{% block content %}
+<div class="admin-edit-page">
+  <div class="admin-page-header">
+    <h1 class="admin-page-title">Услуги</h1>
+    <p class="admin-page-subtitle">Управление карточками услуг</p>
+  </div>
+
+  <div class="admin-section">
+    <h2 class="admin-section-title">Список услуг</h2>
+    <div class="admin-list">
+      {% for s in services %}
+      <div class="admin-list-item">
+        <div class="admin-list-main">
+          <img src="{{ s.icon }}" alt="" style="width:56px;height:40px;object-fit:cover;border-radius:6px;border:1px solid var(--admin-border);"/>
+          <div>
+            <div class="admin-list-title">{{ s.name }}</div>
+            <div class="admin-list-sub">{{ s.price }}</div>
+          </div>
+        </div>
+        <form method="POST" action="{{ url_for('admin.services_delete', token=token, index=loop.index0) }}" onsubmit="return confirm('Удалить услугу?')">
+          <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Удалить</button>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <h2 class="admin-section-title">Добавить / Изменить услугу</h2>
+    <form method="POST" action="{{ url_for('admin.services_save', token=token) }}" class="admin-form" enctype="multipart/form-data">
+      <div class="admin-form-row">
+        <div class="admin-form-group">
+          <label class="admin-form-label">Название</label>
+          <input class="admin-form-input" name="name" required>
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">Цена</label>
+          <input class="admin-form-input" name="price" placeholder="от 5 000 ₽">
+        </div>
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label">Описание</label>
+        <textarea class="admin-form-textarea" name="description" rows="3"></textarea>
+      </div>
+      <div class="admin-form-row">
+        <div class="admin-form-group">
+          <label class="admin-form-label">URL иконки/изображения</label>
+          <input class="admin-form-input" name="icon_url" placeholder="/static/img/service.png">
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">Загрузить иконку/изображение</label>
+          <input type="file" class="admin-form-input" name="icon_file" accept="image/*,image/svg+xml">
+        </div>
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label">Особенности (по одной на строке)</label>
+        <textarea class="admin-form-textarea" name="features" rows="5" placeholder="Пункт 1\nПункт 2\nПункт 3"></textarea>
+      </div>
+      <div class="admin-form-actions">
+        <button class="admin-btn admin-btn-primary" type="submit">Сохранить</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+

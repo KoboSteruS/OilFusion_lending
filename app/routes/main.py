@@ -6,6 +6,8 @@
 from flask import Blueprint, render_template, current_app
 from app.utils.logger import get_logger
 from app.models.content import AboutContent, PersonalizationContent, BlogContent
+from app.models.products import ProductsContent
+from app.models.services import ServicesContent
 from app.models.images import SectionBackgrounds
 
 logger = get_logger()
@@ -43,17 +45,19 @@ def index():
     about_data = about_content.get_all()
     about_data['background'] = backgrounds.get_section_background('about')
     
-    # Данные о продукции (заглушка)
+    # Данные о продукции
+    products_store = ProductsContent()
     products_data = {
         'title': 'Наша продукция',
-        'products_list': [],  # Будет заполнено позже
+        'products_list': products_store.list(),
         'background': backgrounds.get_section_background('products')
     }
     
-    # Данные об услугах (заглушка)
+    # Данные об услугах
+    services_store = ServicesContent()
     services_data = {
         'title': 'Наши услуги',
-        'services_list': []  # Будет заполнено позже
+        'services_list': services_store.list()
     }
     
     # Данные о персонализации из модели

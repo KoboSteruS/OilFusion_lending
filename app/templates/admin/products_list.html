@@ -1,0 +1,70 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Продукция - Админка OilFusion{% endblock %}
+
+{% block content %}
+<div class="admin-edit-page">
+  <div class="admin-page-header">
+    <h1 class="admin-page-title">Продукция</h1>
+    <p class="admin-page-subtitle">Управление карточками продуктов</p>
+  </div>
+
+  <div class="admin-section">
+    <h2 class="admin-section-title">Список продуктов</h2>
+    <div class="admin-list">
+      {% for p in products %}
+      <div class="admin-list-item">
+        <div class="admin-list-main">
+          <img src="{{ p.image }}" alt="" style="width:56px;height:40px;object-fit:cover;border-radius:6px;border:1px solid var(--admin-border);"/>
+          <div>
+            <div class="admin-list-title">{{ p.name }}</div>
+            <div class="admin-list-sub">{{ p.category }} — {{ p.price }}</div>
+          </div>
+        </div>
+        <form method="POST" action="{{ url_for('admin.products_delete', token=token, index=loop.index0) }}" onsubmit="return confirm('Удалить продукт?')">
+          <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Удалить</button>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <h2 class="admin-section-title">Добавить / Изменить продукт</h2>
+    <form method="POST" action="{{ url_for('admin.products_save', token=token) }}" class="admin-form" enctype="multipart/form-data">
+      <div class="admin-form-row">
+        <div class="admin-form-group">
+          <label class="admin-form-label">Название</label>
+          <input class="admin-form-input" name="name" required>
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">Категория</label>
+          <input class="admin-form-input" name="category">
+        </div>
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label">Описание</label>
+        <textarea class="admin-form-textarea" name="description" rows="3"></textarea>
+      </div>
+      <div class="admin-form-row">
+        <div class="admin-form-group">
+          <label class="admin-form-label">Цена</label>
+          <input class="admin-form-input" name="price" placeholder="от 3 500 ₽">
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">URL изображения</label>
+          <input class="admin-form-input" name="image_url" placeholder="/static/img/product.jpg">
+        </div>
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label">Загрузить изображение</label>
+        <input type="file" class="admin-form-input" name="image_file" accept="image/*">
+      </div>
+      <div class="admin-form-actions">
+        <button class="admin-btn admin-btn-primary" type="submit">Сохранить</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+

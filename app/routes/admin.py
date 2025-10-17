@@ -5,6 +5,8 @@
 
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from app.models.content import AboutContent, PersonalizationContent, BlogContent
+from app.models.products import ProductsContent
+from app.models.services import ServicesContent
 from app.utils.logger import get_logger
 from app.utils.auth import require_admin_token
 
@@ -411,6 +413,122 @@ def blog_save(token):
             flash('Ошибка при создании статьи!', 'error')
     
     return redirect(url_for('admin.blog_list', token=token))
+
+# ===================== Products =====================
+
+@admin_bp.route('/<token>/admin/products')
+@require_admin_token
+def products_list(token):
+    products = ProductsContent()
+    return render_template('admin/products_list.html', products=products.list(), token=token)
+
+
+@admin_bp.route('/<token>/admin/products/save', methods=['POST'])
+@require_admin_token
+def products_save(token):
+    from pathlib import Path
+    from datetime import datetime
+    from werkzeug.utils import secure_filename
+
+    products = ProductsContent()
+    index = request.form.get('index')
+    name = request.form.get('name', '')
+    description = request.form.get('description', '')
+    price = request.form.get('price', '')
+    category = request.form.get('category', '')
+    image_url = request.form.get('image_url', '')
+
+    if 'image_file' in request.files:
+        file = request.files['image_file']
+        if file and file.filename and '.' in file.filename and file.filename.rsplit('.',1)[1].lower() in {'png','jpg','jpeg','webp','gif'}:
+            filename = secure_filename(file.filename)
+            unique = f"product_{int(datetime.now().timestamp())}_{filename}"
+            folder = Path('app/static/img')
+            folder.mkdir(parents=True, exist_ok=True)
+            file.save(str(folder / unique))
+            image_url = f"/static/img/{unique}"
+
+    item = {
+        'name': name,
+        'description': description,
+        'price': price,
+        'category': category,
+        'image': image_url,
+    }
+    if index is not None and index != '':
+        ok = ProductsContent().update_item(int(index), item)
+    else:
+        ok = ProductsContent().add(item)
+    flash('Товар сохранён' if ok else 'Ошибка сохранения товара', 'success' if ok else 'error')
+    return redirect(url_for('admin.products_list', token=token))
+
+
+@admin_bp.route('/<token>/admin/products/<int:index>/delete', methods=['POST'])
+@require_admin_token
+def products_delete(token, index):
+    ok = ProductsContent().delete(index)
+    flash('Товар удалён' if ok else 'Ошибка удаления товара', 'success' if ok else 'error')
+    return redirect(url_for('admin.products_list', token=token))
+
+
+# ===================== Services =====================
+
+@admin_bp.route('/<token>/admin/services')
+@require_admin_token
+def services_list(token):
+    services = ServicesContent()
+    return render_template('admin/services_list.html', services=services.list(), token=token)
+
+
+@admin_bp.route('/<token>/admin/services/save', methods=['POST'])
+@require_admin_token
+def services_save(token):
+    from pathlib import Path
+    from datetime import datetime
+    from werkzeug.utils import secure_filename
+
+    services = ServicesContent()
+    index = request.form.get('index')
+    name = request.form.get('name', '')
+    description = request.form.get('description', '')
+    price = request.form.get('price', '')
+    icon_url = request.form.get('icon_url', '')
+
+    # features as multiline textarea (one per line)
+    features_text = request.form.get('features', '')
+    features = [f.strip() for f in features_text.split('\n') if f.strip()]
+
+    if 'icon_file' in request.files:
+        file = request.files['icon_file']
+        if file and file.filename and '.' in file.filename and file.filename.rsplit('.',1)[1].lower() in {'png','jpg','jpeg','webp','gif','svg'}:
+            filename = secure_filename(file.filename)
+            unique = f"service_{int(datetime.now().timestamp())}_{filename}"
+            folder = Path('app/static/img')
+            folder.mkdir(parents=True, exist_ok=True)
+            file.save(str(folder / unique))
+            icon_url = f"/static/img/{unique}"
+
+    item = {
+        'name': name,
+        'description': description,
+        'price': price,
+        'icon': icon_url,
+        'features': features,
+    }
+    if index is not None and index != '':
+        ok = ServicesContent().update_item(int(index), item)
+    else:
+        ok = ServicesContent().add(item)
+    flash('Услуга сохранена' if ok else 'Ошибка сохранения услуги', 'success' if ok else 'error')
+    return redirect(url_for('admin.services_list', token=token))
+
+
+@admin_bp.route('/<token>/admin/services/<int:index>/delete', methods=['POST'])
+@require_admin_token
+def services_delete(token, index):
+    ok = ServicesContent().delete(index)
+    flash('Услуга удалена' if ok else 'Ошибка удаления услуги', 'success' if ok else 'error')
+    return redirect(url_for('admin.services_list', token=token))
 
 
 @admin_bp.route('/<token>/admin/blog/<int:index>/delete', methods=['POST'])
