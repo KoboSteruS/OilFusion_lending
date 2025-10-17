@@ -38,3 +38,8 @@ def create_app(config_class=Config) -> Flask:
 
 
 
+
+# Создаём объект приложения на уровне модуля, чтобы gunicorn app:app работал на платформах
+# где нельзя изменить команду запуска.
+app = create_app()
+
