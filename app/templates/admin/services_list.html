@@ -14,16 +14,19 @@
     <div class="admin-list">
       {% for s in services %}
       <div class="admin-list-item">
-        <div class="admin-list-main">
+        <div class="admin-list-main" onclick="fillServiceForm({{ loop.index0 }}, {{ s|tojson }})" style="cursor:pointer">
           <img src="{{ s.icon }}" alt="" style="width:56px;height:40px;object-fit:cover;border-radius:6px;border:1px solid var(--admin-border);"/>
           <div>
             <div class="admin-list-title">{{ s.name }}</div>
             <div class="admin-list-sub">{{ s.price }}</div>
           </div>
         </div>
-        <form method="POST" action="{{ url_for('admin.services_delete', token=token, index=loop.index0) }}" onsubmit="return confirm('Удалить услугу?')">
-          <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Удалить</button>
-        </form>
+        <div class="admin-list-actions">
+          <button type="button" class="admin-btn admin-btn-sm" onclick='fillServiceForm({{ loop.index0 }}, {{ s|tojson }})'>Редактировать</button>
+          <form method="POST" action="{{ url_for('admin.services_delete', token=token, index=loop.index0) }}" onsubmit="return confirm('Удалить услугу?')" style="display:inline">
+            <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Удалить</button>
+          </form>
+        </div>
       </div>
       {% endfor %}
     </div>
@@ -31,25 +34,26 @@
 
   <div class="admin-section">
     <h2 class="admin-section-title">Добавить / Изменить услугу</h2>
-    <form method="POST" action="{{ url_for('admin.services_save', token=token) }}" class="admin-form" enctype="multipart/form-data">
+    <form id="serviceForm" method="POST" action="{{ url_for('admin.services_save', token=token) }}" class="admin-form" enctype="multipart/form-data">
+      <input type="hidden" name="index" id="service_index">
       <div class="admin-form-row">
         <div class="admin-form-group">
           <label class="admin-form-label">Название</label>
-          <input class="admin-form-input" name="name" required>
+          <input class="admin-form-input" name="name" id="service_name" required>
         </div>
         <div class="admin-form-group">
           <label class="admin-form-label">Цена</label>
-          <input class="admin-form-input" name="price" placeholder="от 5 000 ₽">
+          <input class="admin-form-input" name="price" id="service_price" placeholder="от 5 000 ₽">
         </div>
       </div>
       <div class="admin-form-group">
         <label class="admin-form-label">Описание</label>
-        <textarea class="admin-form-textarea" name="description" rows="3"></textarea>
+        <textarea class="admin-form-textarea" name="description" id="service_description" rows="3"></textarea>
       </div>
       <div class="admin-form-row">
         <div class="admin-form-group">
           <label class="admin-form-label">URL иконки/изображения</label>
-          <input class="admin-form-input" name="icon_url" placeholder="/static/img/service.png">
+          <input class="admin-form-input" name="icon_url" id="service_icon_url" placeholder="/static/img/service.png">
         </div>
         <div class="admin-form-group">
           <label class="admin-form-label">Загрузить иконку/изображение</label>
@@ -58,13 +62,29 @@
       </div>
       <div class="admin-form-group">
         <label class="admin-form-label">Особенности (по одной на строке)</label>
-        <textarea class="admin-form-textarea" name="features" rows="5" placeholder="Пункт 1\nПункт 2\nПункт 3"></textarea>
+        <textarea class="admin-form-textarea" name="features" id="service_features" rows="5" placeholder="Пункт 1\nПункт 2\nПункт 3"></textarea>
       </div>
       <div class="admin-form-actions">
         <button class="admin-btn admin-btn-primary" type="submit">Сохранить</button>
+        <button class="admin-btn admin-btn-secondary" type="button" onclick="resetServiceForm()">Сбросить</button>
       </div>
     </form>
   </div>
 </div>
+<script>
+function fillServiceForm(index, data){
+  document.getElementById('service_index').value = index;
+  document.getElementById('service_name').value = data.name || '';
+  document.getElementById('service_price').value = data.price || '';
+  document.getElementById('service_description').value = data.description || '';
+  document.getElementById('service_icon_url').value = data.icon || '';
+  document.getElementById('service_features').value = (data.features || []).join('\n');
+  window.scrollTo({top: document.getElementById('serviceForm').offsetTop - 20, behavior: 'smooth'});
+}
+function resetServiceForm(){
+  document.getElementById('serviceForm').reset();
+  document.getElementById('service_index').value='';
+}
+</script>
 {% endblock %}
 

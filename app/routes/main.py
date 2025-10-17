@@ -9,6 +9,7 @@ from app.models.content import AboutContent, PersonalizationContent, BlogContent
 from app.models.products import ProductsContent
 from app.models.services import ServicesContent
 from app.models.images import SectionBackgrounds
+from app.models.contacts import ContactsContent
 
 logger = get_logger()
 
@@ -79,15 +80,8 @@ def index():
     }
     
     # Контактные данные
-    contacts_data = {
-        'title': 'Контакты',
-        'email': current_app.config.get('COMPANY_EMAIL'),
-        'phone': current_app.config.get('COMPANY_PHONE'),
-        'address': current_app.config.get('COMPANY_ADDRESS'),
-        'latitude': current_app.config.get('COMPANY_LATITUDE'),
-        'longitude': current_app.config.get('COMPANY_LONGITUDE'),
-        'maps_api_key': current_app.config.get('GOOGLE_MAPS_API_KEY')
-    }
+    contacts_store = ContactsContent()
+    contacts_data = contacts_store.get_all()
     
     return render_template(
         'index.html',

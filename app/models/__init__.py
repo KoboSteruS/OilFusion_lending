@@ -6,6 +6,7 @@ from app.models.content import AboutContent, PersonalizationContent, BlogArticle
 from app.models.images import SectionBackgrounds
 from app.models.products import ProductsContent
 from app.models.services import ServicesContent
+from app.models.contacts import ContactsContent
 
-__all__ = ['AboutContent', 'PersonalizationContent', 'BlogArticle', 'BlogContent', 'SectionBackgrounds', 'ProductsContent', 'ServicesContent']
+__all__ = ['AboutContent', 'PersonalizationContent', 'BlogArticle', 'BlogContent', 'SectionBackgrounds', 'ProductsContent', 'ServicesContent', 'ContactsContent']
 

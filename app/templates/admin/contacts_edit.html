@@ -1,0 +1,50 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Контакты - Админка OilFusion{% endblock %}
+
+{% block content %}
+<div class="admin-edit-page">
+  <div class="admin-page-header">
+    <h1 class="admin-page-title">Контакты</h1>
+    <p class="admin-page-subtitle">Обновите контактную информацию и координаты карты</p>
+  </div>
+
+  <div class="admin-section">
+    <h2 class="admin-section-title">Данные контактов</h2>
+    <form method="POST" action="{{ url_for('admin.contacts_save', token=token) }}" class="admin-form">
+      <div class="admin-form-row">
+        <div class="admin-form-group">
+          <label class="admin-form-label">Email</label>
+          <input class="admin-form-input" type="email" name="email" value="{{ contacts.email or '' }}" required>
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">Телефон</label>
+          <input class="admin-form-input" name="phone" value="{{ contacts.phone or '' }}">
+        </div>
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label">Адрес</label>
+        <input class="admin-form-input" name="address" value="{{ contacts.address or '' }}">
+      </div>
+      <div class="admin-form-row">
+        <div class="admin-form-group">
+          <label class="admin-form-label">Latitude</label>
+          <input class="admin-form-input" name="latitude" value="{{ contacts.latitude }}" placeholder="40.7128">
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">Longitude</label>
+          <input class="admin-form-input" name="longitude" value="{{ contacts.longitude }}" placeholder="-74.0060">
+        </div>
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label">Google Maps API Key</label>
+        <input class="admin-form-input" name="maps_api_key" value="{{ contacts.maps_api_key or '' }}">
+      </div>
+      <div class="admin-form-actions">
+        <button type="submit" class="admin-btn admin-btn-primary">Сохранить</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+

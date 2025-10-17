@@ -7,6 +7,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from app.models.content import AboutContent, PersonalizationContent, BlogContent
 from app.models.products import ProductsContent
 from app.models.services import ServicesContent
+from app.models.contacts import ContactsContent
 from app.utils.logger import get_logger
 from app.utils.auth import require_admin_token
 
@@ -530,6 +531,36 @@ def services_delete(token, index):
     flash('Услуга удалена' if ok else 'Ошибка удаления услуги', 'success' if ok else 'error')
     return redirect(url_for('admin.services_list', token=token))
 
+
+@admin_bp.route('/<token>/admin/contacts')
+@require_admin_token
+def contacts_edit(token):
+    contacts = ContactsContent()
+    return render_template('admin/contacts_edit.html', contacts=contacts.get_all(), token=token)
+
+
+@admin_bp.route('/<token>/admin/contacts/save', methods=['POST'])
+@require_admin_token
+def contacts_save(token):
+    contacts = ContactsContent()
+    data = {
+        'email': request.form.get('email', ''),
+        'phone': request.form.get('phone', ''),
+        'address': request.form.get('address', ''),
+        'latitude': request.form.get('latitude'),
+        'longitude': request.form.get('longitude'),
+        'maps_api_key': request.form.get('maps_api_key', ''),
+    }
+    try:
+        if data['latitude'] not in (None, ''):
+            data['latitude'] = float(data['latitude'])
+        if data['longitude'] not in (None, ''):
+            data['longitude'] = float(data['longitude'])
+    except ValueError:
+        pass
+    ok = contacts.update(data)
+    flash('Контакты сохранены' if ok else 'Ошибка сохранения контактов', 'success' if ok else 'error')
+    return redirect(url_for('admin.contacts_edit', token=token))
 
 @admin_bp.route('/<token>/admin/blog/<int:index>/delete', methods=['POST'])
 @require_admin_token

@@ -18,9 +18,33 @@ class ProductsContent(BaseContentModel):
 
     def _init_default_data(self) -> None:
         if not self._data:
+            default_products = [
+                {
+                    'name': 'Масло для лица "Баланс"',
+                    'category': 'Уход за лицом',
+                    'description': 'Персонализированное масло для нормализации работы сальных желез и восстановления естественного баланса кожи.',
+                    'price': 'от 3 500 ₽',
+                    'image': '/static/img/product1.jpg'
+                },
+                {
+                    'name': 'Масло для тела "Гармония"',
+                    'category': 'Уход за телом',
+                    'description': 'Увлажняющее масло с натуральными экстрактами для поддержания упругости и эластичности кожи.',
+                    'price': 'от 2 800 ₽',
+                    'image': '/static/img/product2.jpg'
+                },
+                {
+                    'name': 'Масло для волос "Сила"',
+                    'category': 'Уход за волосами',
+                    'description': 'Восстанавливающее масло для укрепления волосяных фолликулов и придания блеска.',
+                    'price': 'от 2 200 ₽',
+                    'image': '/static/img/product3.jpg'
+                }
+            ]
+            
             self._data = {
                 'title': 'Наша продукция',
-                'products': [],
+                'products': default_products,
                 'updated_at': datetime.now().isoformat(),
             }
             self._save_data()

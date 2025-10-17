@@ -14,16 +14,19 @@
     <div class="admin-list">
       {% for p in products %}
       <div class="admin-list-item">
-        <div class="admin-list-main">
+        <div class="admin-list-main" onclick="fillProductForm({{ loop.index0 }}, {{ p|tojson }})" style="cursor:pointer">
           <img src="{{ p.image }}" alt="" style="width:56px;height:40px;object-fit:cover;border-radius:6px;border:1px solid var(--admin-border);"/>
           <div>
             <div class="admin-list-title">{{ p.name }}</div>
             <div class="admin-list-sub">{{ p.category }} — {{ p.price }}</div>
           </div>
         </div>
-        <form method="POST" action="{{ url_for('admin.products_delete', token=token, index=loop.index0) }}" onsubmit="return confirm('Удалить продукт?')">
-          <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Удалить</button>
-        </form>
+        <div class="admin-list-actions">
+          <button type="button" class="admin-btn admin-btn-sm" onclick='fillProductForm({{ loop.index0 }}, {{ p|tojson }})'>Редактировать</button>
+          <form method="POST" action="{{ url_for('admin.products_delete', token=token, index=loop.index0) }}" onsubmit="return confirm('Удалить продукт?')" style="display:inline">
+            <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Удалить</button>
+          </form>
+        </div>
       </div>
       {% endfor %}
     </div>
@@ -31,40 +34,61 @@
 
   <div class="admin-section">
     <h2 class="admin-section-title">Добавить / Изменить продукт</h2>
-    <form method="POST" action="{{ url_for('admin.products_save', token=token) }}" class="admin-form" enctype="multipart/form-data">
+    <form id="productForm" method="POST" action="{{ url_for('admin.products_save', token=token) }}" class="admin-form" enctype="multipart/form-data">
+      <input type="hidden" name="index" id="product_index">
       <div class="admin-form-row">
         <div class="admin-form-group">
           <label class="admin-form-label">Название</label>
-          <input class="admin-form-input" name="name" required>
+          <input class="admin-form-input" name="name" id="product_name" required>
         </div>
         <div class="admin-form-group">
           <label class="admin-form-label">Категория</label>
-          <input class="admin-form-input" name="category">
+          <input class="admin-form-input" name="category" id="product_category">
         </div>
       </div>
       <div class="admin-form-group">
         <label class="admin-form-label">Описание</label>
-        <textarea class="admin-form-textarea" name="description" rows="3"></textarea>
+        <textarea class="admin-form-textarea" name="description" id="product_description" rows="3"></textarea>
       </div>
       <div class="admin-form-row">
         <div class="admin-form-group">
           <label class="admin-form-label">Цена</label>
-          <input class="admin-form-input" name="price" placeholder="от 3 500 ₽">
+          <input class="admin-form-input" name="price" id="product_price" placeholder="от 3 500 ₽">
         </div>
         <div class="admin-form-group">
           <label class="admin-form-label">URL изображения</label>
-          <input class="admin-form-input" name="image_url" placeholder="/static/img/product.jpg">
+          <input class="admin-form-input" name="image_url" id="product_image_url" placeholder="/static/img/product.jpg">
         </div>
       </div>
       <div class="admin-form-group">
         <label class="admin-form-label">Загрузить изображение</label>
         <input type="file" class="admin-form-input" name="image_file" accept="image/*">
+        <div id="product_preview" style="margin-top:8px"></div>
       </div>
       <div class="admin-form-actions">
         <button class="admin-btn admin-btn-primary" type="submit">Сохранить</button>
+        <button class="admin-btn admin-btn-secondary" type="button" onclick="resetProductForm()">Сбросить</button>
       </div>
     </form>
   </div>
 </div>
+<script>
+function fillProductForm(index, data){
+  document.getElementById('product_index').value = index;
+  document.getElementById('product_name').value = data.name || '';
+  document.getElementById('product_category').value = data.category || '';
+  document.getElementById('product_description').value = data.description || '';
+  document.getElementById('product_price').value = data.price || '';
+  document.getElementById('product_image_url').value = data.image || '';
+  const prev = document.getElementById('product_preview');
+  prev.innerHTML = data.image ? `<img src="${data.image}" style="max-width:180px;border:1px solid var(--admin-border);border-radius:6px">` : '';
+  window.scrollTo({top: document.getElementById('productForm').offsetTop - 20, behavior: 'smooth'});
+}
+function resetProductForm(){
+  document.getElementById('productForm').reset();
+  document.getElementById('product_index').value='';
+  document.getElementById('product_preview').innerHTML='';
+}
+</script>
 {% endblock %}
 
