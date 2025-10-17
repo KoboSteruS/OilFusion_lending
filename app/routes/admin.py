@@ -1,0 +1,389 @@
+"""
+Админские маршруты для управления контентом OilFusion Landing.
+Защищены JWT токеном в URL: /<token>/admin/...
+"""
+
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
+from app.models.content import AboutContent, PersonalizationContent, BlogContent
+from app.utils.logger import get_logger
+from app.utils.auth import require_admin_token
+
+logger = get_logger()
+
+# Создание Blueprint для админских маршрутов
+admin_bp = Blueprint('admin', __name__)
+
+
+@admin_bp.route('/<token>/admin/')
+@require_admin_token
+def dashboard(token):
+    """Главная страница админки с токеном."""
+    logger.info("Запрос главной страницы админки")
+    
+    about_content = AboutContent()
+    personalization_content = PersonalizationContent()
+    blog_content = BlogContent()
+    
+    stats = {
+        'about_features': len(about_content.get_features()),
+        'dna_features': len(personalization_content.get_dna_features()),
+        'auracloud_features': len(personalization_content.get_auracloud_features()),
+        'total_articles': len(blog_content.get_articles()),
+        'published_articles': len(blog_content.get_published_articles())
+    }
+    
+    return render_template('admin/dashboard.html', stats=stats, token=token)
+
+
+@admin_bp.route('/<token>/admin/about')
+@require_admin_token
+def about_edit(token):
+    """Редактирование секции О компании."""
+    logger.info("Запрос редактирования секции 'О компании'")
+    
+    about_content = AboutContent()
+    content_data = about_content.get_all()
+    
+    return render_template('admin/about_edit.html', content=content_data, token=token)
+
+
+@admin_bp.route('/<token>/admin/about/update', methods=['POST'])
+@require_admin_token
+def about_update(token):
+    """Обновление контента секции О компании."""
+    logger.info("Обновление контента секции 'О компании'")
+    
+    about_content = AboutContent()
+    
+    # Обработка фонового изображения
+    background_image_url = request.form.get('background_image_url', '')
+    background_overlay_opacity = float(request.form.get('background_overlay_opacity', 0.8))
+    background_overlay_color = request.form.get('background_overlay_color', '#FFFFFF')
+    
+    # Обработка загруженного файла
+    if 'background_image' in request.files:
+        file = request.files['background_image']
+        if file and file.filename:
+            from werkzeug.utils import secure_filename
+            from datetime import datetime
+            from pathlib import Path
+            
+            # Проверяем расширение файла
+            if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'webp', 'gif'}:
+                filename = secure_filename(file.filename)
+                # Создаём уникальное имя файла
+                timestamp = int(datetime.now().timestamp())
+                unique_filename = f"about_{timestamp}_{filename}"
+                
+                # Путь для сохранения
+                upload_folder = Path('app/static/img')
+                upload_folder.mkdir(parents=True, exist_ok=True)
+                
+                file_path = upload_folder / unique_filename
+                file.save(str(file_path))
+                
+                background_image_url = f"/static/img/{unique_filename}"
+                logger.info(f"Загружено изображение для секции 'О компании': {unique_filename}")
+    
+    update_data = {
+        'title': request.form.get('title', ''),
+        'description': request.form.get('description', ''),
+        'philosophy': request.form.get('philosophy', ''),
+        'background_image_url': background_image_url,
+        'background_overlay_opacity': background_overlay_opacity,
+        'background_overlay_color': background_overlay_color
+    }
+    
+    if about_content.update(update_data):
+        flash('Контент успешно обновлен!', 'success')
+    else:
+        flash('Ошибка при обновлении контента!', 'error')
+    
+    return redirect(url_for('admin.about_edit', token=token))
+
+
+@admin_bp.route('/<token>/admin/about/feature/add', methods=['POST'])
+@require_admin_token
+def about_feature_add(token):
+    """Добавление новой особенности в секцию О компании."""
+    logger.info("Добавление новой особенности")
+    
+    about_content = AboutContent()
+    
+    # Обработка изображения особенности
+    feature_image_url = request.form.get('feature_image_url', '')
+    
+    # Обработка загруженного файла
+    if 'feature_image' in request.files:
+        file = request.files['feature_image']
+        if file and file.filename:
+            from werkzeug.utils import secure_filename
+            from datetime import datetime
+            from pathlib import Path
+            
+            # Проверяем расширение файла
+            if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'webp', 'gif'}:
+                filename = secure_filename(file.filename)
+                # Создаём уникальное имя файла
+                timestamp = int(datetime.now().timestamp())
+                unique_filename = f"feature_{timestamp}_{filename}"
+                
+                # Путь для сохранения
+                upload_folder = Path('app/static/img')
+                upload_folder.mkdir(parents=True, exist_ok=True)
+                
+                file_path = upload_folder / unique_filename
+                file.save(str(file_path))
+                
+                feature_image_url = f"/static/img/{unique_filename}"
+                logger.info(f"Загружено изображение для особенности: {unique_filename}")
+    
+    feature_data = {
+        'title': request.form.get('feature_title', ''),
+        'description': request.form.get('feature_description', ''),
+        'icon': request.form.get('feature_icon', 'default'),
+        'image_url': feature_image_url
+    }
+    
+    if about_content.add_feature(feature_data):
+        flash('Особенность успешно добавлена!', 'success')
+    else:
+        flash('Ошибка при добавлении особенности!', 'error')
+    
+    return redirect(url_for('admin.about_edit', token=token))
+
+
+@admin_bp.route('/<token>/admin/about/feature/<int:index>/update', methods=['POST'])
+@require_admin_token
+def about_feature_update(token, index):
+    """Обновление особенности по индексу."""
+    logger.info(f"Обновление особенности с индексом {index}")
+    
+    about_content = AboutContent()
+    
+    # Обработка изображения особенности
+    feature_image_url = request.form.get('feature_image_url', '')
+    
+    # Обработка загруженного файла
+    if 'feature_image' in request.files:
+        file = request.files['feature_image']
+        if file and file.filename:
+            from werkzeug.utils import secure_filename
+            from datetime import datetime
+            from pathlib import Path
+            
+            # Проверяем расширение файла
+            if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'webp', 'gif'}:
+                filename = secure_filename(file.filename)
+                # Создаём уникальное имя файла
+                timestamp = int(datetime.now().timestamp())
+                unique_filename = f"feature_{timestamp}_{filename}"
+                
+                # Путь для сохранения
+                upload_folder = Path('app/static/img')
+                upload_folder.mkdir(parents=True, exist_ok=True)
+                
+                file_path = upload_folder / unique_filename
+                file.save(str(file_path))
+                
+                feature_image_url = f"/static/img/{unique_filename}"
+                logger.info(f"Загружено изображение для особенности: {unique_filename}")
+    
+    feature_data = {
+        'title': request.form.get('feature_title', ''),
+        'description': request.form.get('feature_description', ''),
+        'icon': request.form.get('feature_icon', 'default'),
+        'image_url': feature_image_url
+    }
+    
+    if about_content.update_feature(index, feature_data):
+        flash('Особенность успешно обновлена!', 'success')
+    else:
+        flash('Ошибка при обновлении особенности!', 'error')
+    
+    return redirect(url_for('admin.about_edit', token=token))
+
+
+@admin_bp.route('/<token>/admin/about/feature/<int:index>/delete', methods=['POST'])
+@require_admin_token
+def about_feature_delete(token, index):
+    """Удаление особенности по индексу."""
+    logger.info(f"Удаление особенности с индексом {index}")
+    
+    about_content = AboutContent()
+    
+    if about_content.remove_feature(index):
+        flash('Особенность успешно удалена!', 'success')
+    else:
+        flash('Ошибка при удалении особенности!', 'error')
+    
+    return redirect(url_for('admin.about_edit', token=token))
+
+
+@admin_bp.route('/<token>/admin/personalization')
+@require_admin_token
+def personalization_edit(token):
+    """Редактирование секции Персонализация."""
+    logger.info("Запрос редактирования секции 'Персонализация'")
+    
+    personalization_content = PersonalizationContent()
+    content_data = personalization_content.get_all()
+    
+    return render_template('admin/personalization_edit.html', content=content_data, token=token)
+
+
+@admin_bp.route('/<token>/admin/personalization/update', methods=['POST'])
+@require_admin_token
+def personalization_update(token):
+    """Обновление контента секции Персонализация."""
+    logger.info("Обновление контента секции 'Персонализация'")
+    
+    personalization_content = PersonalizationContent()
+    
+    update_data = {
+        'title': request.form.get('title', ''),
+        'subtitle': request.form.get('subtitle', ''),
+        'info_text': request.form.get('info_text', ''),
+        'info_description': request.form.get('info_description', ''),
+        'bio_well_url': request.form.get('bio_well_url', '')
+    }
+    
+    dna_data = {
+        'title': request.form.get('dna_title', ''),
+        'description': request.form.get('dna_description', '')
+    }
+    update_data['dna_testing'] = dna_data
+    
+    auracloud_data = {
+        'title': request.form.get('auracloud_title', ''),
+        'description': request.form.get('auracloud_description', '')
+    }
+    update_data['auracloud'] = auracloud_data
+    
+    if personalization_content.update(update_data):
+        flash('Контент успешно обновлен!', 'success')
+    else:
+        flash('Ошибка при обновлении контента!', 'error')
+    
+    return redirect(url_for('admin.personalization_edit', token=token))
+
+
+@admin_bp.route('/<token>/admin/personalization/dna-feature/<int:index>/update', methods=['POST'])
+@require_admin_token
+def personalization_dna_feature_update(token, index):
+    """Обновление особенности ДНК-тестирования."""
+    logger.info(f"Обновление особенности ДНК-тестирования с индексом {index}")
+    
+    personalization_content = PersonalizationContent()
+    feature_text = request.form.get('feature_text', '')
+    
+    if personalization_content.update_dna_feature(index, feature_text):
+        flash('Особенность ДНК-тестирования успешно обновлена!', 'success')
+    else:
+        flash('Ошибка при обновлении особенности!', 'error')
+    
+    return redirect(url_for('admin.personalization_edit', token=token))
+
+
+@admin_bp.route('/<token>/admin/personalization/auracloud-feature/<int:index>/update', methods=['POST'])
+@require_admin_token
+def personalization_auracloud_feature_update(token, index):
+    """Обновление особенности AuraCloud® 3D."""
+    logger.info(f"Обновление особенности AuraCloud® 3D с индексом {index}")
+    
+    personalization_content = PersonalizationContent()
+    feature_text = request.form.get('feature_text', '')
+    
+    if personalization_content.update_auracloud_feature(index, feature_text):
+        flash('Особенность AuraCloud® 3D успешно обновлена!', 'success')
+    else:
+        flash('Ошибка при обновлении особенности!', 'error')
+    
+    return redirect(url_for('admin.personalization_edit', token=token))
+
+
+@admin_bp.route('/<token>/admin/blog')
+@require_admin_token
+def blog_list(token):
+    """Список статей блога."""
+    logger.info("Запрос списка статей блога")
+    
+    blog_content = BlogContent()
+    articles = blog_content.get_articles()
+    
+    return render_template('admin/blog_list.html', articles=articles, token=token)
+
+
+@admin_bp.route('/<token>/admin/blog/new')
+@require_admin_token
+def blog_new(token):
+    """Создание новой статьи."""
+    logger.info("Запрос создания новой статьи")
+    
+    return render_template('admin/blog_edit.html', article=None, token=token)
+
+
+@admin_bp.route('/<token>/admin/blog/<int:index>')
+@require_admin_token
+def blog_edit(token, index):
+    """Редактирование статьи по индексу."""
+    logger.info(f"Запрос редактирования статьи с индексом {index}")
+    
+    blog_content = BlogContent()
+    article = blog_content.get_article(index)
+    
+    if article is None:
+        flash('Статья не найдена!', 'error')
+        return redirect(url_for('admin.blog_list', token=token))
+    
+    return render_template('admin/blog_edit.html', article=article, article_index=index, token=token)
+
+
+@admin_bp.route('/<token>/admin/blog/save', methods=['POST'])
+@require_admin_token
+def blog_save(token):
+    """Сохранение статьи (создание или обновление)."""
+    logger.info("Сохранение статьи блога")
+    
+    blog_content = BlogContent()
+    article_index = request.form.get('article_index')
+    
+    article_data = {
+        'title': request.form.get('title', ''),
+        'content': request.form.get('content', ''),
+        'excerpt': request.form.get('excerpt', ''),
+        'category': request.form.get('category', ''),
+        'read_time': int(request.form.get('read_time', 5)),
+        'image': request.form.get('image', ''),
+        'published': request.form.get('published') == 'on'
+    }
+    
+    if article_index is not None:
+        index = int(article_index)
+        if blog_content.update_article(index, article_data):
+            flash('Статья успешно обновлена!', 'success')
+        else:
+            flash('Ошибка при обновлении статьи!', 'error')
+    else:
+        if blog_content.add_article(article_data):
+            flash('Статья успешно создана!', 'success')
+        else:
+            flash('Ошибка при создании статьи!', 'error')
+    
+    return redirect(url_for('admin.blog_list', token=token))
+
+
+@admin_bp.route('/<token>/admin/blog/<int:index>/delete', methods=['POST'])
+@require_admin_token
+def blog_delete(token, index):
+    """Удаление статьи по индексу."""
+    logger.info(f"Удаление статьи с индексом {index}")
+    
+    blog_content = BlogContent()
+    
+    if blog_content.delete_article(index):
+        flash('Статья успешно удалена!', 'success')
+    else:
+        flash('Ошибка при удалении статьи!', 'error')
+    
+    return redirect(url_for('admin.blog_list', token=token))

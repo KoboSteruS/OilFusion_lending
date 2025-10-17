@@ -1,0 +1,106 @@
+<!-- Услуги -->
+<section id="services" class="services-section section">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">{{ services.title }}</h2>
+            <p class="section-subtitle">Профессиональный подход к вашему здоровью</p>
+        </div>
+        
+        <div class="services-grid">
+            {% if services.services_list %}
+                {% for service in services.services_list %}
+                <div class="service-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="service-icon">
+                        <img src="{{ service.icon }}" alt="{{ service.name }}">
+                    </div>
+                    <h3 class="service-title">{{ service.name }}</h3>
+                    <p class="service-description">{{ service.description }}</p>
+                    <ul class="service-features">
+                        {% for feature in service.features %}
+                        <li>{{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="service-footer">
+                        <span class="service-price">{{ service.price }}</span>
+                        <a href="#" class="btn btn-outline">Записаться</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- Заглушки для демонстрации -->
+                <div class="service-card" data-aos="fade-up">
+                    <div class="service-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">ДНК-тестирование</h3>
+                    <p class="service-description">
+                        Полный генетический анализ для индивидуального подбора масел
+                    </p>
+                    <ul class="service-features">
+                        <li>Забор биоматериала</li>
+                        <li>Лабораторный анализ</li>
+                        <li>Подробный отчёт</li>
+                        <li>Консультация специалиста</li>
+                    </ul>
+                    <div class="service-footer">
+                        <span class="service-price">от 8 500 ₽</span>
+                        <a href="#contacts" class="btn btn-outline">Записаться</a>
+                    </div>
+                </div>
+                
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Сканирование AuraCloud® 3D</h3>
+                    <p class="service-description">
+                        Визуализация и анализ вашей энергетической ауры
+                    </p>
+                    <ul class="service-features">
+                        <li>3D сканирование ауры</li>
+                        <li>Детальная визуализация</li>
+                        <li>Анализ энергетики</li>
+                        <li>Рекомендации по коррекции</li>
+                    </ul>
+                    <div class="service-footer">
+                        <span class="service-price">от 5 000 ₽</span>
+                        <a href="#contacts" class="btn btn-outline">Записаться</a>
+                    </div>
+                </div>
+                
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Персональная консультация</h3>
+                    <p class="service-description">
+                        Индивидуальный подбор продуктов и программы применения
+                    </p>
+                    <ul class="service-features">
+                        <li>Диагностика состояния</li>
+                        <li>Подбор программы</li>
+                        <li>Рекомендации по применению</li>
+                        <li>Сопровождение 30 дней</li>
+                    </ul>
+                    <div class="service-footer">
+                        <span class="service-price">от 3 000 ₽</span>
+                        <a href="#contacts" class="btn btn-outline">Записаться</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+

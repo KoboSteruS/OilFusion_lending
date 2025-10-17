@@ -1,0 +1,102 @@
+<!-- О компании -->
+<section id="about" class="about-section section {% if about.background.type == 'gradient' %}section-alt{% endif %}"
+         {% if about.background_image_url %}
+         style="background-image: url('{{ about.background_image_url }}'); background-size: cover; background-position: center; position: relative;"
+         {% elif about.background.type == 'image' and about.background.image_url %}
+         style="background-image: url('{{ about.background.image_url }}'); background-size: cover; background-position: center; position: relative;"
+         {% elif about.background.type == 'gradient' and about.background.gradient %}
+         style="background: {{ about.background.gradient }}; position: relative;"
+         {% endif %}>
+    {% if about.background_image_url %}
+    <div class="section-background-overlay" style="background-color: {{ about.background_overlay_color if about.background_overlay_color else '#FFFFFF' }}; opacity: {{ about.background_overlay_opacity if about.background_overlay_opacity is not none else 0.8 }};"></div>
+    {% elif about.background.type in ['image', 'gradient'] and about.background.overlay_opacity > 0 %}
+    <div class="section-background-overlay" style="background-color: {{ about.background.overlay_color if about.background.type == 'image' else 'rgba(255,255,255,' + (about.background.overlay_opacity|string) + ')' }}; opacity: {{ about.background.overlay_opacity if about.background.type == 'image' else 1 }};"></div>
+    {% endif %}
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">{{ about.title }}</h2>
+            <p class="section-subtitle">{{ about.philosophy }}</p>
+        </div>
+        
+        <div class="about-content">
+            <div class="about-text" data-aos="fade-right">
+                <p class="lead">{{ about.description }}</p>
+                
+                <div class="about-features">
+                    {% for feature in about.features %}
+                    <div class="feature-item">
+                        {% if feature.image_url %}
+                        <div class="feature-image">
+                            <img src="{{ feature.image_url }}" alt="{{ feature.title }}" class="feature-img">
+                        </div>
+                        {% else %}
+                        <div class="feature-icon">
+                            {% if feature.icon == 'aura' %}
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            {% elif feature.icon == 'dna' %}
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            {% else %}
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        <h3 class="feature-title">{{ feature.title }}</h3>
+                        <p class="feature-description">{{ feature.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="about-cta">
+                    <a href="#personalization" class="btn btn-primary">
+                        Узнать больше о технологиях
+                    </a>
+                </div>
+            </div>
+            
+            <div class="about-visual" data-aos="fade-left">
+                <!-- Слайдер "До/После" для визуализации ауры -->
+                <div class="before-after-slider">
+                    <div class="slider-wrapper">
+                        <div class="before-image">
+                            <img src="{{ url_for('static', filename='images/aura-before.jpg') }}" 
+                                 alt="Аура до использования продуктов" 
+                                 class="slider-image">
+                            <span class="slider-label">До</span>
+                        </div>
+                        <div class="after-image">
+                            <img src="{{ url_for('static', filename='images/aura-after.jpg') }}" 
+                                 alt="Аура после использования продуктов" 
+                                 class="slider-image">
+                            <span class="slider-label">После</span>
+                        </div>
+                        <div class="slider-handle" id="sliderHandle">
+                            <div class="handle-line"></div>
+                            <div class="handle-button">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="slider-caption">
+                        Визуализация изменения ауры с помощью технологии AuraCloud® 3D
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

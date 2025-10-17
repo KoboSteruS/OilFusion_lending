@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}OilFusion - Balance in every drop | Персонализированные масла{% endblock %}
+
+{% block content %}
+    <!-- Hero секция -->
+    {% include 'sections/hero.html' %}
+    
+    <!-- О компании -->
+    {% include 'sections/about.html' %}
+    
+    <!-- Продукция -->
+    {% include 'sections/products.html' %}
+    
+    <!-- Услуги -->
+    {% include 'sections/services.html' %}
+    
+    <!-- Персонализация -->
+    {% include 'sections/personalization.html' %}
+    
+    <!-- Отзывы -->
+    {% include 'sections/reviews.html' %}
+    
+    <!-- Блог -->
+    {% include 'sections/blog.html' %}
+    
+    <!-- Контакты -->
+    {% include 'sections/contacts.html' %}
+{% endblock %}
+
+{% block extra_js %}
+    <!-- Google Maps API -->
+    {% if contacts.maps_api_key %}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ contacts.maps_api_key }}&callback=initMap" async defer></script>
+    {% endif %}
+{% endblock %}
+
+
+
+
+

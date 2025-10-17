@@ -1,0 +1,204 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ 'Редактирование статьи' if article else 'Создание статьи' }} - Админка OilFusion{% endblock %}
+
+{% block content %}
+<div class="admin-edit-page">
+    <div class="admin-page-header">
+        <h1 class="admin-page-title">
+            {{ 'Редактирование статьи' if article else 'Создание новой статьи' }}
+        </h1>
+        <p class="admin-page-subtitle">
+            {{ 'Изменение существующей статьи' if article else 'Добавление новой статьи в блог' }}
+        </p>
+    </div>
+
+    <form method="POST" action="{{ url_for('admin.blog_save', token=token) }}" class="admin-form admin-blog-form">
+        {% if article_index is not none %}
+        <input type="hidden" name="article_index" value="{{ article_index }}">
+        {% endif %}
+
+        <!-- Основная информация -->
+        <div class="admin-section">
+            <h2 class="admin-section-title">Основная информация</h2>
+            
+            <div class="admin-form-group">
+                <label for="title" class="admin-form-label">Заголовок статьи</label>
+                <input type="text" id="title" name="title" class="admin-form-input" 
+                       value="{{ article.title if article else '' }}" required
+                       data-max-length="100">
+            </div>
+
+            <div class="admin-form-group">
+                <label for="excerpt" class="admin-form-label">Краткое описание</label>
+                <textarea id="excerpt" name="excerpt" class="admin-form-textarea" rows="3" required
+                          data-max-length="200">{{ article.excerpt if article else '' }}</textarea>
+            </div>
+
+            <div class="admin-form-row">
+                <div class="admin-form-group">
+                    <label for="category" class="admin-form-label">Категория</label>
+                    <select id="category" name="category" class="admin-form-select" required>
+                        <option value="">Выберите категорию</option>
+                        <option value="Технологии" {{ 'selected' if article and article.category == 'Технологии' else '' }}>Технологии</option>
+                        <option value="Здоровье" {{ 'selected' if article and article.category == 'Здоровье' else '' }}>Здоровье</option>
+                        <option value="Советы" {{ 'selected' if article and article.category == 'Советы' else '' }}>Советы</option>
+                        <option value="Новости" {{ 'selected' if article and article.category == 'Новости' else '' }}>Новости</option>
+                    </select>
+                </div>
+
+                <div class="admin-form-group">
+                    <label for="read_time" class="admin-form-label">Время чтения (мин)</label>
+                    <input type="number" id="read_time" name="read_time" class="admin-form-input" 
+                           value="{{ article.read_time if article else 5 }}" min="1" max="60" required>
+                </div>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="image" class="admin-form-label">URL изображения</label>
+                <input type="url" id="image" name="image" class="admin-form-input" 
+                       value="{{ article.image if article else '' }}"
+                       placeholder="https://example.com/image.jpg">
+                {% if article and article.image %}
+                <div class="admin-image-preview">
+                    <img src="{{ article.image }}" alt="Превью" class="admin-preview-image">
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="admin-form-group">
+                <label class="admin-checkbox-label">
+                    <input type="checkbox" name="published" class="admin-checkbox" 
+                           {{ 'checked' if article and article.published else '' }}>
+                    <span class="admin-checkbox-text">Опубликовать статью</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Содержание статьи -->
+        <div class="admin-section">
+            <h2 class="admin-section-title">Содержание статьи</h2>
+            
+            <div class="admin-form-group">
+                <label for="content" class="admin-form-label">Полный текст статьи</label>
+                <textarea id="content" name="content" class="admin-form-textarea admin-blog-content" 
+                          rows="20" required data-max-length="10000">{{ article.content if article else '' }}</textarea>
+                <div class="admin-form-help">
+                    Используйте HTML разметку для форматирования текста
+                </div>
+            </div>
+        </div>
+
+        <!-- Действия -->
+        <div class="admin-form-actions">
+            <button type="submit" class="admin-btn admin-btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M17 21v-8H7v8M7 3v5h8" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                {{ 'Сохранить изменения' if article else 'Создать статью' }}
+            </button>
+            <a href="{{ url_for('admin.blog_list', token=token) }}" class="admin-btn admin-btn-secondary">
+                Отмена
+            </a>
+        </div>
+    </form>
+</div>
+
+<style>
+.admin-blog-form {
+    max-width: 800px;
+}
+
+.admin-form-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.admin-image-preview {
+    margin-top: 12px;
+}
+
+.admin-preview-image {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
+}
+
+.admin-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.admin-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--admin-primary);
+}
+
+.admin-checkbox-text {
+    font-weight: 500;
+    color: var(--admin-text);
+}
+
+.admin-blog-content {
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+}
+
+.admin-form-help {
+    font-size: 0.875rem;
+    color: var(--admin-text-light);
+    margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+    .admin-form-row {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+// Предварительный просмотр изображения
+document.getElementById('image').addEventListener('input', function() {
+    const url = this.value;
+    const preview = document.querySelector('.admin-image-preview');
+    
+    if (url && preview) {
+        const img = preview.querySelector('.admin-preview-image') || document.createElement('img');
+        img.src = url;
+        img.className = 'admin-preview-image';
+        img.alt = 'Превью';
+        img.onerror = function() {
+            preview.innerHTML = '<p style="color: #dc3545; font-size: 0.875rem;">Не удалось загрузить изображение</p>';
+        };
+        if (!preview.querySelector('.admin-preview-image')) {
+            preview.appendChild(img);
+        }
+    } else if (preview) {
+        preview.innerHTML = '';
+    }
+});
+
+// Автосохранение
+let saveTimeout;
+const form = document.querySelector('.admin-blog-form');
+const inputs = form.querySelectorAll('input, textarea, select');
+
+inputs.forEach(input => {
+    input.addEventListener('input', function() {
+        clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(() => {
+            // Здесь можно добавить автосохранение в localStorage
+            console.log('Автосохранение...');
+        }, 2000);
+    });
+});
+</script>
+{% endblock %}
+

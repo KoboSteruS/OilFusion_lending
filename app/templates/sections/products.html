@@ -1,0 +1,94 @@
+<!-- Продукция -->
+<section id="products" class="products-section section {% if products.background.type == 'gradient' %}section-alt{% endif %}"
+         {% if products.background.type == 'image' and products.background.image_url %}
+         style="background-image: url('{{ products.background.image_url }}'); background-size: cover; background-position: center; position: relative;"
+         {% elif products.background.type == 'gradient' and products.background.gradient %}
+         style="background: {{ products.background.gradient }}; position: relative;"
+         {% endif %}>
+    {% if products.background.type in ['image', 'gradient'] and products.background.overlay_opacity > 0 %}
+    <div class="section-background-overlay" style="background-color: {{ products.background.overlay_color if products.background.type == 'image' else 'rgba(255,255,255,' + (products.background.overlay_opacity|string) + ')' }}; opacity: {{ products.background.overlay_opacity if products.background.type == 'image' else 1 }};"></div>
+    {% endif %}
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2 class="section-title">{{ products.title }}</h2>
+            <p class="section-subtitle">Персонализированные масла для вашего здоровья и гармонии</p>
+        </div>
+        
+        <div class="products-grid">
+            <!-- Карточки продуктов будут добавлены динамически -->
+            {% if products.products_list %}
+                {% for product in products.products_list %}
+                <div class="product-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="product-image">
+                        <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+                        <div class="product-badge">{{ product.category }}</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">{{ product.name }}</h3>
+                        <p class="product-description">{{ product.description }}</p>
+                        <div class="product-footer">
+                            <span class="product-price">{{ product.price }}</span>
+                            <button class="btn btn-sm btn-primary">Подробнее</button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- Заглушки для демонстрации -->
+                <div class="product-card" data-aos="fade-up">
+                    <div class="product-image placeholder">
+                        <div class="placeholder-icon">🌿</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Персонализированное масло</h3>
+                        <p class="product-description">
+                            Уникальная формула, подобранная на основе вашего ДНК-профиля
+                        </p>
+                        <div class="product-footer">
+                            <span class="product-price">от 3 500 ₽</span>
+                            <button class="btn btn-sm btn-primary">Подробнее</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="product-image placeholder">
+                        <div class="placeholder-icon">✨</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Масло для ауры</h3>
+                        <p class="product-description">
+                            Специальная смесь для гармонизации энергетического поля
+                        </p>
+                        <div class="product-footer">
+                            <span class="product-price">от 4 200 ₽</span>
+                            <button class="btn btn-sm btn-primary">Подробнее</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="product-image placeholder">
+                        <div class="placeholder-icon">🔬</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Комплексная программа</h3>
+                        <p class="product-description">
+                            Полный набор продуктов с индивидуальным сопровождением
+                        </p>
+                        <div class="product-footer">
+                            <span class="product-price">от 12 000 ₽</span>
+                            <button class="btn btn-sm btn-primary">Подробнее</button>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="section-cta" data-aos="fade-up">
+            <a href="#" class="btn btn-primary btn-lg">Смотреть каталог</a>
+        </div>
+    </div>
+</section>
+
+

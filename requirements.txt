@@ -1,0 +1,24 @@
+# Flask и расширения
+Flask==3.0.0
+Flask-Cors==4.0.0
+
+# Логирование
+loguru==0.7.2
+
+# Переменные окружения
+python-dotenv==1.0.0
+
+# WSGI сервер для production
+gunicorn==21.2.0
+
+# Утилиты
+python-dateutil==2.8.2
+
+# Безопасность
+Werkzeug==3.0.1
+PyJWT==2.8.0
+
+
+
+
+

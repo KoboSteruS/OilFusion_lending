@@ -1,0 +1,243 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Фоновые изображения - Админка OilFusion{% endblock %}
+
+{% block content %}
+<div class="admin-backgrounds-page">
+    <div class="admin-page-header">
+        <h1 class="admin-page-title">Управление фоновыми изображениями</h1>
+        <p class="admin-page-subtitle">Настройка фонов для всех секций лендинга</p>
+    </div>
+
+    <!-- Список секций -->
+    <div class="admin-sections-list">
+        {% for section_key, section_name in sections.items() %}
+        {% set bg = backgrounds.get(section_key, {}) %}
+        <div class="admin-section">
+            <div class="admin-section-header-inline">
+                <h2 class="admin-section-title">{{ section_name }}</h2>
+                <span class="admin-bg-type-badge admin-bg-type-{{ bg.type }}">
+                    {{ 'Изображение' if bg.type == 'image' else 'Градиент' if bg.type == 'gradient' else 'Белый фон' }}
+                </span>
+            </div>
+
+            <form method="POST" action="{{ url_for('backgrounds.background_update', token=token, section=section_key) }}" 
+                  class="admin-form" enctype="multipart/form-data">
+                
+                <!-- Тип фона -->
+                <div class="admin-form-group">
+                    <label for="bg_type_{{ section_key }}" class="admin-form-label">Тип фона</label>
+                    <select id="bg_type_{{ section_key }}" name="bg_type" class="admin-form-select" 
+                            onchange="toggleBackgroundFields(this, '{{ section_key }}')">
+                        <option value="image" {{ 'selected' if bg.type == 'image' else '' }}>Изображение</option>
+                        <option value="gradient" {{ 'selected' if bg.type == 'gradient' else '' }}>Градиент</option>
+                        <option value="white" {{ 'selected' if bg.type == 'white' else '' }}>Белый фон</option>
+                    </select>
+                </div>
+
+                <!-- Изображение -->
+                <div id="image_fields_{{ section_key }}" class="bg-fields" style="display: {{ 'block' if bg.type == 'image' else 'none' }};">
+                    <div class="admin-form-group">
+                        <label for="image_file_{{ section_key }}" class="admin-form-label">Загрузить изображение</label>
+                        <input type="file" id="image_file_{{ section_key }}" name="image_file" 
+                               class="admin-form-input" accept="image/*">
+                        <div class="admin-form-help">Или укажите URL существующего изображения ниже</div>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label for="image_url_{{ section_key }}" class="admin-form-label">URL изображения</label>
+                        <input type="url" id="image_url_{{ section_key }}" name="image_url" 
+                               class="admin-form-input" value="{{ bg.image_url if bg.image_url else '' }}"
+                               placeholder="/static/img/hero.png">
+                    </div>
+
+                    {% if bg.image_url %}
+                    <div class="admin-image-preview">
+                        <img src="{{ bg.image_url }}" alt="Превью" class="admin-preview-bg-image">
+                    </div>
+                    {% endif %}
+
+                    <div class="admin-form-row">
+                        <div class="admin-form-group">
+                            <label for="overlay_opacity_{{ section_key }}" class="admin-form-label">
+                                Прозрачность наложения (0-1)
+                            </label>
+                            <input type="number" id="overlay_opacity_{{ section_key }}" name="overlay_opacity" 
+                                   class="admin-form-input" min="0" max="1" step="0.1" 
+                                   value="{{ bg.overlay_opacity if bg.overlay_opacity is not none else 0.3 }}">
+                        </div>
+
+                        <div class="admin-form-group">
+                            <label for="overlay_color_{{ section_key }}" class="admin-form-label">Цвет наложения</label>
+                            <input type="color" id="overlay_color_{{ section_key }}" name="overlay_color" 
+                                   class="admin-form-input" value="{{ bg.overlay_color if bg.overlay_color else '#000000' }}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Градиент -->
+                <div id="gradient_fields_{{ section_key }}" class="bg-fields" style="display: {{ 'block' if bg.type == 'gradient' else 'none' }};">
+                    <div class="admin-form-group">
+                        <label for="gradient_{{ section_key }}" class="admin-form-label">CSS градиент</label>
+                        <input type="text" id="gradient_{{ section_key }}" name="gradient" 
+                               class="admin-form-input" 
+                               value="{{ bg.gradient if bg.gradient else 'linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)' }}"
+                               placeholder="linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)">
+                        <div class="admin-form-help">Пример: linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)</div>
+                    </div>
+
+                    <div class="admin-form-group">
+                        <label for="gradient_overlay_{{ section_key }}" class="admin-form-label">
+                            Прозрачность белого наложения (0-1)
+                        </label>
+                        <input type="number" id="gradient_overlay_{{ section_key }}" name="overlay_opacity" 
+                               class="admin-form-input" min="0" max="1" step="0.1" 
+                               value="{{ bg.overlay_opacity if bg.overlay_opacity is not none else 0.8 }}">
+                        <div class="admin-form-help">0 = только градиент, 1 = полностью белый</div>
+                    </div>
+                </div>
+
+                <!-- Кнопки -->
+                <div class="admin-form-actions">
+                    <button type="submit" class="admin-btn admin-btn-primary">
+                        Сохранить фон
+                    </button>
+                    <button type="button" class="admin-btn admin-btn-secondary" 
+                            onclick="resetToDefault('{{ section_key }}', '{{ token }}')">
+                        Сбросить к умолчанию
+                    </button>
+                </div>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+// Переключение полей в зависимости от типа фона
+function toggleBackgroundFields(select, section) {
+    const imageFields = document.getElementById(`image_fields_${section}`);
+    const gradientFields = document.getElementById(`gradient_fields_${section}`);
+    
+    imageFields.style.display = 'none';
+    gradientFields.style.display = 'none';
+    
+    if (select.value === 'image') {
+        imageFields.style.display = 'block';
+    } else if (select.value === 'gradient') {
+        gradientFields.style.display = 'block';
+    }
+}
+
+// Сброс к настройкам по умолчанию
+function resetToDefault(section, token) {
+    if (confirm('Сбросить фон к настройкам по умолчанию?')) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/${token}/admin/backgrounds/${section}/reset`;
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
+// Предварительный просмотр изображения
+document.querySelectorAll('input[type="file"]').forEach(input => {
+    input.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const section = input.id.replace('image_file_', '');
+                const preview = input.closest('.admin-section').querySelector('.admin-image-preview');
+                
+                if (preview) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Превью" class="admin-preview-bg-image">`;
+                } else {
+                    const newPreview = document.createElement('div');
+                    newPreview.className = 'admin-image-preview';
+                    newPreview.innerHTML = `<img src="${e.target.result}" alt="Превью" class="admin-preview-bg-image">`;
+                    input.closest('.admin-form-group').appendChild(newPreview);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+});
+</script>
+
+<style>
+.admin-backgrounds-page {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.admin-sections-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.admin-section-header-inline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.admin-bg-type-badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.admin-bg-type-image {
+    background-color: #D4EDDA;
+    color: #155724;
+}
+
+.admin-bg-type-gradient {
+    background: linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%);
+    color: white;
+}
+
+.admin-bg-type-white {
+    background-color: #F8F9FA;
+    color: #495057;
+    border: 1px solid var(--admin-border);
+}
+
+.admin-preview-bg-image {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
+    margin-top: 12px;
+}
+
+.bg-fields {
+    padding: 20px;
+    background-color: var(--admin-bg-alt);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.admin-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .admin-form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-section-header-inline {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+</style>
+{% endblock %}

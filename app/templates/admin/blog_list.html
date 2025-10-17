@@ -1,0 +1,228 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Блог - Админка OilFusion{% endblock %}
+
+{% block content %}
+<div class="admin-blog-page">
+    <div class="admin-page-header">
+        <h1 class="admin-page-title">Управление блогом</h1>
+        <p class="admin-page-subtitle">Создание и редактирование статей блога</p>
+    </div>
+
+    <!-- Действия -->
+    <div class="admin-section">
+        <div class="admin-section-header">
+            <h2 class="admin-section-title">Статьи блога</h2>
+            <a href="{{ url_for('admin.blog_new', token=token) }}" class="admin-btn admin-btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Создать статью
+            </a>
+        </div>
+
+        <!-- Список статей -->
+        {% if articles %}
+        <div class="admin-articles-list">
+            {% for article in articles %}
+            <div class="admin-article-item">
+                <div class="admin-article-content">
+                    <div class="admin-article-header">
+                        <h3 class="admin-article-title">{{ article.title }}</h3>
+                        <div class="admin-article-meta">
+                            <span class="admin-article-category">{{ article.category }}</span>
+                            <span class="admin-article-date">{{ article.created_at[:10] }}</span>
+                            <span class="admin-article-status {{ 'published' if article.published else 'draft' }}">
+                                {{ 'Опубликовано' if article.published else 'Черновик' }}
+                            </span>
+                        </div>
+                    </div>
+                    <p class="admin-article-excerpt">{{ article.excerpt }}</p>
+                    <div class="admin-article-stats">
+                        <span class="admin-article-read-time">{{ article.read_time }} мин чтения</span>
+                        <span class="admin-article-char-count">{{ article.content|length }} символов</span>
+                    </div>
+                </div>
+                <div class="admin-article-actions">
+                    <a href="{{ url_for('admin.blog_edit', token=token, index=loop.index0) }}" 
+                       class="admin-btn admin-btn-sm admin-btn-outline">
+                        Редактировать
+                    </a>
+                    <form method="POST" action="{{ url_for('admin.blog_delete', token=token, index=loop.index0) }}" 
+                          style="display: inline;" onsubmit="return confirm('Удалить статью?')">
+                        <button type="submit" class="admin-btn admin-btn-sm admin-btn-danger">Удалить</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="admin-empty-state">
+            <div class="admin-empty-icon">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </div>
+            <h3 class="admin-empty-title">Нет статей</h3>
+            <p class="admin-empty-description">Создайте первую статью для блога</p>
+            <a href="{{ url_for('admin.blog_new', token=token) }}" class="admin-btn admin-btn-primary">
+                Создать статью
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.admin-articles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.admin-article-item {
+    background: var(--admin-bg-alt);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 1px solid var(--admin-border);
+    transition: all 0.3s ease;
+}
+
+.admin-article-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--admin-shadow);
+}
+
+.admin-article-content {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.admin-article-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.admin-article-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--admin-text);
+    margin: 0;
+    flex: 1;
+}
+
+.admin-article-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.admin-article-category {
+    background: var(--admin-primary);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.admin-article-date {
+    color: var(--admin-text-light);
+    font-size: 0.875rem;
+}
+
+.admin-article-status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.admin-article-status.published {
+    background: #D4EDDA;
+    color: #155724;
+}
+
+.admin-article-status.draft {
+    background: #FFF3CD;
+    color: #856404;
+}
+
+.admin-article-excerpt {
+    color: var(--admin-text-light);
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.admin-article-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 0.875rem;
+    color: var(--admin-text-light);
+}
+
+.admin-article-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.admin-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.admin-empty-icon {
+    color: var(--admin-text-light);
+    margin-bottom: 16px;
+}
+
+.admin-empty-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--admin-text);
+    margin-bottom: 8px;
+}
+
+.admin-empty-description {
+    color: var(--admin-text-light);
+    margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+    .admin-article-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .admin-article-content {
+        margin-right: 0;
+        margin-bottom: 16px;
+    }
+    
+    .admin-article-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .admin-article-meta {
+        flex-wrap: wrap;
+    }
+    
+    .admin-article-actions {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+}
+</style>
+{% endblock %}
+

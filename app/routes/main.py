@@ -1,0 +1,112 @@
+"""
+Основные маршруты лендинга OilFusion.
+Обрабатывает все запросы к главной странице и её секциям.
+"""
+
+from flask import Blueprint, render_template, current_app
+from app.utils.logger import get_logger
+from app.models.content import AboutContent, PersonalizationContent, BlogContent
+from app.models.images import SectionBackgrounds
+
+logger = get_logger()
+
+# Создание Blueprint для основных маршрутов
+main_bp = Blueprint('main', __name__)
+
+
+@main_bp.route('/')
+def index():
+    """
+    Главная страница лендинга.
+    Отображает все секции: Hero, О компании, Продукция, Услуги, 
+    Персонализация, Отзывы, Блог, Контакты.
+    
+    Returns:
+        Отрендеренный HTML шаблон главной страницы
+    """
+    logger.info("Запрос главной страницы")
+    
+    # Получаем настройки фонов
+    backgrounds = SectionBackgrounds()
+    
+    # Данные для Hero секции
+    hero_data = {
+        'slogan': current_app.config.get('COMPANY_SLOGAN', 'Balance in every drop'),
+        'subtitle': 'Персонализированные масла на основе технологий AuraCloud® 3D и ДНК-тестирования',
+        'cta_primary': 'Подобрать масло',
+        'cta_secondary': 'Записаться',
+        'background': backgrounds.get_section_background('hero')
+    }
+    
+    # Данные о компании из модели
+    about_content = AboutContent()
+    about_data = about_content.get_all()
+    about_data['background'] = backgrounds.get_section_background('about')
+    
+    # Данные о продукции (заглушка)
+    products_data = {
+        'title': 'Наша продукция',
+        'products_list': [],  # Будет заполнено позже
+        'background': backgrounds.get_section_background('products')
+    }
+    
+    # Данные об услугах (заглушка)
+    services_data = {
+        'title': 'Наши услуги',
+        'services_list': []  # Будет заполнено позже
+    }
+    
+    # Данные о персонализации из модели
+    personalization_content = PersonalizationContent()
+    personalization_data = personalization_content.get_all()
+    
+    # Данные отзывов (заглушка)
+    reviews_data = {
+        'title': 'Отзывы наших клиентов',
+        'reviews_list': []  # Будет заполнено позже
+    }
+    
+    # Данные блога из модели
+    blog_content = BlogContent()
+    blog_data = {
+        'title': blog_content.get('title', 'Блог'),
+        'subtitle': blog_content.get('subtitle', 'Полезная информация о здоровье и персонализации'),
+        'articles_list': blog_content.get_published_articles()
+    }
+    
+    # Контактные данные
+    contacts_data = {
+        'title': 'Контакты',
+        'email': current_app.config.get('COMPANY_EMAIL'),
+        'phone': current_app.config.get('COMPANY_PHONE'),
+        'address': current_app.config.get('COMPANY_ADDRESS'),
+        'latitude': current_app.config.get('COMPANY_LATITUDE'),
+        'longitude': current_app.config.get('COMPANY_LONGITUDE'),
+        'maps_api_key': current_app.config.get('GOOGLE_MAPS_API_KEY')
+    }
+    
+    return render_template(
+        'index.html',
+        hero=hero_data,
+        about=about_data,
+        products=products_data,
+        services=services_data,
+        personalization=personalization_data,
+        reviews=reviews_data,
+        blog=blog_data,
+        contacts=contacts_data
+    )
+
+
+@main_bp.route('/health')
+def health_check():
+    """
+    Проверка здоровья приложения.
+    Используется для мониторинга.
+    
+    Returns:
+        JSON с статусом приложения
+    """
+    return {'status': 'healthy', 'service': 'OilFusion Landing'}, 200
+
+

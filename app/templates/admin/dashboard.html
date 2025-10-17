@@ -1,0 +1,132 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Дашборд - Админка OilFusion{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <div class="admin-page-header">
+        <h1 class="admin-page-title">Дашборд</h1>
+        <p class="admin-page-subtitle">Управление контентом лендинга OilFusion</p>
+    </div>
+
+    <!-- Статистика -->
+    <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="admin-stat-content">
+                <h3 class="admin-stat-title">Особенности компании</h3>
+                <p class="admin-stat-value">{{ stats.about_features }}</p>
+                <a href="{{ url_for('admin.about_edit', token=token) }}" class="admin-stat-link">Редактировать</a>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="admin-stat-content">
+                <h3 class="admin-stat-title">ДНК особенности</h3>
+                <p class="admin-stat-value">{{ stats.dna_features }}</p>
+                <a href="{{ url_for('admin.personalization_edit', token=token) }}" class="admin-stat-link">Редактировать</a>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                </svg>
+            </div>
+            <div class="admin-stat-content">
+                <h3 class="admin-stat-title">AuraCloud особенности</h3>
+                <p class="admin-stat-value">{{ stats.auracloud_features }}</p>
+                <a href="{{ url_for('admin.personalization_edit', token=token) }}" class="admin-stat-link">Редактировать</a>
+            </div>
+        </div>
+
+        <div class="admin-stat-card">
+            <div class="admin-stat-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="admin-stat-content">
+                <h3 class="admin-stat-title">Статьи блога</h3>
+                <p class="admin-stat-value">{{ stats.published_articles }}/{{ stats.total_articles }}</p>
+                <a href="{{ url_for('admin.blog_list', token=token) }}" class="admin-stat-link">Управлять</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Быстрые действия -->
+    <div class="admin-quick-actions">
+        <h2 class="admin-section-title">Быстрые действия</h2>
+        <div class="admin-actions-grid">
+            <a href="{{ url_for('admin.about_edit', token=token) }}" class="admin-action-card">
+                <div class="admin-action-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3 class="admin-action-title">Редактировать "О компании"</h3>
+                <p class="admin-action-description">Изменить описание, философию и особенности компании</p>
+            </a>
+
+            <a href="{{ url_for('admin.personalization_edit', token=token) }}" class="admin-action-card">
+                <div class="admin-action-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3 class="admin-action-title">Редактировать "Персонализация"</h3>
+                <p class="admin-action-description">Настроить описания ДНК-тестирования и AuraCloud® 3D</p>
+            </a>
+
+            <a href="{{ url_for('admin.blog_new', token=token) }}" class="admin-action-card">
+                <div class="admin-action-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 class="admin-action-title">Создать статью</h3>
+                <p class="admin-action-description">Добавить новую статью в блог</p>
+            </a>
+
+            <a href="{{ url_for('backgrounds.backgrounds_list', token=token) }}" class="admin-action-card">
+                <div class="admin-action-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                        <path d="M9 3v18M21 9H3M21 15H3" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3 class="admin-action-title">Фоновые изображения</h3>
+                <p class="admin-action-description">Управление фонами всех секций лендинга</p>
+            </a>
+
+            <a href="{{ url_for('main.index') }}" class="admin-action-card" target="_blank">
+                <div class="admin-action-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M14 4h6m0 0v6m0-6L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 class="admin-action-title">Посмотреть сайт</h3>
+                <p class="admin-action-description">Открыть лендинг в новой вкладке</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,173 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Персонализация - Админка OilFusion{% endblock %}
+
+{% block content %}
+<div class="admin-edit-page">
+    <div class="admin-page-header">
+        <h1 class="admin-page-title">Редактирование "Персонализация"</h1>
+        <p class="admin-page-subtitle">Управление контентом секции "Персонализация"</p>
+    </div>
+
+    <!-- Основная информация -->
+    <div class="admin-section">
+        <h2 class="admin-section-title">Основная информация</h2>
+        <form method="POST" action="{{ url_for('admin.personalization_update', token=token) }}" class="admin-form">
+            <div class="admin-form-group">
+                <label for="title" class="admin-form-label">Заголовок секции</label>
+                <input type="text" id="title" name="title" class="admin-form-input" 
+                       value="{{ content.title }}" required>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="subtitle" class="admin-form-label">Подзаголовок</label>
+                <input type="text" id="subtitle" name="subtitle" class="admin-form-input" 
+                       value="{{ content.subtitle }}" required>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="info_text" class="admin-form-label">Заголовок информационного блока</label>
+                <input type="text" id="info_text" name="info_text" class="admin-form-input" 
+                       value="{{ content.info_text }}" required>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="info_description" class="admin-form-label">Описание информационного блока</label>
+                <textarea id="info_description" name="info_description" class="admin-form-textarea" rows="4" required>{{ content.info_description }}</textarea>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="bio_well_url" class="admin-form-label">Ссылка на Bio-Well</label>
+                <input type="url" id="bio_well_url" name="bio_well_url" class="admin-form-input" 
+                       value="{{ content.bio_well_url }}" required>
+            </div>
+
+            <button type="submit" class="admin-btn admin-btn-primary">Сохранить изменения</button>
+        </form>
+    </div>
+
+    <!-- ДНК-тестирование -->
+    <div class="admin-section">
+        <h2 class="admin-section-title">ДНК-тестирование</h2>
+        <form method="POST" action="{{ url_for('admin.personalization_update', token=token) }}" class="admin-form">
+            <div class="admin-form-group">
+                <label for="dna_title" class="admin-form-label">Заголовок</label>
+                <input type="text" id="dna_title" name="dna_title" class="admin-form-input" 
+                       value="{{ content.dna_testing.title }}" required>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="dna_description" class="admin-form-label">Описание</label>
+                <textarea id="dna_description" name="dna_description" class="admin-form-textarea" rows="3" required>{{ content.dna_testing.description }}</textarea>
+            </div>
+
+            <h3 class="admin-subsection-title">Особенности ДНК-тестирования</h3>
+            {% for feature in content.dna_testing.features %}
+            <div class="admin-form-group">
+                <label for="dna_feature_{{ loop.index0 }}" class="admin-form-label">Особенность {{ loop.index }}</label>
+                <div class="admin-form-row">
+                    <input type="text" id="dna_feature_{{ loop.index0 }}" name="dna_feature_{{ loop.index0 }}" 
+                           class="admin-form-input" value="{{ feature }}" required>
+                    <button type="button" class="admin-btn admin-btn-sm admin-btn-outline" 
+                            onclick="updateDnaFeature({{ loop.index0 }}, this.value)">
+                        Обновить
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="admin-btn admin-btn-primary">Сохранить изменения</button>
+        </form>
+    </div>
+
+    <!-- AuraCloud® 3D -->
+    <div class="admin-section">
+        <h2 class="admin-section-title">AuraCloud® 3D</h2>
+        <form method="POST" action="{{ url_for('admin.personalization_update', token=token) }}" class="admin-form">
+            <div class="admin-form-group">
+                <label for="auracloud_title" class="admin-form-label">Заголовок</label>
+                <input type="text" id="auracloud_title" name="auracloud_title" class="admin-form-input" 
+                       value="{{ content.auracloud.title }}" required>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="auracloud_description" class="admin-form-label">Описание</label>
+                <textarea id="auracloud_description" name="auracloud_description" class="admin-form-textarea" rows="3" required>{{ content.auracloud.description }}</textarea>
+            </div>
+
+            <h3 class="admin-subsection-title">Особенности AuraCloud® 3D</h3>
+            {% for feature in content.auracloud.features %}
+            <div class="admin-form-group">
+                <label for="auracloud_feature_{{ loop.index0 }}" class="admin-form-label">Особенность {{ loop.index }}</label>
+                <div class="admin-form-row">
+                    <input type="text" id="auracloud_feature_{{ loop.index0 }}" name="auracloud_feature_{{ loop.index0 }}" 
+                           class="admin-form-input" value="{{ feature }}" required>
+                    <button type="button" class="admin-btn admin-btn-sm admin-btn-outline" 
+                            onclick="updateAuracloudFeature({{ loop.index0 }}, this.value)">
+                        Обновить
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="admin-btn admin-btn-primary">Сохранить изменения</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function updateDnaFeature(index, value) {
+    const token = '{{ token }}';
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `/${token}/admin/personalization/dna-feature/${index}/update`;
+    
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'feature_text';
+    input.value = value;
+    
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function updateAuracloudFeature(index, value) {
+    const token = '{{ token }}';
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `/${token}/admin/personalization/auracloud-feature/${index}/update`;
+    
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'feature_text';
+    input.value = value;
+    
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
+
+<style>
+.admin-subsection-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--admin-text);
+    margin: 24px 0 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--admin-border);
+}
+
+.admin-form-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.admin-form-row .admin-form-input {
+    flex: 1;
+}
+</style>
+{% endblock %}
+
