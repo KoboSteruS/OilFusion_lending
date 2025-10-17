@@ -12,7 +12,7 @@
     <!-- Основная информация -->
     <div class="admin-section">
         <h2 class="admin-section-title">Основная информация</h2>
-        <form method="POST" action="{{ url_for('admin.personalization_update', token=token) }}" class="admin-form">
+        <form method="POST" action="{{ url_for('admin.personalization_update', token=token) }}" class="admin-form" enctype="multipart/form-data">
             <div class="admin-form-group">
                 <label for="title" class="admin-form-label">Заголовок секции</label>
                 <input type="text" id="title" name="title" class="admin-form-input" 
@@ -49,7 +49,7 @@
     <!-- ДНК-тестирование -->
     <div class="admin-section">
         <h2 class="admin-section-title">ДНК-тестирование</h2>
-        <form method="POST" action="{{ url_for('admin.personalization_update', token=token) }}" class="admin-form">
+        <form method="POST" action="{{ url_for('admin.personalization_update', token=token) }}" class="admin-form" enctype="multipart/form-data">
             <div class="admin-form-group">
                 <label for="dna_title" class="admin-form-label">Заголовок</label>
                 <input type="text" id="dna_title" name="dna_title" class="admin-form-input" 
@@ -61,6 +61,21 @@
                 <textarea id="dna_description" name="dna_description" class="admin-form-textarea" rows="3" required>{{ content.dna_testing.description }}</textarea>
             </div>
 
+            <!-- Изображение ДНК-тестирования -->
+            <div class="admin-form-group">
+                <label class="admin-form-label">Изображение блока ДНК-тестирования</label>
+                <div class="admin-image-upload-section">
+                    <div class="admin-form-group">
+                        <label for="dna_image" class="admin-form-label">Загрузить изображение</label>
+                        <input type="file" id="dna_image" name="dna_image" class="admin-form-input" accept="image/*">
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="dna_image_url" class="admin-form-label">Или URL изображения</label>
+                        <input type="url" id="dna_image_url" name="dna_image_url" class="admin-form-input" value="{{ content.dna_testing.image_url if content.dna_testing.image_url else '' }}" placeholder="/static/img/dna.jpg">
+                    </div>
+                </div>
+            </div>
+
             <h3 class="admin-subsection-title">Особенности ДНК-тестирования</h3>
             {% for feature in content.dna_testing.features %}
             <div class="admin-form-group">
@@ -69,12 +84,24 @@
                     <input type="text" id="dna_feature_{{ loop.index0 }}" name="dna_feature_{{ loop.index0 }}" 
                            class="admin-form-input" value="{{ feature }}" required>
                     <button type="button" class="admin-btn admin-btn-sm admin-btn-outline" 
-                            onclick="updateDnaFeature({{ loop.index0 }}, this.value)">
+                            onclick="updateDnaFeature({{ loop.index0 }}, document.getElementById('dna_feature_{{ loop.index0 }}').value, 'update')">
                         Обновить
+                    </button>
+                    <button type="button" class="admin-btn admin-btn-sm admin-btn-danger" 
+                            onclick="updateDnaFeature({{ loop.index0 }}, '', 'delete')">
+                        Удалить
                     </button>
                 </div>
             </div>
             {% endfor %}
+
+            <div class="admin-form-group">
+                <label for="dna_feature_new" class="admin-form-label">Добавить особенность</label>
+                <div class="admin-form-row">
+                    <input type="text" id="dna_feature_new" class="admin-form-input" placeholder="Новая особенность">
+                    <button type="button" class="admin-btn admin-btn-sm admin-btn-primary" onclick="updateDnaFeature(0, document.getElementById('dna_feature_new').value, 'add')">Добавить</button>
+                </div>
+            </div>
 
             <button type="submit" class="admin-btn admin-btn-primary">Сохранить изменения</button>
         </form>
@@ -83,7 +110,7 @@
     <!-- AuraCloud® 3D -->
     <div class="admin-section">
         <h2 class="admin-section-title">AuraCloud® 3D</h2>
-        <form method="POST" action="{{ url_for('admin.personalization_update', token=token) }}" class="admin-form">
+        <form method="POST" action="{{ url_for('admin.personalization_update', token=token) }}" class="admin-form" enctype="multipart/form-data">
             <div class="admin-form-group">
                 <label for="auracloud_title" class="admin-form-label">Заголовок</label>
                 <input type="text" id="auracloud_title" name="auracloud_title" class="admin-form-input" 
@@ -95,6 +122,21 @@
                 <textarea id="auracloud_description" name="auracloud_description" class="admin-form-textarea" rows="3" required>{{ content.auracloud.description }}</textarea>
             </div>
 
+            <!-- Изображение AuraCloud 3D -->
+            <div class="admin-form-group">
+                <label class="admin-form-label">Изображение блока AuraCloud® 3D</label>
+                <div class="admin-image-upload-section">
+                    <div class="admin-form-group">
+                        <label for="auracloud_image" class="admin-form-label">Загрузить изображение</label>
+                        <input type="file" id="auracloud_image" name="auracloud_image" class="admin-form-input" accept="image/*">
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="auracloud_image_url" class="admin-form-label">Или URL изображения</label>
+                        <input type="url" id="auracloud_image_url" name="auracloud_image_url" class="admin-form-input" value="{{ content.auracloud.image_url if content.auracloud.image_url else '' }}" placeholder="/static/img/auracloud.jpg">
+                    </div>
+                </div>
+            </div>
+
             <h3 class="admin-subsection-title">Особенности AuraCloud® 3D</h3>
             {% for feature in content.auracloud.features %}
             <div class="admin-form-group">
@@ -103,12 +145,24 @@
                     <input type="text" id="auracloud_feature_{{ loop.index0 }}" name="auracloud_feature_{{ loop.index0 }}" 
                            class="admin-form-input" value="{{ feature }}" required>
                     <button type="button" class="admin-btn admin-btn-sm admin-btn-outline" 
-                            onclick="updateAuracloudFeature({{ loop.index0 }}, this.value)">
+                            onclick="updateAuracloudFeature({{ loop.index0 }}, document.getElementById('auracloud_feature_{{ loop.index0 }}').value, 'update')">
                         Обновить
+                    </button>
+                    <button type="button" class="admin-btn admin-btn-sm admin-btn-danger" 
+                            onclick="updateAuracloudFeature({{ loop.index0 }}, '', 'delete')">
+                        Удалить
                     </button>
                 </div>
             </div>
             {% endfor %}
+
+            <div class="admin-form-group">
+                <label for="auracloud_feature_new" class="admin-form-label">Добавить особенность</label>
+                <div class="admin-form-row">
+                    <input type="text" id="auracloud_feature_new" class="admin-form-input" placeholder="Новая особенность">
+                    <button type="button" class="admin-btn admin-btn-sm admin-btn-primary" onclick="updateAuracloudFeature(0, document.getElementById('auracloud_feature_new').value, 'add')">Добавить</button>
+                </div>
+            </div>
 
             <button type="submit" class="admin-btn admin-btn-primary">Сохранить изменения</button>
         </form>
@@ -116,7 +170,7 @@
 </div>
 
 <script>
-function updateDnaFeature(index, value) {
+function updateDnaFeature(index, value, action) {
     const token = '{{ token }}';
     const form = document.createElement('form');
     form.method = 'POST';
@@ -126,13 +180,19 @@ function updateDnaFeature(index, value) {
     input.type = 'hidden';
     input.name = 'feature_text';
     input.value = value;
+
+    const act = document.createElement('input');
+    act.type = 'hidden';
+    act.name = 'action';
+    act.value = action || 'update';
     
     form.appendChild(input);
+    form.appendChild(act);
     document.body.appendChild(form);
     form.submit();
 }
 
-function updateAuracloudFeature(index, value) {
+function updateAuracloudFeature(index, value, action) {
     const token = '{{ token }}';
     const form = document.createElement('form');
     form.method = 'POST';
@@ -142,8 +202,14 @@ function updateAuracloudFeature(index, value) {
     input.type = 'hidden';
     input.name = 'feature_text';
     input.value = value;
+
+    const act = document.createElement('input');
+    act.type = 'hidden';
+    act.name = 'action';
+    act.value = action || 'update';
     
     form.appendChild(input);
+    form.appendChild(act);
     document.body.appendChild(form);
     form.submit();
 }

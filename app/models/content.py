@@ -215,6 +215,7 @@ class PersonalizationContent(BaseContentModel):
                 'dna_testing': {
                     'title': 'ДНК-тестирование',
                     'description': 'Индивидуальный подбор масел на основе вашего генетического профиля',
+                    'image_url': '',
                     'features': [
                         'Анализ генетических маркеров',
                         'Определение индивидуальных потребностей',
@@ -225,6 +226,7 @@ class PersonalizationContent(BaseContentModel):
                 'auracloud': {
                     'title': 'AuraCloud® 3D',
                     'description': 'Визуализация вашей энергетической ауры для точного подбора продуктов',
+                    'image_url': '',
                     'features': [
                         'Трёхмерная визуализация ауры',
                         'Анализ энергетических центров',
@@ -247,6 +249,42 @@ class PersonalizationContent(BaseContentModel):
     def get_auracloud_features(self) -> List[str]:
         """Получение списка особенностей AuraCloud® 3D."""
         return self.get('auracloud', {}).get('features', [])
+
+    def add_dna_feature(self, text: str) -> bool:
+        """Добавить особенность в список ДНК-тестирования."""
+        features = self.get_dna_features()
+        features.append(text)
+        dna = self.get('dna_testing', {})
+        dna['features'] = features
+        return self.set('dna_testing', dna)
+
+    def remove_dna_feature(self, index: int) -> bool:
+        """Удалить особенность ДНК-тестирования по индексу."""
+        features = self.get_dna_features()
+        if 0 <= index < len(features):
+            features.pop(index)
+            dna = self.get('dna_testing', {})
+            dna['features'] = features
+            return self.set('dna_testing', dna)
+        return False
+
+    def add_auracloud_feature(self, text: str) -> bool:
+        """Добавить особенность AuraCloud® 3D."""
+        features = self.get_auracloud_features()
+        features.append(text)
+        ac = self.get('auracloud', {})
+        ac['features'] = features
+        return self.set('auracloud', ac)
+
+    def remove_auracloud_feature(self, index: int) -> bool:
+        """Удалить особенность AuraCloud® 3D по индексу."""
+        features = self.get_auracloud_features()
+        if 0 <= index < len(features):
+            features.pop(index)
+            ac = self.get('auracloud', {})
+            ac['features'] = features
+            return self.set('auracloud', ac)
+        return False
     
     def update_dna_feature(self, index: int, feature: str) -> bool:
         """

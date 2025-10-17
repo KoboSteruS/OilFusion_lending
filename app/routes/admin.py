@@ -248,15 +248,37 @@ def personalization_update(token):
         'bio_well_url': request.form.get('bio_well_url', '')
     }
     
+    # обработка изображений секций
+    from pathlib import Path
+    from datetime import datetime
+    from werkzeug.utils import secure_filename
+    def _save_image(prefix: str, file_field: str, fallback_url: str) -> str:
+        url = request.form.get(fallback_url, '')
+        if file_field in request.files:
+            file = request.files[file_field]
+            if file and file.filename and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in {'png','jpg','jpeg','webp','gif'}:
+                filename = secure_filename(file.filename)
+                unique = f"{prefix}_{int(datetime.now().timestamp())}_{filename}"
+                folder = Path('app/static/img')
+                folder.mkdir(parents=True, exist_ok=True)
+                file.save(str(folder / unique))
+                return f"/static/img/{unique}"
+        return url
+
+    dna_image = _save_image('dna', 'dna_image', 'dna_image_url')
+    auracloud_image = _save_image('auracloud', 'auracloud_image', 'auracloud_image_url')
+
     dna_data = {
         'title': request.form.get('dna_title', ''),
-        'description': request.form.get('dna_description', '')
+        'description': request.form.get('dna_description', ''),
+        'image_url': dna_image
     }
     update_data['dna_testing'] = dna_data
     
     auracloud_data = {
         'title': request.form.get('auracloud_title', ''),
-        'description': request.form.get('auracloud_description', '')
+        'description': request.form.get('auracloud_description', ''),
+        'image_url': auracloud_image
     }
     update_data['auracloud'] = auracloud_data
     
@@ -275,9 +297,18 @@ def personalization_dna_feature_update(token, index):
     logger.info(f"Обновление особенности ДНК-тестирования с индексом {index}")
     
     personalization_content = PersonalizationContent()
+    action = request.form.get('action', 'update')
     feature_text = request.form.get('feature_text', '')
     
-    if personalization_content.update_dna_feature(index, feature_text):
+    ok = False
+    if action == 'delete':
+        ok = personalization_content.remove_dna_feature(index)
+    elif action == 'add':
+        ok = personalization_content.add_dna_feature(feature_text)
+    else:
+        ok = personalization_content.update_dna_feature(index, feature_text)
+    
+    if ok:
         flash('Особенность ДНК-тестирования успешно обновлена!', 'success')
     else:
         flash('Ошибка при обновлении особенности!', 'error')
@@ -292,9 +323,18 @@ def personalization_auracloud_feature_update(token, index):
     logger.info(f"Обновление особенности AuraCloud® 3D с индексом {index}")
     
     personalization_content = PersonalizationContent()
+    action = request.form.get('action', 'update')
     feature_text = request.form.get('feature_text', '')
     
-    if personalization_content.update_auracloud_feature(index, feature_text):
+    ok = False
+    if action == 'delete':
+        ok = personalization_content.remove_auracloud_feature(index)
+    elif action == 'add':
+        ok = personalization_content.add_auracloud_feature(feature_text)
+    else:
+        ok = personalization_content.update_auracloud_feature(index, feature_text)
+    
+    if ok:
         flash('Особенность AuraCloud® 3D успешно обновлена!', 'success')
     else:
         flash('Ошибка при обновлении особенности!', 'error')
