@@ -38,11 +38,12 @@
         left: -100%;
         width: 100%;
         height: calc(100vh - 70px);
-        background-color: white;
+        background-color: rgba(28, 28, 28, 0.95);
+        backdrop-filter: blur(10px);
         flex-direction: column;
         padding: 20px;
         transition: left 0.3s ease;
-        box-shadow: var(--shadow-lg);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
     
     .navbar-menu.active {
@@ -63,7 +64,14 @@
     .nav-link {
         display: block;
         padding: 15px 0;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: #FFFFFF;
+        text-shadow: none;
+    }
+    
+    .nav-link:hover {
+        color: #A67C52;
+        text-shadow: none;
     }
     
     /* Hero */

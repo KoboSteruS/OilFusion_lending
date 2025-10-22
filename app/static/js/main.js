@@ -14,6 +14,7 @@
         initContactForm();
         initSubscribeForm();
         initBeforeAfterSlider();
+        initHeaderScroll();
     });
     
     // ===== Мобильное меню =====
@@ -43,6 +44,26 @@
                 navbarMenu.classList.remove('active');
                 navbarToggle.classList.remove('active');
             }
+        });
+    }
+    
+    // ===== Отслеживание скролла для шапки =====
+    function initHeaderScroll() {
+        const header = document.querySelector('.header');
+        if (!header) return;
+        
+        let lastScrollY = window.scrollY;
+        
+        window.addEventListener('scroll', function() {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            lastScrollY = currentScrollY;
         });
     }
     
