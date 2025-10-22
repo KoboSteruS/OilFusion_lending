@@ -326,14 +326,17 @@ body {
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    color: white;
+    color: rgba(255, 255, 255, 0.7);
     animation: bounce 2s infinite;
+    margin-top: 50px;
 }
 
 .scroll-text {
     display: block;
     margin-bottom: 8px;
     font-size: 0.9rem;
+    font-weight: 300;
+    opacity: 0.8;
 }
 
 .scroll-arrow {
@@ -346,10 +349,10 @@ body {
         transform: translateX(-50%) translateY(0);
     }
     40% {
-        transform: translateX(-50%) translateY(-10px);
+        transform: translateX(-50%) translateY(-8px);
     }
     60% {
-        transform: translateX(-50%) translateY(-5px);
+        transform: translateX(-50%) translateY(-4px);
     }
 }
 
