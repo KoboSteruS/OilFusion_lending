@@ -8,6 +8,7 @@ from app.models.content import AboutContent, PersonalizationContent, BlogContent
 from app.models.products import ProductsContent
 from app.models.services import ServicesContent
 from app.models.contacts import ContactsContent
+from app.models.hero import HeroContent
 from app.utils.logger import get_logger
 from app.utils.auth import require_admin_token
 
@@ -561,6 +562,31 @@ def contacts_save(token):
     ok = contacts.update(data)
     flash('Контакты сохранены' if ok else 'Ошибка сохранения контактов', 'success' if ok else 'error')
     return redirect(url_for('admin.contacts_edit', token=token))
+
+
+# ===================== Hero =====================
+
+@admin_bp.route('/<token>/admin/hero')
+@require_admin_token
+def hero_edit(token):
+    hero = HeroContent()
+    return render_template('admin/hero_edit.html', hero=hero.get_all(), token=token)
+
+
+@admin_bp.route('/<token>/admin/hero/save', methods=['POST'])
+@require_admin_token
+def hero_save(token):
+    hero = HeroContent()
+    data = {
+        'slogan': request.form.get('slogan', ''),
+        'subtitle': request.form.get('subtitle', ''),
+        'cta_primary': request.form.get('cta_primary', ''),
+        'cta_secondary': request.form.get('cta_secondary', ''),
+        'scroll_text': request.form.get('scroll_text', ''),
+    }
+    ok = hero.update_content(data)
+    flash('Hero контент сохранён' if ok else 'Ошибка сохранения Hero контента', 'success' if ok else 'error')
+    return redirect(url_for('admin.hero_edit', token=token))
 
 @admin_bp.route('/<token>/admin/blog/<int:index>/delete', methods=['POST'])
 @require_admin_token

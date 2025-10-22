@@ -10,6 +10,7 @@ from app.models.products import ProductsContent
 from app.models.services import ServicesContent
 from app.models.images import SectionBackgrounds
 from app.models.contacts import ContactsContent
+from app.models.hero import HeroContent
 
 logger = get_logger()
 
@@ -33,11 +34,14 @@ def index():
     backgrounds = SectionBackgrounds()
     
     # Данные для Hero секции
+    # Данные Hero секции из модели
+    hero_content = HeroContent()
     hero_data = {
-        'slogan': current_app.config.get('COMPANY_SLOGAN', 'Balance in every drop'),
-        'subtitle': 'Персонализированные масла на основе технологий AuraCloud® 3D и ДНК-тестирования',
-        'cta_primary': 'Подобрать масло',
-        'cta_secondary': 'Записаться',
+        'slogan': hero_content.get_slogan(),
+        'subtitle': hero_content.get_subtitle(),
+        'cta_primary': hero_content.get_cta_primary(),
+        'cta_secondary': hero_content.get_cta_secondary(),
+        'scroll_text': hero_content.get_scroll_text(),
         'background': backgrounds.get_section_background('hero')
     }
     

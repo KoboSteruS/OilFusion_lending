@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Hero секция - Админка OilFusion{% endblock %}
+
+{% block content %}
+<div class="admin-edit-page">
+  <div class="admin-page-header">
+    <h1 class="admin-page-title">Hero секция</h1>
+    <p class="admin-page-subtitle">Редактирование главного баннера и призывов к действию</p>
+  </div>
+
+  <div class="admin-section">
+    <h2 class="admin-section-title">Контент Hero секции</h2>
+    <form method="POST" action="{{ url_for('admin.hero_save', token=token) }}" class="admin-form">
+      <div class="admin-form-group">
+        <label class="admin-form-label">Слоган (заголовок)</label>
+        <input class="admin-form-input" name="slogan" value="{{ hero.slogan or '' }}" placeholder="Balance in every drop" required>
+        <div class="admin-form-help">Основной заголовок на главной странице</div>
+      </div>
+      
+      <div class="admin-form-group">
+        <label class="admin-form-label">Подзаголовок</label>
+        <textarea class="admin-form-textarea" name="subtitle" rows="3" placeholder="Персонализированные масла на основе технологий AuraCloud® 3D и ДНК-тестирования">{{ hero.subtitle or '' }}</textarea>
+        <div class="admin-form-help">Описание под основным заголовком</div>
+      </div>
+      
+      <div class="admin-form-row">
+        <div class="admin-form-group">
+          <label class="admin-form-label">Основная кнопка</label>
+          <input class="admin-form-input" name="cta_primary" value="{{ hero.cta_primary or '' }}" placeholder="Подобрать масло">
+          <div class="admin-form-help">Текст первой кнопки</div>
+        </div>
+        <div class="admin-form-group">
+          <label class="admin-form-label">Вторичная кнопка</label>
+          <input class="admin-form-input" name="cta_secondary" value="{{ hero.cta_secondary or '' }}" placeholder="Записаться">
+          <div class="admin-form-help">Текст второй кнопки</div>
+        </div>
+      </div>
+      
+      <div class="admin-form-group">
+        <label class="admin-form-label">Текст скролл индикатора</label>
+        <input class="admin-form-input" name="scroll_text" value="{{ hero.scroll_text or '' }}" placeholder="Листайте вниз">
+        <div class="admin-form-help">Текст под кнопками для указания скролла</div>
+      </div>
+      
+      <div class="admin-form-actions">
+        <button type="submit" class="admin-btn admin-btn-primary">Сохранить</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
