@@ -49,6 +49,12 @@
         left: 0;
     }
     
+    /* Логотип на мобильных */
+    .logo-image {
+        height: 32px;
+        max-width: 160px;
+    }
+    
     .navbar-nav {
         flex-direction: column;
         gap: 0;
@@ -128,6 +134,11 @@
 
 /* ===== Мобильные устройства (< 480px) ===== */
 @media (max-width: 480px) {
+    /* Логотип на маленьких экранах */
+    .logo-image {
+        height: 28px;
+        max-width: 140px;
+    }
     :root {
         --section-padding: 40px 0;
     }

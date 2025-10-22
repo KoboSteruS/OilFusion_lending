@@ -140,11 +140,16 @@ body {
     align-items: center;
 }
 
-.logo-text {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    text-decoration: none;
+.logo-image {
+    height: 40px;
+    width: auto;
+    max-width: 200px;
+    transition: var(--transition);
+}
+
+.logo-image:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
 }
 
 .navbar-menu {
