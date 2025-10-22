@@ -14,75 +14,97 @@
             <p class="section-subtitle">Персонализированные масла для вашего здоровья и гармонии</p>
         </div>
         
-        <div class="products-grid">
-            <!-- Карточки продуктов будут добавлены динамически -->
-            {% if products.products_list %}
-                {% for product in products.products_list %}
-                <div class="product-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
-                    <div class="product-image">
-                        <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">
-                        <div class="product-badge">{{ product.category }}</div>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title">{{ product.name }}</h3>
-                        <p class="product-description">{{ product.description }}</p>
-                        <div class="product-footer">
-                            <span class="product-price">{{ product.price }}</span>
-                            <button class="btn btn-sm btn-primary">Подробнее</button>
+        <!-- Горизонтальный слайдер продуктов -->
+        <div class="products-slider-container" data-aos="fade-up">
+            <div class="products-slider" id="productsSlider">
+                {% if products.products_list %}
+                    {% for product in products.products_list %}
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+                            <div class="product-badge">{{ product.category }}</div>
+                            {% if product.featured %}
+                            <div class="product-featured-badge">Избранное</div>
+                            {% endif %}
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">{{ product.name }}</h3>
+                            <p class="product-description">{{ product.description }}</p>
+                            <div class="product-footer">
+                                <span class="product-price">{{ product.price }}</span>
+                                <button class="btn btn-sm btn-primary">Подробнее</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {% endfor %}
-            {% else %}
-                <!-- Заглушки для демонстрации -->
-                <div class="product-card" data-aos="fade-up">
-                    <div class="product-image placeholder">
-                        <div class="placeholder-icon">🌿</div>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title">Персонализированное масло</h3>
-                        <p class="product-description">
-                            Уникальная формула, подобранная на основе вашего ДНК-профиля
-                        </p>
-                        <div class="product-footer">
-                            <span class="product-price">от 3 500 ₽</span>
-                            <button class="btn btn-sm btn-primary">Подробнее</button>
+                    {% endfor %}
+                {% else %}
+                    <!-- Заглушки для демонстрации -->
+                    <div class="product-card">
+                        <div class="product-image placeholder">
+                            <div class="placeholder-icon">🌿</div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Персонализированное масло</h3>
+                            <p class="product-description">
+                                Уникальная формула, подобранная на основе вашего ДНК-профиля
+                            </p>
+                            <div class="product-footer">
+                                <span class="product-price">от 3 500 ₽</span>
+                                <button class="btn btn-sm btn-primary">Подробнее</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="product-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="product-image placeholder">
-                        <div class="placeholder-icon">✨</div>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title">Масло для ауры</h3>
-                        <p class="product-description">
-                            Специальная смесь для гармонизации энергетического поля
-                        </p>
-                        <div class="product-footer">
-                            <span class="product-price">от 4 200 ₽</span>
-                            <button class="btn btn-sm btn-primary">Подробнее</button>
+                    
+                    <div class="product-card">
+                        <div class="product-image placeholder">
+                            <div class="placeholder-icon">✨</div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Масло для ауры</h3>
+                            <p class="product-description">
+                                Специальная смесь для гармонизации энергетического поля
+                            </p>
+                            <div class="product-footer">
+                                <span class="product-price">от 4 200 ₽</span>
+                                <button class="btn btn-sm btn-primary">Подробнее</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="product-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="product-image placeholder">
-                        <div class="placeholder-icon">🔬</div>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title">Комплексная программа</h3>
-                        <p class="product-description">
-                            Полный набор продуктов с индивидуальным сопровождением
-                        </p>
-                        <div class="product-footer">
-                            <span class="product-price">от 12 000 ₽</span>
-                            <button class="btn btn-sm btn-primary">Подробнее</button>
+                    
+                    <div class="product-card">
+                        <div class="product-image placeholder">
+                            <div class="placeholder-icon">🔬</div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Комплексная программа</h3>
+                            <p class="product-description">
+                                Полный набор продуктов с индивидуальным сопровождением
+                            </p>
+                            <div class="product-footer">
+                                <span class="product-price">от 12 000 ₽</span>
+                                <button class="btn btn-sm btn-primary">Подробнее</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endif %}
+                {% endif %}
+            </div>
+            
+            <!-- Навигация слайдера -->
+            <div class="slider-navigation">
+                <button class="slider-btn slider-prev" id="productsPrev" aria-label="Предыдущие товары">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
+                        <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="slider-btn slider-next" id="productsNext" aria-label="Следующие товары">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
+                        <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Индикаторы -->
+            <div class="slider-dots" id="productsDots"></div>
         </div>
         
         <div class="section-cta" data-aos="fade-up">

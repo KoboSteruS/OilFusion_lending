@@ -437,6 +437,101 @@ body {
     gap: 30px;
 }
 
+/* ===== Слайдер продуктов ===== */
+.products-slider-container {
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.products-slider {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.products-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.products-slider .product-card {
+    flex: 0 0 320px;
+    min-width: 320px;
+}
+
+/* Навигация слайдера */
+.slider-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.slider-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #A67C52;
+    background: transparent;
+    color: #A67C52;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.slider-btn:hover {
+    background: #A67C52;
+    color: white;
+    transform: scale(1.1);
+}
+
+.slider-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Индикаторы слайдера */
+.slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.slider-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(166, 124, 82, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slider-dot.active {
+    background: #A67C52;
+    transform: scale(1.2);
+}
+
+/* Бейдж "Избранное" */
+.product-featured-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #A67C52, #CFAE6D);
+    color: white;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
+}
+
 /* ===== Подвал ===== */
 .footer {
     background-color: var(--text-primary);

@@ -50,11 +50,12 @@ def index():
     about_data = about_content.get_all()
     about_data['background'] = backgrounds.get_section_background('about')
     
-    # Данные о продукции
+    # Данные о продукции (только избранные товары)
     products_store = ProductsContent()
+    featured_products = products_store.get_featured(6)  # Максимум 6 товаров
     products_data = {
         'title': 'Наша продукция',
-        'products_list': products_store.list(),
+        'products_list': featured_products,
         'background': backgrounds.get_section_background('products')
     }
     

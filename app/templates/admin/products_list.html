@@ -61,6 +61,12 @@
         </div>
       </div>
       <div class="admin-form-group">
+        <label class="admin-form-label">
+          <input type="checkbox" name="featured" id="product_featured" style="margin-right: 8px;">
+          Избранный товар (показывать в слайдере на главной)
+        </label>
+      </div>
+      <div class="admin-form-group">
         <label class="admin-form-label">Загрузить изображение</label>
         <input type="file" class="admin-form-input" name="image_file" accept="image/*">
         <div id="product_preview" style="margin-top:8px"></div>
@@ -80,6 +86,7 @@ function fillProductForm(index, data){
   document.getElementById('product_description').value = data.description || '';
   document.getElementById('product_price').value = data.price || '';
   document.getElementById('product_image_url').value = data.image || '';
+  document.getElementById('product_featured').checked = data.featured || false;
   const prev = document.getElementById('product_preview');
   prev.innerHTML = data.image ? `<img src="${data.image}" style="max-width:180px;border:1px solid var(--admin-border);border-radius:6px">` : '';
   window.scrollTo({top: document.getElementById('productForm').offsetTop - 20, behavior: 'smooth'});

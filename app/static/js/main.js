@@ -15,6 +15,7 @@
         initSubscribeForm();
         initBeforeAfterSlider();
         initHeaderScroll();
+        initProductsSlider();
     });
     
     // ===== Мобильное меню =====
@@ -269,7 +270,108 @@
             imageObserver.observe(img);
         });
     }
-    
+
+    // ===== Слайдер продуктов =====
+    function initProductsSlider() {
+        const slider = document.getElementById('productsSlider');
+        const prevBtn = document.getElementById('productsPrev');
+        const nextBtn = document.getElementById('productsNext');
+        const dotsContainer = document.getElementById('productsDots');
+        
+        if (!slider || !prevBtn || !nextBtn) return;
+        
+        const cards = slider.querySelectorAll('.product-card');
+        const cardWidth = 350; // 320px + 30px gap
+        let currentIndex = 0;
+        let autoScrollInterval;
+        
+        // Создаем индикаторы
+        function createDots() {
+            if (!dotsContainer) return;
+            
+            dotsContainer.innerHTML = '';
+            const totalSlides = Math.ceil(cards.length / 3); // Показываем по 3 карточки
+            
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'slider-dot';
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            }
+        }
+        
+        // Переход к слайду
+        function goToSlide(index) {
+            const totalSlides = Math.ceil(cards.length / 3);
+            currentIndex = Math.max(0, Math.min(index, totalSlides - 1));
+            
+            slider.scrollTo({
+                left: currentIndex * cardWidth * 3,
+                behavior: 'smooth'
+            });
+            
+            updateDots();
+            updateButtons();
+        }
+        
+        // Обновление индикаторов
+        function updateDots() {
+            if (!dotsContainer) return;
+            const dots = dotsContainer.querySelectorAll('.slider-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+        
+        // Обновление кнопок
+        function updateButtons() {
+            const totalSlides = Math.ceil(cards.length / 3);
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === totalSlides - 1;
+        }
+        
+        // Автопрокрутка
+        function startAutoScroll() {
+            autoScrollInterval = setInterval(() => {
+                const totalSlides = Math.ceil(cards.length / 3);
+                if (currentIndex < totalSlides - 1) {
+                    goToSlide(currentIndex + 1);
+                } else {
+                    goToSlide(0);
+                }
+            }, 5000); // 5 секунд
+        }
+        
+        function stopAutoScroll() {
+            if (autoScrollInterval) {
+                clearInterval(autoScrollInterval);
+            }
+        }
+        
+        // Обработчики событий
+        prevBtn.addEventListener('click', () => {
+            stopAutoScroll();
+            goToSlide(currentIndex - 1);
+            startAutoScroll();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            stopAutoScroll();
+            goToSlide(currentIndex + 1);
+            startAutoScroll();
+        });
+        
+        // Остановка автопрокрутки при наведении
+        slider.addEventListener('mouseenter', stopAutoScroll);
+        slider.addEventListener('mouseleave', startAutoScroll);
+        
+        // Инициализация
+        createDots();
+        updateButtons();
+        startAutoScroll();
+    }
+
 })();
 
 

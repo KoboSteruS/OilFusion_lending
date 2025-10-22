@@ -439,6 +439,7 @@ def products_save(token):
     price = request.form.get('price', '')
     category = request.form.get('category', '')
     image_url = request.form.get('image_url', '')
+    featured = request.form.get('featured') == 'on'  # Checkbox value
 
     if 'image_file' in request.files:
         file = request.files['image_file']
@@ -456,6 +457,7 @@ def products_save(token):
         'price': price,
         'category': category,
         'image': image_url,
+        'featured': featured,
     }
     if index is not None and index != '':
         ok = ProductsContent().update_item(int(index), item)
