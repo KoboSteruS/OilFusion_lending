@@ -27,6 +27,13 @@
         navbarToggle.addEventListener('click', function() {
             navbarMenu.classList.toggle('active');
             navbarToggle.classList.toggle('active');
+            
+            // Добавляем/убираем класс для анимации иконки
+            if (navbarMenu.classList.contains('active')) {
+                navbarToggle.classList.add('active');
+            } else {
+                navbarToggle.classList.remove('active');
+            }
         });
         
         // Закрытие меню при клике на ссылку
