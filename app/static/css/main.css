@@ -172,35 +172,64 @@ body {
 }
 
 .navbar-menu {
-    display: flex;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(28, 28, 28, 0.98);
+    backdrop-filter: blur(15px);
+    flex-direction: column;
+    padding: 80px 20px 20px;
+    transition: left 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+}
+
+.navbar-menu.active {
+    left: 0;
 }
 
 .navbar-nav {
     display: flex;
+    flex-direction: column;
     list-style: none;
-    gap: 30px;
+    gap: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-link {
+    display: block;
+    padding: 20px 0;
     color: #FFFFFF;
     text-decoration: none;
     font-weight: 500;
+    font-size: 1.125rem;
     transition: var(--transition);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
 }
 
 .nav-link:hover {
     color: #A67C52;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    background-color: rgba(166, 124, 82, 0.1);
 }
 
 .navbar-toggle {
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 5px;
     background: none;
     border: none;
     cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.navbar-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .navbar-toggle span {
