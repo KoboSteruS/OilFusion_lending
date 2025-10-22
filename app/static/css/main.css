@@ -5,27 +5,27 @@
 
 /* ===== Переменные ===== */
 :root {
-    /* Цветовая палитра - новая схема */
-    --primary-color: #FFA48F;
-    --primary-dark: #FF8A6B;
-    --primary-light: #FFB8A3;
-    --secondary-color: #FFF4BB;
-    --secondary-dark: #FFE066;
-    --accent-color: #FFA48F;
+    /* Цветовая палитра - "Натуральная элегантность" */
+    --primary-color: #A67C52;
+    --primary-dark: #8B6B47;
+    --primary-light: #B8956B;
+    --secondary-color: #E5DED3;
+    --secondary-dark: #D4C4B0;
+    --accent-color: #3C2F2F;
     
-    --text-primary: #1A202C;
+    --text-primary: #1C1C1C;
     --text-secondary: #4A5568;
     --text-light: #718096;
     
     --bg-white: #FFFFFF;
-    --bg-light: #FFFEFB;
-    --bg-alt: #FFF8F0;
-    --bg-gradient: linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%);
+    --bg-light: #F8F5F0;
+    --bg-alt: #E5DED3;
+    --bg-gradient: linear-gradient(135deg, #A67C52 0%, #E5DED3 100%);
     
-    --border-color: #F0E6D2;
-    --shadow-sm: 0 1px 3px rgba(255, 164, 143, 0.1);
-    --shadow-md: 0 4px 6px rgba(255, 164, 143, 0.15);
-    --shadow-lg: 0 10px 15px rgba(255, 164, 143, 0.2);
+    --border-color: #E5DED3;
+    --shadow-sm: 0 1px 3px rgba(166, 124, 82, 0.1);
+    --shadow-md: 0 4px 6px rgba(166, 124, 82, 0.15);
+    --shadow-lg: 0 10px 15px rgba(166, 124, 82, 0.2);
     
     /* Типография */
     --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -321,14 +321,14 @@ body {
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, #A67C52 0%, #8B6B47 100%);
     color: white;
-    border-color: var(--primary-color);
+    border-color: #A67C52;
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-dark);
-    border-color: var(--primary-dark);
+    background: linear-gradient(135deg, #8B6B47 0%, #6B5B3F 100%);
+    border-color: #8B6B47;
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
@@ -341,7 +341,7 @@ body {
 
 .btn-outline:hover {
     background-color: white;
-    color: var(--primary-color);
+    color: #A67C52;
 }
 
 .btn-lg {
