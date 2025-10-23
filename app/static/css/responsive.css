@@ -89,7 +89,12 @@
     
     /* Контакты */
     .contacts-content {
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .contacts-form {
+        order: -1; /* Форма сверху на планшетах */
     }
     
     /* Подвал */
@@ -110,6 +115,15 @@
     .footer-title {
         font-size: 1.25rem;
         letter-spacing: 1px;
+    }
+    
+    /* Контакты на мобильных */
+    .contacts-content {
+        gap: 30px;
+    }
+    
+    .contacts-form {
+        order: -1; /* Форма сверху на мобильных */
     }
     :root {
         --section-padding: 40px 0;
