@@ -1,0 +1,149 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Видимость разделов - Админка OilFusion{% endblock %}
+
+{% block content %}
+<div class="admin-edit-page">
+    <div class="admin-page-header">
+        <h1 class="admin-page-title">Управление видимостью разделов</h1>
+        <p class="admin-page-subtitle">Включить/выключить отображение разделов на сайте</p>
+    </div>
+
+    <div class="admin-section">
+        <form method="POST" action="{{ url_for('admin.sections_visibility_update', token=token) }}" class="admin-form">
+            <div class="admin-form-group">
+                <h3 class="admin-subsection-title">Основные разделы</h3>
+                
+                <div class="visibility-controls">
+                    <div class="visibility-item">
+                        <label class="visibility-label">
+                            <input type="checkbox" name="hero" {% if sections_visibility.hero %}checked{% endif %}>
+                            <span class="visibility-text">Hero секция (главный экран)</span>
+                        </label>
+                    </div>
+                    
+                    <div class="visibility-item">
+                        <label class="visibility-label">
+                            <input type="checkbox" name="about" {% if sections_visibility.about %}checked{% endif %}>
+                            <span class="visibility-text">О компании</span>
+                        </label>
+                    </div>
+                    
+                    <div class="visibility-item">
+                        <label class="visibility-label">
+                            <input type="checkbox" name="products" {% if sections_visibility.products %}checked{% endif %}>
+                            <span class="visibility-text">Продукция</span>
+                        </label>
+                    </div>
+                    
+                    <div class="visibility-item">
+                        <label class="visibility-label">
+                            <input type="checkbox" name="services" {% if sections_visibility.services %}checked{% endif %}>
+                            <span class="visibility-text">Услуги</span>
+                        </label>
+                    </div>
+                    
+                    <div class="visibility-item">
+                        <label class="visibility-label">
+                            <input type="checkbox" name="personalization" {% if sections_visibility.personalization %}checked{% endif %}>
+                            <span class="visibility-text">Персонализация</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-form-group">
+                <h3 class="admin-subsection-title">Дополнительные разделы</h3>
+                
+                <div class="visibility-controls">
+                    <div class="visibility-item">
+                        <label class="visibility-label">
+                            <input type="checkbox" name="reviews" {% if sections_visibility.reviews %}checked{% endif %}>
+                            <span class="visibility-text">Отзывы</span>
+                        </label>
+                    </div>
+                    
+                    <div class="visibility-item">
+                        <label class="visibility-label">
+                            <input type="checkbox" name="blog" {% if sections_visibility.blog %}checked{% endif %}>
+                            <span class="visibility-text">Блог</span>
+                        </label>
+                    </div>
+                    
+                    <div class="visibility-item">
+                        <label class="visibility-label">
+                            <input type="checkbox" name="contacts" {% if sections_visibility.contacts %}checked{% endif %}>
+                            <span class="visibility-text">Контакты</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-form-actions">
+                <button type="submit" class="admin-btn admin-btn-primary">Сохранить изменения</button>
+                <a href="{{ url_for('admin.dashboard', token=token) }}" class="admin-btn admin-btn-outline">Назад к панели</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.visibility-controls {
+    display: grid;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.visibility-item {
+    background: var(--admin-bg-light);
+    border: 1px solid var(--admin-border);
+    border-radius: 8px;
+    padding: 16px;
+    transition: all 0.3s ease;
+}
+
+.visibility-item:hover {
+    border-color: var(--admin-primary);
+    box-shadow: 0 2px 8px rgba(166, 124, 82, 0.1);
+}
+
+.visibility-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--admin-text);
+}
+
+.visibility-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--admin-primary);
+    cursor: pointer;
+}
+
+.visibility-text {
+    flex: 1;
+    line-height: 1.5;
+}
+
+.admin-subsection-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--admin-text);
+    margin: 24px 0 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--admin-border);
+}
+
+.admin-form-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--admin-border);
+}
+</style>
+{% endblock %}

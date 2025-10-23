@@ -11,6 +11,7 @@ from app.models.services import ServicesContent
 from app.models.images import SectionBackgrounds
 from app.models.contacts import ContactsContent
 from app.models.hero import HeroContent
+from app.models.sections_visibility import SectionsVisibility
 
 logger = get_logger()
 
@@ -32,6 +33,9 @@ def index():
     
     # Получаем настройки фонов
     backgrounds = SectionBackgrounds()
+    
+    # Получаем настройки видимости разделов
+    sections_visibility = SectionsVisibility()
     
     # Данные для Hero секции
     # Данные Hero секции из модели
@@ -97,7 +101,8 @@ def index():
         personalization=personalization_data,
         reviews=reviews_data,
         blog=blog_data,
-        contacts=contacts_data
+        contacts=contacts_data,
+        sections_visibility=sections_visibility.get_all_sections()
     )
 
 

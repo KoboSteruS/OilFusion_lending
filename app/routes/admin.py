@@ -9,6 +9,7 @@ from app.models.products import ProductsContent
 from app.models.services import ServicesContent
 from app.models.contacts import ContactsContent
 from app.models.hero import HeroContent
+from app.models.sections_visibility import SectionsVisibility
 from app.utils.logger import get_logger
 from app.utils.auth import require_admin_token
 
@@ -604,3 +605,45 @@ def blog_delete(token, index):
         flash('Ошибка при удалении статьи!', 'error')
     
     return redirect(url_for('admin.blog_list', token=token))
+
+
+@admin_bp.route('/<token>/admin/sections-visibility')
+@require_admin_token
+def sections_visibility(token):
+    """Управление видимостью разделов сайта."""
+    logger.info("Запрос страницы управления видимостью разделов")
+    
+    sections_visibility = SectionsVisibility()
+    sections_data = sections_visibility.get_all_sections()
+    
+    return render_template('admin/sections_visibility.html', 
+                         sections_visibility=sections_data, 
+                         token=token)
+
+
+@admin_bp.route('/<token>/admin/sections-visibility/update', methods=['POST'])
+@require_admin_token
+def sections_visibility_update(token):
+    """Обновление видимости разделов сайта."""
+    logger.info("Обновление видимости разделов")
+    
+    sections_visibility = SectionsVisibility()
+    
+    # Получаем данные из формы
+    sections_data = {
+        'hero': 'hero' in request.form,
+        'about': 'about' in request.form,
+        'products': 'products' in request.form,
+        'services': 'services' in request.form,
+        'personalization': 'personalization' in request.form,
+        'reviews': 'reviews' in request.form,
+        'blog': 'blog' in request.form,
+        'contacts': 'contacts' in request.form
+    }
+    
+    if sections_visibility.update_sections(sections_data):
+        flash('Настройки видимости разделов сохранены!', 'success')
+    else:
+        flash('Ошибка при сохранении настроек!', 'error')
+    
+    return redirect(url_for('admin.sections_visibility', token=token))

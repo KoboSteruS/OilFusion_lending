@@ -4,28 +4,44 @@
 
 {% block content %}
     <!-- Hero секция -->
+    {% if sections_visibility.hero %}
     {% include 'sections/hero.html' %}
+    {% endif %}
     
     <!-- О компании -->
+    {% if sections_visibility.about %}
     {% include 'sections/about.html' %}
+    {% endif %}
     
     <!-- Продукция -->
+    {% if sections_visibility.products %}
     {% include 'sections/products.html' %}
+    {% endif %}
     
     <!-- Услуги -->
+    {% if sections_visibility.services %}
     {% include 'sections/services.html' %}
+    {% endif %}
     
     <!-- Персонализация -->
+    {% if sections_visibility.personalization %}
     {% include 'sections/personalization.html' %}
+    {% endif %}
     
     <!-- Отзывы -->
+    {% if sections_visibility.reviews %}
     {% include 'sections/reviews.html' %}
+    {% endif %}
     
     <!-- Блог -->
+    {% if sections_visibility.blog %}
     {% include 'sections/blog.html' %}
+    {% endif %}
     
     <!-- Контакты -->
+    {% if sections_visibility.contacts %}
     {% include 'sections/contacts.html' %}
+    {% endif %}
 {% endblock %}
 
 {% block extra_js %}
