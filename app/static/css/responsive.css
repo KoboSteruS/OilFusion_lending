@@ -93,9 +93,8 @@
     }
     
     /* Подвал */
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: 30px;
+    .footer-title {
+        font-size: 1.5rem;
     }
 }
 
@@ -105,6 +104,12 @@
     .logo-image {
         height: 28px;
         max-width: 140px;
+    }
+    
+    /* Подвал на мобильных */
+    .footer-title {
+        font-size: 1.25rem;
+        letter-spacing: 1px;
     }
     :root {
         --section-padding: 40px 0;
