@@ -67,11 +67,20 @@
                 <div class="admin-image-upload-section">
                     <div class="admin-form-group">
                         <label for="dna_image" class="admin-form-label">Загрузить изображение</label>
-                        <input type="file" id="dna_image" name="dna_image" class="admin-form-input" accept="image/*">
+                        <input type="file" id="dna_image" name="dna_image" class="admin-form-input" accept="image/*" onchange="previewImage(this, 'dna_preview')">
                     </div>
                     <div class="admin-form-group">
                         <label for="dna_image_url" class="admin-form-label">Или URL изображения</label>
-                        <input type="url" id="dna_image_url" name="dna_image_url" class="admin-form-input" value="{{ content.dna_testing.image_url if content.dna_testing.image_url else '' }}" placeholder="/static/img/dna.jpg">
+                        <input type="url" id="dna_image_url" name="dna_image_url" class="admin-form-input" value="{{ content.dna_testing.image_url if content.dna_testing.image_url else '' }}" placeholder="/static/img/dna.jpg" onchange="previewImageFromUrl(this, 'dna_preview')">
+                    </div>
+                    <div class="admin-form-group">
+                        <div class="admin-image-info">
+                            <div id="dna_preview" class="admin-preview-image">
+                                {% if content.dna_testing.image_url %}
+                                <img src="{{ content.dna_testing.image_url }}" alt="Предварительный просмотр" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);">
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -128,11 +137,20 @@
                 <div class="admin-image-upload-section">
                     <div class="admin-form-group">
                         <label for="auracloud_image" class="admin-form-label">Загрузить изображение</label>
-                        <input type="file" id="auracloud_image" name="auracloud_image" class="admin-form-input" accept="image/*">
+                        <input type="file" id="auracloud_image" name="auracloud_image" class="admin-form-input" accept="image/*" onchange="previewImage(this, 'auracloud_preview')">
                     </div>
                     <div class="admin-form-group">
                         <label for="auracloud_image_url" class="admin-form-label">Или URL изображения</label>
-                        <input type="url" id="auracloud_image_url" name="auracloud_image_url" class="admin-form-input" value="{{ content.auracloud.image_url if content.auracloud.image_url else '' }}" placeholder="/static/img/auracloud.jpg">
+                        <input type="url" id="auracloud_image_url" name="auracloud_image_url" class="admin-form-input" value="{{ content.auracloud.image_url if content.auracloud.image_url else '' }}" placeholder="/static/img/auracloud.jpg" onchange="previewImageFromUrl(this, 'auracloud_preview')">
+                    </div>
+                    <div class="admin-form-group">
+                        <div class="admin-image-info">
+                            <div id="auracloud_preview" class="admin-preview-image">
+                                {% if content.auracloud.image_url %}
+                                <img src="{{ content.auracloud.image_url }}" alt="Предварительный просмотр" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);">
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -213,6 +231,28 @@ function updateAuracloudFeature(index, value, action) {
     document.body.appendChild(form);
     form.submit();
 }
+
+// Предварительный просмотр изображений
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `<img src="${e.target.result}" alt="Предварительный просмотр" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);">`;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function previewImageFromUrl(input, previewId) {
+    const preview = document.getElementById(previewId);
+    const url = input.value.trim();
+    if (url) {
+        preview.innerHTML = `<img src="${url}" alt="Предварительный просмотр" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);" onerror="this.style.display='none'">`;
+    } else {
+        preview.innerHTML = '';
+    }
+}
 </script>
 
 <style>
@@ -233,6 +273,36 @@ function updateAuracloudFeature(index, value, action) {
 
 .admin-form-row .admin-form-input {
     flex: 1;
+}
+
+.admin-image-upload-section {
+    background: var(--admin-bg-light);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
+}
+
+.admin-image-info {
+    margin-top: 16px;
+}
+
+.admin-preview-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 120px;
+    background: var(--admin-bg);
+    border: 2px dashed var(--admin-border);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.admin-preview-image img {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
 }
 </style>
 {% endblock %}
