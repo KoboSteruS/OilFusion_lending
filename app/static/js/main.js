@@ -280,7 +280,12 @@
         const nextBtn = document.getElementById('productsNext');
         const dotsContainer = document.getElementById('productsDots');
         
-        if (!slider || !prevBtn || !nextBtn) return;
+        if (!slider || !prevBtn || !nextBtn) {
+            console.log('Products slider elements not found');
+            return;
+        }
+        
+        console.log('Products slider initialized');
         
         const cards = slider.querySelectorAll('.product-card');
         const cardWidth = 350; // 320px + 30px gap
@@ -308,6 +313,7 @@
             const totalSlides = Math.ceil(cards.length / 3);
             currentIndex = Math.max(0, Math.min(index, totalSlides - 1));
             
+            console.log('Going to slide:', currentIndex, 'totalSlides:', totalSlides);
             slider.scrollTo({
                 left: currentIndex * cardWidth * 3,
                 behavior: 'smooth'
@@ -353,12 +359,14 @@
         
         // Обработчики событий
         prevBtn.addEventListener('click', () => {
+            console.log('Previous button clicked, currentIndex:', currentIndex);
             stopAutoScroll();
             goToSlide(currentIndex - 1);
             startAutoScroll();
         });
         
         nextBtn.addEventListener('click', () => {
+            console.log('Next button clicked, currentIndex:', currentIndex);
             stopAutoScroll();
             goToSlide(currentIndex + 1);
             startAutoScroll();

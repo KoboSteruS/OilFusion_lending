@@ -546,6 +546,10 @@ body {
 .products-slider-container {
     position: relative;
     margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .products-slider {
@@ -556,6 +560,9 @@ body {
     padding: 20px 0;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: flex-start;
 }
 
 .products-slider::-webkit-scrollbar {
@@ -571,8 +578,10 @@ body {
 .slider-navigation {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 20px;
     margin-top: 30px;
+    width: 100%;
 }
 
 .slider-btn {
