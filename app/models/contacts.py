@@ -24,6 +24,10 @@ class ContactsContent(BaseContentModel):
                 'latitude': 40.7128,
                 'longitude': -74.0060,
                 'maps_api_key': '',
+                'form_title': 'Записаться на консультацию',
+                'form_subtitle': 'Оставьте заявку и мы свяжемся с вами',
+                'form_button_text': 'Отправить',
+                'form_success_message': 'Спасибо! Мы свяжемся с вами в ближайшее время.',
                 'updated_at': datetime.now().isoformat(),
             }
             self._save_data()

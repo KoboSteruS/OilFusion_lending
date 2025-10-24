@@ -70,7 +70,10 @@
             <!-- Правая колонка: Форма записи -->
             <div class="contacts-form" data-aos="fade-left">
                 <div class="contact-form-wrapper">
-                    <h3 class="form-title">Записаться на консультацию</h3>
+                    <h3 class="form-title">{{ contacts.form_title or 'Записаться на консультацию' }}</h3>
+                    {% if contacts.form_subtitle %}
+                    <p class="form-subtitle">{{ contacts.form_subtitle }}</p>
+                    {% endif %}
                     <form class="contact-form" id="contactForm">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Ваше имя" required>
@@ -84,7 +87,7 @@
                         <div class="form-group">
                             <textarea class="form-control" rows="3" placeholder="Комментарий"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Отправить</button>
+                        <button type="submit" class="btn btn-primary btn-block">{{ contacts.form_button_text or 'Отправить' }}</button>
                     </form>
                 </div>
             </div>

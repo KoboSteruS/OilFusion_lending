@@ -18,7 +18,8 @@
         <div class="admin-nav-container">
             <div class="admin-nav-brand">
                 <a href="{{ url_for('admin.dashboard', token=token) }}" class="admin-logo">
-                    OilFusion Admin
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="OilFusion" style="height: 40px; width: auto;">
+                    <span>OilFusion Admin</span>
                 </a>
             </div>
             

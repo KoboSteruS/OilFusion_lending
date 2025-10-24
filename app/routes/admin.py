@@ -555,6 +555,10 @@ def contacts_save(token):
         'latitude': request.form.get('latitude'),
         'longitude': request.form.get('longitude'),
         'maps_api_key': request.form.get('maps_api_key', ''),
+        'form_title': request.form.get('form_title', ''),
+        'form_subtitle': request.form.get('form_subtitle', ''),
+        'form_button_text': request.form.get('form_button_text', ''),
+        'form_success_message': request.form.get('form_success_message', ''),
     }
     try:
         if data['latitude'] not in (None, ''):

@@ -40,6 +40,28 @@
         <label class="admin-form-label">Google Maps API Key</label>
         <input class="admin-form-input" name="maps_api_key" value="{{ contacts.maps_api_key or '' }}">
       </div>
+    </form>
+  </div>
+
+  <div class="admin-section">
+    <h2 class="admin-section-title">Форма записи на консультацию</h2>
+    <form method="POST" action="{{ url_for('admin.contacts_save', token=token) }}" class="admin-form">
+      <div class="admin-form-group">
+        <label class="admin-form-label">Заголовок формы</label>
+        <input class="admin-form-input" name="form_title" value="{{ contacts.form_title or 'Записаться на консультацию' }}">
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label">Подзаголовок формы</label>
+        <textarea class="admin-form-input" name="form_subtitle" rows="2">{{ contacts.form_subtitle or '' }}</textarea>
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label">Текст кнопки</label>
+        <input class="admin-form-input" name="form_button_text" value="{{ contacts.form_button_text or 'Отправить' }}">
+      </div>
+      <div class="admin-form-group">
+        <label class="admin-form-label">Сообщение об успешной отправке</label>
+        <textarea class="admin-form-input" name="form_success_message" rows="2">{{ contacts.form_success_message or 'Спасибо! Мы свяжемся с вами в ближайшее время.' }}</textarea>
+      </div>
       <div class="admin-form-actions">
         <button type="submit" class="admin-btn admin-btn-primary">Сохранить</button>
       </div>
