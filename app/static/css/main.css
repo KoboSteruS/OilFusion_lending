@@ -17,7 +17,7 @@
     --text-secondary: #4A5568;
     --text-light: #718096;
     
-    --bg-white: #FFFFFF;
+    --bg-white: #F8F5F0;
     --bg-light: #F8F5F0;
     --bg-alt: #E5DED3;
     --bg-gradient: linear-gradient(135deg, #A67C52 0%, #E5DED3 100%);
@@ -124,14 +124,14 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background-color: rgba(248, 245, 240, 0.9);
+    background-color: rgba(248, 245, 240, 0.9) !important;
     backdrop-filter: blur(10px);
     z-index: 1000;
-    transition: var(--transition);
+    transition: all 0.3s ease;
 }
 
 .header.scrolled {
-    background-color: rgba(248, 245, 240, 0.95);
+    background-color: rgba(248, 245, 240, 0.95) !important;
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
