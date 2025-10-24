@@ -57,24 +57,48 @@
 
 .admin-nav-menu {
     display: flex;
-    gap: 20px;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 .admin-nav-link {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     color: white;
     text-decoration: none;
-    padding: 8px 16px;
+    padding: 6px 12px;
     border-radius: 6px;
     transition: all 0.3s ease;
     font-weight: 500;
+    font-size: 0.85rem;
+    white-space: nowrap;
 }
 
 .admin-nav-link:hover {
     background-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-1px);
+}
+
+/* Адаптивность для навигации */
+@media (max-width: 768px) {
+    .admin-nav-container {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 20px;
+    }
+    
+    .admin-nav-menu {
+        margin-top: 10px;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .admin-nav-link {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
 }
 
 /* ===== Основной контент ===== */
