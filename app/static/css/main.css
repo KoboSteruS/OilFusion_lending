@@ -216,6 +216,18 @@ body {
     background-color: rgba(166, 124, 82, 0.1);
 }
 
+.navbar-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.navbar-actions .btn {
+    font-size: 0.875rem;
+    padding: 8px 16px;
+    white-space: nowrap;
+}
+
 .navbar-toggle {
     display: flex;
     flex-direction: column;
