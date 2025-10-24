@@ -135,12 +135,16 @@ body {
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
-.header.scrolled .nav-link {
+.header.scrolled .navbar .nav-link,
+.header.scrolled .navbar-menu .nav-link,
+.header.scrolled .navbar-nav .nav-link {
     color: rgba(28, 28, 28, 0.8) !important;
     text-shadow: none;
 }
 
-.header.scrolled .nav-link:hover {
+.header.scrolled .navbar .nav-link:hover,
+.header.scrolled .navbar-menu .nav-link:hover,
+.header.scrolled .navbar-nav .nav-link:hover {
     color: #A67C52 !important;
 }
 
@@ -184,7 +188,9 @@ body {
     padding: 0;
 }
 
-.nav-link {
+.navbar .nav-link,
+.navbar-menu .nav-link,
+.navbar-nav .nav-link {
     display: block;
     padding: 12px 20px;
     color: rgba(248, 245, 240, 0.8) !important;
@@ -195,7 +201,9 @@ body {
     margin: 0 4px;
 }
 
-.nav-link:hover {
+.navbar .nav-link:hover,
+.navbar-menu .nav-link:hover,
+.navbar-nav .nav-link:hover {
     color: #A67C52 !important;
     background-color: rgba(166, 124, 82, 0.15);
 }
@@ -228,7 +236,9 @@ body {
         padding: 0;
     }
     
-    .nav-link {
+    .navbar .nav-link,
+    .navbar-menu .nav-link,
+    .navbar-nav .nav-link {
         padding: 16px 0;
         text-align: center;
         border-bottom: 1px solid rgba(248, 245, 240, 0.2);
@@ -668,6 +678,20 @@ body {
 
 .placeholder-icon {
     font-size: 4rem;
+}
+
+/* Принудительные стили для навигации - максимальная специфичность */
+.navbar .navbar-nav .nav-link,
+.navbar-menu .navbar-nav .nav-link,
+header .navbar .navbar-nav .nav-link {
+    color: rgba(248, 245, 240, 0.8) !important;
+}
+
+.navbar .navbar-nav .nav-link:hover,
+.navbar-menu .navbar-nav .nav-link:hover,
+header .navbar .navbar-nav .nav-link:hover {
+    color: #A67C52 !important;
+    background-color: rgba(166, 124, 82, 0.15) !important;
 }
 
 
