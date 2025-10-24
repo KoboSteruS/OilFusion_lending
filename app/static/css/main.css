@@ -135,21 +135,17 @@ body {
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
-.header.scrolled .navbar .nav-link,
-.header.scrolled .navbar-menu .nav-link,
-.header.scrolled .navbar-nav .nav-link {
-    color: rgba(28, 28, 28, 0.8) !important;
+.header.scrolled .nav-link {
+    color: #1C1C1C;
     text-shadow: none;
 }
 
-.header.scrolled .navbar .nav-link:hover,
-.header.scrolled .navbar-menu .nav-link:hover,
-.header.scrolled .navbar-nav .nav-link:hover {
-    color: #A67C52 !important;
+.header.scrolled .nav-link:hover {
+    color: #A67C52;
 }
 
 .header.scrolled .navbar-toggle span {
-    background-color: var(--text-primary);
+    background-color: #1C1C1C;
     box-shadow: none;
 }
 
@@ -175,6 +171,10 @@ body {
     transform: scale(1.02);
 }
 
+.header.scrolled .logo-image {
+    filter: brightness(0) invert(0);
+}
+
 .navbar-menu {
     display: flex;
     align-items: center;
@@ -188,12 +188,10 @@ body {
     padding: 0;
 }
 
-.navbar .nav-link,
-.navbar-menu .nav-link,
-.navbar-nav .nav-link {
+.nav-link {
     display: block;
     padding: 12px 20px;
-    color: rgba(248, 245, 240, 0.8) !important;
+    color: white;
     text-decoration: none;
     font-weight: 500;
     transition: var(--transition);
@@ -201,11 +199,9 @@ body {
     margin: 0 4px;
 }
 
-.navbar .nav-link:hover,
-.navbar-menu .nav-link:hover,
-.navbar-nav .nav-link:hover {
-    color: #A67C52 !important;
-    background-color: rgba(166, 124, 82, 0.15);
+.nav-link:hover {
+    color: #A67C52;
+    background-color: rgba(166, 124, 82, 0.1);
 }
 
 /* Мобильное меню (скрыто по умолчанию) */
@@ -236,13 +232,10 @@ body {
         padding: 0;
     }
     
-    .navbar .nav-link,
-    .navbar-menu .nav-link,
-    .navbar-nav .nav-link {
+    .nav-link {
         padding: 16px 0;
         text-align: center;
-        border-bottom: 1px solid rgba(248, 245, 240, 0.2);
-        color: rgba(248, 245, 240, 0.9) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .navbar-toggle {
@@ -678,20 +671,6 @@ body {
 
 .placeholder-icon {
     font-size: 4rem;
-}
-
-/* Принудительные стили для навигации - максимальная специфичность */
-.navbar .navbar-nav .nav-link,
-.navbar-menu .navbar-nav .nav-link,
-header .navbar .navbar-nav .nav-link {
-    color: rgba(248, 245, 240, 0.8) !important;
-}
-
-.navbar .navbar-nav .nav-link:hover,
-.navbar-menu .navbar-nav .nav-link:hover,
-header .navbar .navbar-nav .nav-link:hover {
-    color: #A67C52 !important;
-    background-color: rgba(166, 124, 82, 0.15) !important;
 }
 
 
