@@ -174,20 +174,20 @@ body {
 .navbar-menu {
     position: fixed;
     top: 0;
-    left: -100%;
-    width: 100%;
+    right: -100%;
+    width: 300px;
     height: 100vh;
     background-color: rgba(28, 28, 28, 0.98);
     backdrop-filter: blur(15px);
     flex-direction: column;
     padding: 80px 20px 20px;
-    transition: left 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: right 0.3s ease;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
     z-index: 999;
 }
 
 .navbar-menu.active {
-    left: 0;
+    right: 0;
 }
 
 .navbar-nav {
@@ -294,7 +294,16 @@ body {
 .hero-content {
     text-align: center;
     color: white;
-    z-index: 1;
+    z-index: 10;
+    position: relative;
+    padding: 20px;
+}
+
+.hero-content h1,
+.hero-content p,
+.hero-content .hero-cta {
+    position: relative;
+    z-index: 10;
 }
 
 .hero-title {
@@ -318,6 +327,17 @@ body {
     gap: 20px;
     justify-content: center;
     flex-wrap: wrap;
+    margin: 40px 0;
+    z-index: 10;
+    position: relative;
+}
+
+.hero-cta .btn {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 10;
+    position: relative;
 }
 
 .scroll-indicator {
