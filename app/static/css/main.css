@@ -17,7 +17,7 @@
     --text-secondary: #4A5568;
     --text-light: #718096;
     
-    --bg-white: #F8F5F0;
+    --bg-white: #FFFFFF;
     --bg-light: #F8F5F0;
     --bg-alt: #E5DED3;
     --bg-gradient: linear-gradient(135deg, #A67C52 0%, #E5DED3 100%);
@@ -124,30 +124,32 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background-color: rgba(248, 245, 240, 0.9) !important;
+    background-color: rgba(166, 124, 82, 0.8);
     backdrop-filter: blur(10px);
     z-index: 1000;
-    transition: all 0.3s ease;
-}
-
-.header.scrolled {
-    background-color: rgba(248, 245, 240, 0.95) !important;
-    backdrop-filter: blur(10px);
+    transition: var(--transition);
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
+.header.scrolled {
+    background-color: rgba(166, 124, 82, 0.95);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+}
+
 .header.scrolled .nav-link {
-    color: #1C1C1C;
-    text-shadow: none;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .header.scrolled .nav-link:hover {
-    color: #A67C52;
+    color: #CFAE6D;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .header.scrolled .navbar-toggle span {
-    background-color: #1C1C1C;
-    box-shadow: none;
+    background-color: white;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
 .navbar {
@@ -165,16 +167,11 @@ body {
     width: auto;
     max-width: 200px;
     transition: var(--transition);
-    filter: brightness(0) invert(0);
 }
 
 .logo-image:hover {
     opacity: 0.8;
     transform: scale(1.02);
-}
-
-.header.scrolled .logo-image {
-    filter: brightness(0) invert(0);
 }
 
 .navbar-menu {
@@ -193,17 +190,25 @@ body {
 .nav-link {
     display: block;
     padding: 12px 20px;
-    color: #1C1C1C;
+    color: white;
     text-decoration: none;
     font-weight: 500;
     transition: var(--transition);
     border-radius: 6px;
     margin: 0 4px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .nav-link:hover {
-    color: #A67C52;
-    background-color: rgba(166, 124, 82, 0.1);
+    color: #CFAE6D;
+    background-color: rgba(255, 255, 255, 0.1);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.nav-link.active {
+    color: #CFAE6D;
+    background-color: rgba(255, 255, 255, 0.15);
+    font-weight: 600;
 }
 
 /* Мобильное меню (скрыто по умолчанию) */
@@ -279,9 +284,9 @@ body {
 .navbar-toggle span {
     width: 25px;
     height: 3px;
-    background-color: #1C1C1C;
+    background-color: #A67C52;
     transition: all 0.3s ease-in-out;
-    box-shadow: none;
+    box-shadow: 0 0 8px rgba(166, 124, 82, 0.3);
     border-radius: 2px;
 }
 
