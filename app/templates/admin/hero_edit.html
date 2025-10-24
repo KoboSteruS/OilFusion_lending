@@ -11,7 +11,7 @@
 
   <div class="admin-section">
     <h2 class="admin-section-title">Контент Hero секции</h2>
-    <form method="POST" action="{{ url_for('admin.hero_save', token=token) }}" class="admin-form">
+    <form method="POST" action="{{ url_for('admin.hero_save', token=token) }}" class="admin-form" enctype="multipart/form-data">
       <div class="admin-form-group">
         <label class="admin-form-label">Слоган (заголовок)</label>
         <input class="admin-form-input" name="slogan" value="{{ hero.slogan or '' }}" placeholder="Balance in every drop" required>
@@ -43,10 +43,96 @@
         <div class="admin-form-help">Текст под кнопками для указания скролла</div>
       </div>
       
+      <div class="admin-form-group">
+        <label class="admin-form-label">Фоновое изображение Hero секции</label>
+        <div class="admin-image-upload-section">
+          <div class="admin-form-group">
+            <label for="hero_background_image" class="admin-form-label">Загрузить изображение</label>
+            <input type="file" id="hero_background_image" name="hero_background_image" class="admin-form-input" accept="image/*" onchange="previewImage(this, 'hero_bg_preview')">
+            <div class="admin-form-help">PNG, JPG, JPEG, WEBP, GIF до 16MB</div>
+          </div>
+          
+          <div class="admin-form-group">
+            <label for="hero_background_url" class="admin-form-label">Или URL изображения</label>
+            <input type="url" id="hero_background_url" name="hero_background_url" class="admin-form-input" 
+                   value="{{ hero.background.image_url if hero.background else '' }}"
+                   placeholder="/static/img/hero.png" onchange="previewImageFromUrl(this, 'hero_bg_preview')">
+          </div>
+          
+          <div class="admin-form-group">
+            <div class="admin-image-info">
+              <div id="hero_bg_preview" class="admin-preview-image">
+                {% if hero.background and hero.background.image_url %}
+                <img src="{{ hero.background.image_url }}" alt="Превью фона Hero" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);">
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div class="admin-form-actions">
         <button type="submit" class="admin-btn admin-btn-primary">Сохранить</button>
       </div>
     </form>
   </div>
 </div>
+
+<script>
+// Предварительный просмотр изображений
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `<img src="${e.target.result}" alt="Предварительный просмотр" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);">`;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function previewImageFromUrl(input, previewId) {
+    const preview = document.getElementById(previewId);
+    const url = input.value.trim();
+    if (url) {
+        preview.innerHTML = `<img src="${url}" alt="Предварительный просмотр" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);" onerror="this.style.display='none'">`;
+    } else {
+        preview.innerHTML = '';
+    }
+}
+</script>
+
+<style>
+.admin-image-upload-section {
+    background: var(--admin-bg-light);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
+}
+
+.admin-image-info {
+    margin-top: 16px;
+}
+
+.admin-preview-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 120px;
+    background: var(--admin-bg);
+    border: 2px dashed var(--admin-border);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.admin-preview-image img {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
+}
+</style>
 {% endblock %}
+
+

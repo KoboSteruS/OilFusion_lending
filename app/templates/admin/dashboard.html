@@ -73,6 +73,17 @@
     <div class="admin-quick-actions">
         <h2 class="admin-section-title">Быстрые действия</h2>
         <div class="admin-actions-grid">
+            <a href="{{ url_for('admin.hero_edit', token=token) }}" class="admin-action-card">
+                <div class="admin-action-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
+                        <path d="M12 2L8 4l4 2 4-2-4-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 4v4l4 2 4-2V4M8 8l4 2 4-2M8 12l4 2 4-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 class="admin-action-title">Редактировать Hero секцию</h3>
+                <p class="admin-action-description">Изменить заголовок, подзаголовок и CTA кнопки главного баннера</p>
+            </a>
+
             <a href="{{ url_for('admin.about_edit', token=token) }}" class="admin-action-card">
                 <div class="admin-action-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">

@@ -574,13 +574,61 @@ def contacts_save(token):
 @require_admin_token
 def hero_edit(token):
     hero = HeroContent()
-    return render_template('admin/hero_edit.html', hero=hero.get_all(), token=token)
+    hero_data = hero.get_all()
+    
+    # Получаем данные о фоне
+    from app.models.images import SectionBackgrounds
+    backgrounds = SectionBackgrounds()
+    hero_data['background'] = backgrounds.get_section_background('hero')
+    
+    return render_template('admin/hero_edit.html', hero=hero_data, token=token)
 
 
 @admin_bp.route('/<token>/admin/hero/save', methods=['POST'])
 @require_admin_token
 def hero_save(token):
     hero = HeroContent()
+    
+    # Обработка фонового изображения
+    background_image_url = request.form.get('hero_background_url', '')
+    
+    # Обработка загруженного файла
+    if 'hero_background_image' in request.files:
+        file = request.files['hero_background_image']
+        if file and file.filename:
+            from werkzeug.utils import secure_filename
+            from datetime import datetime
+            from pathlib import Path
+            
+            # Проверяем расширение файла
+            if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'webp', 'gif'}:
+                filename = secure_filename(file.filename)
+                # Создаём уникальное имя файла
+                timestamp = int(datetime.now().timestamp())
+                unique_filename = f"hero_{timestamp}_{filename}"
+                
+                # Путь для сохранения
+                upload_folder = Path('app/static/img')
+                upload_folder.mkdir(parents=True, exist_ok=True)
+                
+                file_path = upload_folder / unique_filename
+                file.save(str(file_path))
+                
+                background_image_url = f"/static/img/{unique_filename}"
+                logger.info(f"Загружено изображение для Hero секции: {unique_filename}")
+    
+    # Обновляем фоновое изображение через SectionBackgrounds
+    if background_image_url:
+        from app.models.images import SectionBackgrounds
+        backgrounds = SectionBackgrounds()
+        backgrounds.update_section_background('hero', {
+            'type': 'image',
+            'image_url': background_image_url,
+            'overlay_opacity': 0.3,
+            'overlay_color': '#000000'
+        })
+    
+    # Обновляем контент Hero
     data = {
         'slogan': request.form.get('slogan', ''),
         'subtitle': request.form.get('subtitle', ''),
