@@ -288,6 +288,7 @@
         console.log('Products slider initialized');
         
         const cards = slider.querySelectorAll('.product-card');
+        console.log('Found cards:', cards.length);
         const cardWidth = 350; // 320px + 30px gap
         let currentIndex = 0;
         let autoScrollInterval;
