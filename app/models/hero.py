@@ -5,7 +5,7 @@
 from datetime import datetime
 from typing import Any, Dict
 
-from app.models.content import BaseContentModel
+from app.models.base import BaseContentModel
 
 
 class HeroContent(BaseContentModel):
@@ -62,3 +62,5 @@ class HeroContent(BaseContentModel):
             self.set(key, value)
         
         return self._save_data()
+
+

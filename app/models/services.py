@@ -6,7 +6,7 @@
 from datetime import datetime
 from typing import Any, Dict, List
 
-from app.models.content import BaseContentModel
+from app.models.base import BaseContentModel
 
 
 class ServicesContent(BaseContentModel):

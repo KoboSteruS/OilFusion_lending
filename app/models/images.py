@@ -3,7 +3,7 @@
 Позволяет выбирать между изображением и градиентным фоном.
 """
 
-from app.models.content import BaseContentModel
+from app.models.base import BaseContentModel
 from datetime import datetime
 from typing import Dict, Any, Optional
 
