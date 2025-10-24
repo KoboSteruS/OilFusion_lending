@@ -10,6 +10,7 @@ from app.models.services import ServicesContent
 from app.models.contacts import ContactsContent
 from app.models.hero import HeroContent
 from app.models.sections_visibility import SectionsVisibility
+from app.models.auracloud_slider import AuraCloudSlider
 from app.utils.logger import get_logger
 from app.utils.auth import require_admin_token
 
@@ -647,3 +648,66 @@ def sections_visibility_update(token):
         flash('Ошибка при сохранении настроек!', 'error')
     
     return redirect(url_for('admin.sections_visibility', token=token))
+
+
+@admin_bp.route('/<token>/admin/auracloud-slider')
+@require_admin_token
+def auracloud_slider(token):
+    """Управление AuraCloud слайдером."""
+    logger.info("Запрос страницы управления AuraCloud слайдером")
+    
+    slider = AuraCloudSlider()
+    slider_data = slider.get_all()
+    
+    return render_template('admin/auracloud_slider.html', 
+                         slider=slider_data, 
+                         token=token)
+
+
+@admin_bp.route('/<token>/admin/auracloud-slider/update', methods=['POST'])
+@require_admin_token
+def auracloud_slider_update(token):
+    """Обновление настроек AuraCloud слайдера."""
+    logger.info("Обновление настроек AuraCloud слайдера")
+    
+    slider = AuraCloudSlider()
+    
+    # Обработка изображений
+    from pathlib import Path
+    from datetime import datetime
+    from werkzeug.utils import secure_filename
+    
+    def _save_image(prefix: str, file_field: str, fallback_url: str) -> str:
+        url = request.form.get(fallback_url, '')
+        if file_field in request.files:
+            file = request.files[file_field]
+            if file and file.filename and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in {'png','jpg','jpeg','webp','gif'}:
+                filename = secure_filename(file.filename)
+                unique = f"{prefix}_{int(datetime.now().timestamp())}_{filename}"
+                folder = Path('app/static/img')
+                folder.mkdir(parents=True, exist_ok=True)
+                file.save(str(folder / unique))
+                return f"/static/img/{unique}"
+        return url
+
+    before_image = _save_image('aura_before', 'before_image', 'before_image_url')
+    after_image = _save_image('aura_after', 'after_image', 'after_image_url')
+    
+    # Обновляем данные
+    update_data = {
+        'title': request.form.get('title', ''),
+        'subtitle': request.form.get('subtitle', ''),
+        'description': request.form.get('description', ''),
+        'before_label': request.form.get('before_label', ''),
+        'after_label': request.form.get('after_label', ''),
+        'before_image': before_image,
+        'after_image': after_image,
+        'enabled': 'enabled' in request.form
+    }
+    
+    if slider.update(update_data):
+        flash('Настройки AuraCloud слайдера сохранены!', 'success')
+    else:
+        flash('Ошибка при сохранении настроек!', 'error')
+    
+    return redirect(url_for('admin.auracloud_slider', token=token))

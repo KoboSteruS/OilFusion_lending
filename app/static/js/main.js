@@ -16,6 +16,7 @@
         initBeforeAfterSlider();
         initHeaderScroll();
         initProductsSlider();
+        initAuraCloudSlider(); // AuraCloud slider
     });
     
     // ===== Мобильное меню =====
@@ -370,6 +371,87 @@
         createDots();
         updateButtons();
         startAutoScroll();
+    }
+
+    // ===== AuraCloud Слайдер До/После =====
+    function initAuraCloudSlider() {
+        const slider = document.getElementById('auracloudSlider');
+        if (!slider) return;
+
+        const handle = slider.querySelector('.slider-handle');
+        const afterImage = slider.querySelector('.after-image');
+        const sliderButton = slider.querySelector('.slider-button');
+        
+        if (!handle || !afterImage || !sliderButton) return;
+
+        let isDragging = false;
+        let startX = 0;
+        let currentX = 0;
+
+        // Обработчики мыши
+        sliderButton.addEventListener('mousedown', startDrag);
+        handle.addEventListener('mousedown', startDrag);
+        
+        // Обработчики касания для мобильных
+        sliderButton.addEventListener('touchstart', startDrag, { passive: false });
+        handle.addEventListener('touchstart', startDrag, { passive: false });
+
+        function startDrag(e) {
+            isDragging = true;
+            startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+            currentX = startX;
+            
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('touchend', stopDrag);
+            
+            e.preventDefault();
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            
+            currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+            updateSlider();
+            e.preventDefault();
+        }
+
+        function stopDrag() {
+            isDragging = false;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('touchend', stopDrag);
+        }
+
+        function updateSlider() {
+            const sliderRect = slider.getBoundingClientRect();
+            const sliderWidth = sliderRect.width;
+            const relativeX = currentX - sliderRect.left;
+            const percentage = Math.max(0, Math.min(100, (relativeX / sliderWidth) * 100));
+            
+            // Обновляем позицию ручки
+            handle.style.left = percentage + '%';
+            
+            // Обновляем clip-path для изображения "После"
+            afterImage.style.clipPath = `polygon(${percentage}% 0%, 100% 0%, 100% 100%, ${percentage}% 100%)`;
+        }
+
+        // Обработчик клика по слайдеру
+        slider.addEventListener('click', function(e) {
+            if (e.target === slider || e.target.classList.contains('slider-container')) {
+                const sliderRect = slider.getBoundingClientRect();
+                const relativeX = e.clientX - sliderRect.left;
+                const percentage = (relativeX / sliderRect.width) * 100;
+                
+                currentX = e.clientX;
+                updateSlider();
+            }
+        });
+
+        // Инициализация в центре
+        updateSlider();
     }
 
 })();

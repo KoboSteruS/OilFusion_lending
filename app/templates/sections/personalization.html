@@ -54,7 +54,29 @@
             <!-- AuraCloud® 3D -->
             <div class="personalization-block personalization-block-reverse" data-aos="fade-left">
                 <div class="personalization-visual">
-                    {% if personalization.auracloud.image_url %}
+                    {% if auracloud_slider.enabled and auracloud_slider.before_image and auracloud_slider.after_image %}
+                    <!-- Интерактивный слайдер До/После -->
+                    <div class="before-after-slider" id="auracloudSlider">
+                        <div class="slider-container">
+                            <div class="slider-image before-image">
+                                <img src="{{ auracloud_slider.before_image }}" alt="{{ auracloud_slider.before_label }}" class="slider-img">
+                                <div class="slider-label before-label">{{ auracloud_slider.before_label }}</div>
+                            </div>
+                            <div class="slider-image after-image">
+                                <img src="{{ auracloud_slider.after_image }}" alt="{{ auracloud_slider.after_label }}" class="slider-img">
+                                <div class="slider-label after-label">{{ auracloud_slider.after_label }}</div>
+                            </div>
+                            <div class="slider-handle">
+                                <div class="slider-line"></div>
+                                <div class="slider-button">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 5l4 4 4-4M8 19l4-4 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif personalization.auracloud.image_url %}
                     <img src="{{ personalization.auracloud.image_url }}" alt="AuraCloud 3D" class="personalization-image">
                     {% else %}
                     <div class="visual-placeholder aura-visual">

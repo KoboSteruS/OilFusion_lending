@@ -12,6 +12,7 @@ from app.models.images import SectionBackgrounds
 from app.models.contacts import ContactsContent
 from app.models.hero import HeroContent
 from app.models.sections_visibility import SectionsVisibility
+from app.models.auracloud_slider import AuraCloudSlider
 
 logger = get_logger()
 
@@ -36,6 +37,10 @@ def index():
     
     # Получаем настройки видимости разделов
     sections_visibility = SectionsVisibility()
+    
+    # Получаем данные слайдера AuraCloud
+    auracloud_slider = AuraCloudSlider()
+    slider_data = auracloud_slider.get_all()
     
     # Данные для Hero секции
     # Данные Hero секции из модели
@@ -102,7 +107,8 @@ def index():
         reviews=reviews_data,
         blog=blog_data,
         contacts=contacts_data,
-        sections_visibility=sections_visibility.get_all_sections()
+        sections_visibility=sections_visibility.get_all_sections(),
+        auracloud_slider=slider_data
     )
 
 

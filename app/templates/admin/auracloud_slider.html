@@ -1,0 +1,169 @@
+{% extends "admin/base.html" %}
+
+{% block title %}AuraCloud Слайдер - Админка OilFusion{% endblock %}
+
+{% block content %}
+<div class="admin-edit-page">
+    <div class="admin-page-header">
+        <h1 class="admin-page-title">Управление AuraCloud Слайдером</h1>
+        <p class="admin-page-subtitle">Настройка интерактивного слайдера "До/После" для AuraCloud® 3D</p>
+    </div>
+
+    <div class="admin-section">
+        <form method="POST" action="{{ url_for('admin.auracloud_slider_update', token=token) }}" class="admin-form" enctype="multipart/form-data">
+            <div class="admin-form-group">
+                <label class="admin-form-label">
+                    <input type="checkbox" name="enabled" {% if slider.enabled %}checked{% endif %} style="margin-right: 8px;">
+                    Включить слайдер
+                </label>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="title" class="admin-form-label">Заголовок слайдера</label>
+                <input type="text" id="title" name="title" class="admin-form-input" 
+                       value="{{ slider.title }}" required>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="subtitle" class="admin-form-label">Подзаголовок</label>
+                <input type="text" id="subtitle" name="subtitle" class="admin-form-input" 
+                       value="{{ slider.subtitle }}" required>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="description" class="admin-form-label">Описание</label>
+                <textarea id="description" name="description" class="admin-form-textarea" rows="3" required>{{ slider.description }}</textarea>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="before_label" class="admin-form-label">Подпись "До"</label>
+                <input type="text" id="before_label" name="before_label" class="admin-form-input" 
+                       value="{{ slider.before_label }}" required>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="after_label" class="admin-form-label">Подпись "После"</label>
+                <input type="text" id="after_label" name="after_label" class="admin-form-input" 
+                       value="{{ slider.after_label }}" required>
+            </div>
+
+            <!-- Изображение "До" -->
+            <div class="admin-form-group">
+                <label class="admin-form-label">Изображение "До"</label>
+                <div class="admin-image-upload-section">
+                    <div class="admin-form-group">
+                        <label for="before_image" class="admin-form-label">Загрузить изображение</label>
+                        <input type="file" id="before_image" name="before_image" class="admin-form-input" accept="image/*" onchange="previewImage(this, 'before_preview')">
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="before_image_url" class="admin-form-label">Или URL изображения</label>
+                        <input type="url" id="before_image_url" name="before_image_url" class="admin-form-input" value="{{ slider.before_image if slider.before_image else '' }}" placeholder="/static/img/aura_before.jpg" onchange="previewImageFromUrl(this, 'before_preview')">
+                    </div>
+                    <div class="admin-form-group">
+                        <div class="admin-image-info">
+                            <div id="before_preview" class="admin-preview-image">
+                                {% if slider.before_image %}
+                                <img src="{{ slider.before_image }}" alt="Предварительный просмотр" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Изображение "После" -->
+            <div class="admin-form-group">
+                <label class="admin-form-label">Изображение "После"</label>
+                <div class="admin-image-upload-section">
+                    <div class="admin-form-group">
+                        <label for="after_image" class="admin-form-label">Загрузить изображение</label>
+                        <input type="file" id="after_image" name="after_image" class="admin-form-input" accept="image/*" onchange="previewImage(this, 'after_preview')">
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="after_image_url" class="admin-form-label">Или URL изображения</label>
+                        <input type="url" id="after_image_url" name="after_image_url" class="admin-form-input" value="{{ slider.after_image if slider.after_image else '' }}" placeholder="/static/img/aura_after.jpg" onchange="previewImageFromUrl(this, 'after_preview')">
+                    </div>
+                    <div class="admin-form-group">
+                        <div class="admin-image-info">
+                            <div id="after_preview" class="admin-preview-image">
+                                {% if slider.after_image %}
+                                <img src="{{ slider.after_image }}" alt="Предварительный просмотр" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-form-actions">
+                <button type="submit" class="admin-btn admin-btn-primary">Сохранить изменения</button>
+                <a href="{{ url_for('admin.dashboard', token=token) }}" class="admin-btn admin-btn-outline">Назад к панели</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Предварительный просмотр изображений
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `<img src="${e.target.result}" alt="Предварительный просмотр" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);">`;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function previewImageFromUrl(input, previewId) {
+    const preview = document.getElementById(previewId);
+    const url = input.value.trim();
+    if (url) {
+        preview.innerHTML = `<img src="${url}" alt="Предварительный просмотр" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);" onerror="this.style.display='none'">`;
+    } else {
+        preview.innerHTML = '';
+    }
+}
+</script>
+
+<style>
+.admin-image-upload-section {
+    background: var(--admin-bg-light);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
+}
+
+.admin-image-info {
+    margin-top: 16px;
+}
+
+.admin-preview-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 120px;
+    background: var(--admin-bg);
+    border: 2px dashed var(--admin-border);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.admin-preview-image img {
+    max-width: 200px;
+    max-height: 150px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
+}
+
+.admin-form-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--admin-border);
+}
+</style>
+{% endblock %}

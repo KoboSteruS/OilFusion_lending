@@ -9,6 +9,7 @@ from app.models.services import ServicesContent
 from app.models.contacts import ContactsContent
 from app.models.hero import HeroContent
 from app.models.sections_visibility import SectionsVisibility
+from app.models.auracloud_slider import AuraCloudSlider
 
-__all__ = ['AboutContent', 'PersonalizationContent', 'BlogArticle', 'BlogContent', 'SectionBackgrounds', 'ProductsContent', 'ServicesContent', 'ContactsContent', 'HeroContent', 'SectionsVisibility']
+__all__ = ['AboutContent', 'PersonalizationContent', 'BlogArticle', 'BlogContent', 'SectionBackgrounds', 'ProductsContent', 'ServicesContent', 'ContactsContent', 'HeroContent', 'SectionsVisibility', 'AuraCloudSlider']
 
