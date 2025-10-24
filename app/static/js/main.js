@@ -17,6 +17,7 @@
         initHeaderScroll();
         initProductsSlider();
         initAuraCloudSlider(); // AuraCloud slider
+        initNavbarSections(); // Navbar sections tracking
     });
     
     // ===== Мобильное меню =====
@@ -452,6 +453,50 @@
 
         // Инициализация в центре
         updateSlider();
+    }
+
+    // ===== Отслеживание активной секции для navbar =====
+    function initNavbarSections() {
+        const header = document.querySelector('.header');
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        function updateActiveSection() {
+            const scrollPos = window.scrollY + 100;
+            let activeSection = 'hero';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    activeSection = sectionId;
+                }
+            });
+            
+            // Обновляем классы header
+            header.classList.remove('hero-active', 'section-active');
+            if (activeSection === 'hero') {
+                header.classList.add('hero-active');
+            } else {
+                header.classList.add('section-active');
+            }
+            
+            // Обновляем активную ссылку в навигации
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${activeSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // Отслеживаем скролл
+        window.addEventListener('scroll', updateActiveSection);
+        
+        // Инициализация
+        updateActiveSection();
     }
 
 })();
