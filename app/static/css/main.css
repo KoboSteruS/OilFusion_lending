@@ -237,10 +237,6 @@ body {
     .navbar-toggle {
         display: flex;
     }
-    
-    .navbar-actions {
-        display: none;
-    }
 }
 
 /* Hamburger кнопка скрыта на десктопе */
@@ -257,17 +253,6 @@ body {
 }
 
 
-.navbar-actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
-
-.navbar-actions .btn {
-    font-size: 0.875rem;
-    padding: 8px 16px;
-    white-space: nowrap;
-}
 
 .navbar-toggle {
     display: flex;

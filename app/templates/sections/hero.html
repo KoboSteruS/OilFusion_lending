@@ -26,10 +26,10 @@
             
             <div class="hero-cta" data-aos="fade-up" data-aos-delay="200">
                 <a href="#products" class="btn btn-primary btn-lg">
-                    {{ hero.cta_primary }}
+                    {{ hero.cta_primary or 'Подобрать масло' }}
                 </a>
                 <a href="#services" class="btn btn-outline btn-lg">
-                    {{ hero.cta_secondary }}
+                    {{ hero.cta_secondary or 'Записаться' }}
                 </a>
             </div>
         </div>

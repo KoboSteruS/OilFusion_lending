@@ -27,9 +27,6 @@
         --section-padding: 50px 0;
     }
     
-    .navbar-actions {
-        display: none;
-    }
     
     /* Логотип на мобильных */
     .logo-image {
