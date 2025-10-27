@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "hero": true,
+    "about": true,
+    "products": true,
+    "services": true,
+    "personalization": true,
+    "reviews": true,
+    "blog": true,
+    "contacts": true
+  },
+  "updated_at": "2025-10-24T11:58:58.504614"
+}

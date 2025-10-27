@@ -48,3 +48,4 @@ class SectionsVisibility(BaseContentModel):
     def update_sections(self, sections_data: Dict[str, bool]) -> bool:
         """Обновить видимость всех разделов."""
         return self.set('sections', sections_data)
+
