@@ -59,7 +59,7 @@ class Config:
     # Настройки интернационализации
     SUPPORTED_LANGUAGES = ('ru', 'lv', 'en')
     DEFAULT_LANGUAGE = os.getenv('DEFAULT_LANGUAGE', 'ru')
-    AUTO_TRANSLATION_ENABLED: bool = os.getenv('AUTO_TRANSLATION_ENABLED', 'true').lower() == 'true'
+    AUTO_TRANSLATION_ENABLED: bool = os.getenv('AUTO_TRANSLATION_ENABLED', 'false').lower() == 'true'
     
     @classmethod
     def init_app(cls, app):

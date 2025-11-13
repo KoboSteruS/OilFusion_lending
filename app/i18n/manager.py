@@ -55,18 +55,16 @@ class TranslationManager:
         Возвращает текст на нужном языке, при необходимости выполняя автоперевод.
         """
         if locale not in self._supported_languages:
-            logger.warning("Запрошен неподдерживаемый язык: {}", locale)
             locale = self._default_language
 
-        # Для дефолтного языка всегда возвращаем оригинал
+        # Для дефолтного языка всегда возвращаем оригинал без лишних операций
         if locale == self._default_language:
-            self.ensure_entry(key, original)
             return original
 
-        # Сначала проверяем, есть ли сохранённый перевод (manual или auto)
-        with self._lock:
-            entry = self.ensure_entry(key, original)
-            stored_translation = entry["translations"].get(locale)
+        # Быстрая проверка кеша без лока и записи
+        entry = self._data.get(key)
+        if entry:
+            stored_translation = entry.get("translations", {}).get(locale)
             if stored_translation and stored_translation.get("value"):
                 return stored_translation["value"]
 
@@ -79,10 +77,12 @@ class TranslationManager:
             original, target_language=locale, source_language=self._default_language
         )
 
+        # Сохраняем результат
         with self._lock:
             entry = self.ensure_entry(key, original)
             entry["translations"][locale] = self._build_translation_payload(result.text, source="auto")
-            self._save()
+            # Отложенное сохранение - не пишем в файл на каждый запрос
+            # self._save()
             return result.text
 
     def set_manual_translation(self, key: str, locale: str, value: str) -> None:
