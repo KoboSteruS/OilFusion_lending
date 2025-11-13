@@ -1,2 +1,242 @@
-{}
-
+{
+  "hero.slogan": {
+    "meta": {
+      "original": "Balance in every drop",
+      "original_hash": "e5d9dee0c2c1c85f426f5c5f5e9c0b5c1e3c5f5c",
+      "created_at": "2025-11-13T12:00:00.000000",
+      "updated_at": "2025-11-13T12:00:00.000000"
+    },
+    "translations": {
+      "lv": {
+        "value": "Līdzsvars katrā pilienā",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      },
+      "en": {
+        "value": "Balance in every drop",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      }
+    }
+  },
+  "hero.subtitle": {
+    "meta": {
+      "original": "Персонализированные масла на основе технологий AuraCloud® 3D и ДНК-тестирования",
+      "original_hash": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6",
+      "created_at": "2025-11-13T12:00:00.000000",
+      "updated_at": "2025-11-13T12:00:00.000000"
+    },
+    "translations": {
+      "lv": {
+        "value": "Personalizētas eļļas, pamatojoties uz AuraCloud® 3D un DNS testēšanas tehnoloģijām",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      },
+      "en": {
+        "value": "Personalized oils based on AuraCloud® 3D and DNA testing technologies",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      }
+    }
+  },
+  "hero.cta_primary": {
+    "meta": {
+      "original": "Подобрать масло",
+      "original_hash": "abc123def456",
+      "created_at": "2025-11-13T12:00:00.000000",
+      "updated_at": "2025-11-13T12:00:00.000000"
+    },
+    "translations": {
+      "lv": {
+        "value": "Izvēlēties eļļu",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      },
+      "en": {
+        "value": "Select Oil",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      }
+    }
+  },
+  "hero.cta_secondary": {
+    "meta": {
+      "original": "Записаться",
+      "original_hash": "xyz789uvw012",
+      "created_at": "2025-11-13T12:00:00.000000",
+      "updated_at": "2025-11-13T12:00:00.000000"
+    },
+    "translations": {
+      "lv": {
+        "value": "Pierakstīties",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      },
+      "en": {
+        "value": "Book Appointment",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      }
+    }
+  },
+  "hero.scroll_text": {
+    "meta": {
+      "original": "Прокрутите вниз",
+      "original_hash": "scroll123",
+      "created_at": "2025-11-13T12:00:00.000000",
+      "updated_at": "2025-11-13T12:00:00.000000"
+    },
+    "translations": {
+      "lv": {
+        "value": "Ritiniet uz leju",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      },
+      "en": {
+        "value": "Scroll Down",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      }
+    }
+  },
+  "products.title": {
+    "meta": {
+      "original": "Наша продукция",
+      "original_hash": "prod123",
+      "created_at": "2025-11-13T12:00:00.000000",
+      "updated_at": "2025-11-13T12:00:00.000000"
+    },
+    "translations": {
+      "lv": {
+        "value": "Mūsu produkti",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      },
+      "en": {
+        "value": "Our Products",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      }
+    }
+  },
+  "services.title": {
+    "meta": {
+      "original": "Наши услуги",
+      "original_hash": "serv123",
+      "created_at": "2025-11-13T12:00:00.000000",
+      "updated_at": "2025-11-13T12:00:00.000000"
+    },
+    "translations": {
+      "lv": {
+        "value": "Mūsu pakalpojumi",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      },
+      "en": {
+        "value": "Our Services",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      }
+    }
+  },
+  "about.title": {
+    "meta": {
+      "original": "О нас",
+      "original_hash": "about123",
+      "created_at": "2025-11-13T12:00:00.000000",
+      "updated_at": "2025-11-13T12:00:00.000000"
+    },
+    "translations": {
+      "lv": {
+        "value": "Par mums",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      },
+      "en": {
+        "value": "About Us",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      }
+    }
+  },
+  "contacts.title": {
+    "meta": {
+      "original": "Контакты",
+      "original_hash": "cont123",
+      "created_at": "2025-11-13T12:00:00.000000",
+      "updated_at": "2025-11-13T12:00:00.000000"
+    },
+    "translations": {
+      "lv": {
+        "value": "Kontakti",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      },
+      "en": {
+        "value": "Contacts",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      }
+    }
+  },
+  "blog.title": {
+    "meta": {
+      "original": "Блог",
+      "original_hash": "blog123",
+      "created_at": "2025-11-13T12:00:00.000000",
+      "updated_at": "2025-11-13T12:00:00.000000"
+    },
+    "translations": {
+      "lv": {
+        "value": "Blogs",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      },
+      "en": {
+        "value": "Blog",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      }
+    }
+  },
+  "reviews.title": {
+    "meta": {
+      "original": "Отзывы наших клиентов",
+      "original_hash": "rev123",
+      "created_at": "2025-11-13T12:00:00.000000",
+      "updated_at": "2025-11-13T12:00:00.000000"
+    },
+    "translations": {
+      "lv": {
+        "value": "Mūsu klientu atsauksmes",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      },
+      "en": {
+        "value": "Customer Reviews",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      }
+    }
+  },
+  "personalization.title": {
+    "meta": {
+      "original": "Персонализация",
+      "original_hash": "pers123",
+      "created_at": "2025-11-13T12:00:00.000000",
+      "updated_at": "2025-11-13T12:00:00.000000"
+    },
+    "translations": {
+      "lv": {
+        "value": "Personalizācija",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      },
+      "en": {
+        "value": "Personalization",
+        "source": "manual",
+        "updated_at": "2025-11-13T12:00:00.000000"
+      }
+    }
+  }
+}

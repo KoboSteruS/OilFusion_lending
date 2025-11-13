@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{{ current_locale }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,9 +34,9 @@
                 
                 <!-- Переключатель языка -->
                 <div class="language-switcher">
-                    <button class="lang-btn" data-lang="ru">RU</button>
-                    <button class="lang-btn" data-lang="lv">LV</button>
-                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn {% if current_locale == 'ru' %}active{% endif %}" data-lang="ru">RU</button>
+                    <button class="lang-btn {% if current_locale == 'lv' %}active{% endif %}" data-lang="lv">LV</button>
+                    <button class="lang-btn {% if current_locale == 'en' %}active{% endif %}" data-lang="en">EN</button>
                 </div>
                 
                 <!-- Триггер выпадающего меню справа -->

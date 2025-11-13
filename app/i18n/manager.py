@@ -58,20 +58,23 @@ class TranslationManager:
             logger.warning("Запрошен неподдерживаемый язык: {}", locale)
             locale = self._default_language
 
-        if locale == self._default_language or not self._auto_enabled:
+        # Для дефолтного языка всегда возвращаем оригинал
+        if locale == self._default_language:
             self.ensure_entry(key, original)
             return original
 
+        # Сначала проверяем, есть ли сохранённый перевод (manual или auto)
         with self._lock:
             entry = self.ensure_entry(key, original)
             stored_translation = entry["translations"].get(locale)
             if stored_translation and stored_translation.get("value"):
                 return stored_translation["value"]
 
+        # Если автоперевод выключен, возвращаем оригинал
         if not self._auto_enabled:
             return original
 
-        # вне блока lock, чтобы перевод не блокировал других
+        # Выполняем автоперевод вне блока lock
         result = self._provider.translate(
             original, target_language=locale, source_language=self._default_language
         )

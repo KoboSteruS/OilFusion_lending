@@ -588,17 +588,6 @@
         
         if (langButtons.length === 0) return;
         
-        // Получаем текущий язык из localStorage или используем 'ru' по умолчанию
-        let currentLang = localStorage.getItem('selectedLanguage') || 'ru';
-        
-        // Устанавливаем активную кнопку при загрузке
-        langButtons.forEach(btn => {
-            const lang = btn.getAttribute('data-lang');
-            if (lang === currentLang) {
-                btn.classList.add('active');
-            }
-        });
-        
         // Обработчик клика на кнопки языка
         langButtons.forEach(btn => {
             btn.addEventListener('click', function() {
@@ -609,9 +598,6 @@
                 
                 // Добавляем активный класс к выбранной кнопке
                 this.classList.add('active');
-                
-                // Сохраняем выбранный язык
-                localStorage.setItem('selectedLanguage', selectedLang);
                 
                 // Отправляем запрос на сервер для смены языка
                 fetch(`/set_language/${selectedLang}`, {
@@ -624,10 +610,30 @@
                     if (response.ok) {
                         // Перезагружаем страницу для применения нового языка
                         window.location.reload();
+                    } else {
+                        console.error('Ошибка при смене языка:', response.statusText);
+                        // Возвращаем активный класс обратно при ошибке
+                        btn.classList.remove('active');
+                        langButtons.forEach(b => {
+                            if (b.getAttribute('data-lang') === document.documentElement.lang) {
+                                b.classList.add('active');
+                            }
+                        });
                     }
                 })
                 .catch(error => {
-                    console.error('Ошибка при смене языка:', error);
+                    console.error('Ошибка сети при смене языка:', error);
+                    // Возвращаем активный класс обратно при ошибке
+                    btn.classList.remove('active');
+                    langButtons.forEach(b => {
+                        const currentLangButtons = document.querySelectorAll('.lang-btn.active');
+                        if (currentLangButtons.length === 0) {
+                            // Если нет активной кнопки, активируем RU по умолчанию
+                            if (b.getAttribute('data-lang') === 'ru') {
+                                b.classList.add('active');
+                            }
+                        }
+                    });
                 });
             });
         });
