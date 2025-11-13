@@ -6,6 +6,7 @@
 from flask import Flask, g, request, session
 
 from app.config.settings import Config
+from app.database import init_db
 from app.i18n import DEFAULT_LANGUAGE, LANGUAGE_LABELS, LocaleDetector, SUPPORTED_LANGUAGES
 from app.i18n.manager import translation_manager
 from app.utils.logger import setup_logger
@@ -27,6 +28,10 @@ def create_app(config_class=Config) -> Flask:
     # Инициализация логгера
     logger = setup_logger()
     logger.info("Инициализация Flask приложения OilFusion Landing")
+
+    # Инициализация базы данных
+    init_db(app)
+    logger.info("База данных SQLite инициализирована")
 
     # Регистрация blueprints
     from app.routes import admin_bp, backgrounds_bp, main_bp

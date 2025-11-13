@@ -1,6 +1,7 @@
 # Flask и расширения
 Flask==3.0.0
 Flask-Cors==4.0.0
+Flask-SQLAlchemy==3.1.1
 
 # Логирование
 loguru==0.7.2
