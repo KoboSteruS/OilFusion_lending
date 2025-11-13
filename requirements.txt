@@ -18,9 +18,9 @@ python-dateutil==2.8.2
 Werkzeug==3.0.1
 PyJWT==2.8.0
 
-# Локализация
-googletrans==4.0.0rc1
-requests==2.31.0
+# Локализация (автоперевод отключен, используются только статические переводы из JSON)
+# googletrans==4.0.0rc1
+# requests==2.31.0
 
 
 
