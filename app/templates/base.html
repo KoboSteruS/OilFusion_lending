@@ -23,35 +23,49 @@
     <!-- Навигационное меню -->
     <header class="header">
         <nav class="navbar">
-            <div class="container">
-                <!-- Бургер меню слева -->
-                <button class="navbar-toggle" id="navbarToggle" aria-label="Открыть меню">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                
-                <!-- Логотип по центру -->
+            {% set visibility = sections_visibility if sections_visibility is defined else {} %}
+            <div class="container navbar-layout">
+                <!-- Логотип слева -->
                 <div class="navbar-brand">
                     <a href="{{ url_for('main.index') }}" class="logo">
                         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="OilFusion" class="logo-image">
                     </a>
                 </div>
                 
-                <!-- Пустое место справа для баланса -->
-                <div class="navbar-spacer"></div>
+                <!-- Триггер выпадающего меню справа -->
+                <button class="navbar-toggle" id="navbarToggle" aria-label="Открыть меню">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 
                 <!-- Выдвижное меню -->
                 <div class="navbar-menu" id="navbarMenu">
                     <ul class="navbar-nav">
+                        {% if visibility.get('hero', True) %}
                         <li><a href="#hero" class="nav-link">Главная</a></li>
+                        {% endif %}
+                        {% if visibility.get('about', True) %}
                         <li><a href="#about" class="nav-link">О нас</a></li>
+                        {% endif %}
+                        {% if visibility.get('products', True) %}
                         <li><a href="#products" class="nav-link">Продукция</a></li>
+                        {% endif %}
+                        {% if visibility.get('services', True) %}
                         <li><a href="#services" class="nav-link">Услуги</a></li>
+                        {% endif %}
+                        {% if visibility.get('personalization', True) %}
                         <li><a href="#personalization" class="nav-link">Персонализация</a></li>
+                        {% endif %}
+                        {% if visibility.get('reviews', True) %}
                         <li><a href="#reviews" class="nav-link">Отзывы</a></li>
+                        {% endif %}
+                        {% if visibility.get('blog', True) %}
                         <li><a href="#blog" class="nav-link">Блог</a></li>
+                        {% endif %}
+                        {% if visibility.get('contacts', True) %}
                         <li><a href="#contacts" class="nav-link">Контакты</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

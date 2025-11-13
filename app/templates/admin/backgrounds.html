@@ -81,9 +81,9 @@
                         <label for="gradient_{{ section_key }}" class="admin-form-label">CSS градиент</label>
                         <input type="text" id="gradient_{{ section_key }}" name="gradient" 
                                class="admin-form-input" 
-                               value="{{ bg.gradient if bg.gradient else 'linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)' }}"
-                               placeholder="linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)">
-                        <div class="admin-form-help">Пример: linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)</div>
+                               value="{{ bg.gradient if bg.gradient else '#E5DED3' }}"
+                               placeholder="#E5DED3">
+                        <div class="admin-form-help">Пример: #E5DED3 или любой валидный CSS градиент</div>
                     </div>
 
                     <div class="admin-form-group">
@@ -197,7 +197,7 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
 }
 
 .admin-bg-type-gradient {
-    background: linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%);
+    background: #E5DED3;
     color: white;
 }
 

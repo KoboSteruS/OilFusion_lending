@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Каталог продукции OilFusion{% endblock %}
+
+{% block content %}
+<section class="catalog-hero"
+         {% if background.type == 'image' and background.image_url %}
+         style="background-image: url('{{ background.image_url }}');"
+         {% elif background.type == 'gradient' and background.gradient %}
+         style="background: {{ background.gradient }};"
+         {% endif %}>
+    {% if background.type in ['image', 'gradient'] and background.overlay_opacity > 0 %}
+    <div class="catalog-hero__overlay"
+         style="background-color: {{ background.overlay_color if background.type == 'image' else 'rgba(255,255,255,' + (background.overlay_opacity|string) + ')' }};
+                opacity: {{ background.overlay_opacity if background.type == 'image' else 1 }};"></div>
+    {% endif %}
+    <div class="container catalog-hero__content" data-aos="fade-up">
+        <h1 class="catalog-hero__title">Полный каталог OilFusion</h1>
+        <p class="catalog-hero__subtitle">Подбор персонализированных масел и комплексных программ для вашей гармонии</p>
+        <div class="catalog-hero__actions">
+            <a href="#catalog-products" class="btn btn-primary btn-lg catalog-cta" data-track-event="catalog-cta" data-track-label="catalog-hero-scroll">Перейти к товарам</a>
+            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-outline btn-lg catalog-cta" data-track-event="catalog-cta" data-track-label="catalog-contact">Связаться с консультантом</a>
+        </div>
+    </div>
+</section>
+
+<section id="catalog-products" class="catalog-section">
+    <div class="container" data-aos="fade-up">
+        <header class="catalog-section__header">
+            <span class="catalog-section__eyebrow">Каталог</span>
+            <h2 class="catalog-section__title">Персонализированные программы и масла</h2>
+            <p class="catalog-section__description">Каждый продукт создаётся с учётом AuraCloud® 3D и ДНК-тестирования. Выберите решение, соответствующее вашим целям.</p>
+        </header>
+
+        <div class="catalog-grid">
+            {% for product in products %}
+            {% set product_slug = product.name|lower|replace(' ', '-')|replace('\"', '')|replace(\"'\", '')|replace('«', '')|replace('»', '')|replace('“', '')|replace('”', '') %}
+            <article id="product-{{ product_slug }}" class="product-card catalog-card" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 50 }}">
+                <div class="product-image">
+                    <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+                    {% if product.category %}
+                    <span class="product-badge">{{ product.category }}</span>
+                    {% endif %}
+                    {% if product.featured %}
+                    <span class="product-featured-badge">Избранное</span>
+                    {% endif %}
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">{{ product.name }}</h3>
+                    <p class="product-description">{{ product.description }}</p>
+                    <div class="product-footer">
+                        <span class="product-price">{{ product.price }}</span>
+                        <a href="{{ url_for('main.index') }}#contacts" class="btn btn-sm btn-primary product-card-cta" data-track-event="catalog-cta" data-track-label="catalog-product-{{ product_slug }}">Заказать</a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="catalog-section catalog-section--cta">
+    <div class="container catalog-section__cta" data-aos="fade-up">
+        <h2>Нужна консультация перед выбором?</h2>
+        <p>Наши эксперты помогут подобрать индивидуальную программу ухода и составят персональные рекомендации.</p>
+        <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary btn-lg catalog-cta" data-track-event="catalog-cta" data-track-label="catalog-final-cta">Записаться на консультацию</a>
+    </div>
+</section>
+{% endblock %}

@@ -98,10 +98,13 @@
         order: -1; /* Форма сверху на планшетах */
     }
     
-    /* Подвал */
-    .footer-title {
-        font-size: 1.5rem;
+    .contact-form-wrapper {
+        margin-top: 0;
+        max-width: 100%;
+        width: 100%;
     }
+    
+    /* Подвал */
 }
 
 /* ===== Мобильные устройства (< 480px) ===== */
@@ -112,12 +115,6 @@
         max-width: 140px;
     }
     
-    /* Подвал на мобильных */
-    .footer-title {
-        font-size: 1.25rem;
-        letter-spacing: 1px;
-    }
-    
     /* Контакты на мобильных */
     .contacts-content {
         gap: 30px;
@@ -125,6 +122,12 @@
     
     .contacts-form {
         order: -1; /* Форма сверху на мобильных */
+    }
+    
+    .contact-form-wrapper {
+        margin-top: 0;
+        max-width: 100%;
+        width: 100%;
     }
     :root {
         --section-padding: 40px 0;

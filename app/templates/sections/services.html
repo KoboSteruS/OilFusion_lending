@@ -10,92 +10,100 @@
             {% if services.services_list %}
                 {% for service in services.services_list %}
                 <div class="service-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
-                    <div class="service-icon">
-                        <img src="{{ service.icon }}" alt="{{ service.name }}">
+                    <div class="service-media">
+                        <img src="{{ service.icon }}" alt="{{ service.name }}" loading="lazy">
                     </div>
-                    <h3 class="service-title">{{ service.name }}</h3>
-                    <p class="service-description">{{ service.description }}</p>
-                    <ul class="service-features">
-                        {% for feature in service.features %}
-                        <li>{{ feature }}</li>
-                        {% endfor %}
-                    </ul>
-                    <div class="service-footer">
-                        <span class="service-price">{{ service.price }}</span>
-                        <a href="#" class="btn btn-outline">Записаться</a>
+                    <div class="service-content">
+                        <h3 class="service-title">{{ service.name }}</h3>
+                        <p class="service-description">{{ service.description }}</p>
+                        <ul class="service-features">
+                            {% for feature in service.features %}
+                            <li>{{ feature }}</li>
+                            {% endfor %}
+                        </ul>
+                        <div class="service-footer">
+                            <span class="service-price">{{ service.price }}</span>
+                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">Записаться</a>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
                 <!-- Заглушки для демонстрации -->
                 <div class="service-card" data-aos="fade-up">
-                    <div class="service-icon">
+                    <div class="service-media service-media--placeholder">
                         <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
                             <path d="M12 2L8 4l4 2 4-2-4-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M8 4v4l4 2 4-2V4M8 8l4 2 4-2M8 12l4 2 4-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <h3 class="service-title">ДНК-тестирование</h3>
-                    <p class="service-description">
-                        Полный генетический анализ для индивидуального подбора масел
-                    </p>
-                    <ul class="service-features">
-                        <li>Забор биоматериала</li>
-                        <li>Лабораторный анализ</li>
-                        <li>Подробный отчёт</li>
-                        <li>Консультация специалиста</li>
-                    </ul>
-                    <div class="service-footer">
-                        <span class="service-price">от 8 500 ₽</span>
-                        <a href="#contacts" class="btn btn-outline">Записаться</a>
+                    <div class="service-content">
+                        <h3 class="service-title">ДНК-тестирование</h3>
+                        <p class="service-description">
+                            Полный генетический анализ для индивидуального подбора масел
+                        </p>
+                        <ul class="service-features">
+                            <li>Забор биоматериала</li>
+                            <li>Лабораторный анализ</li>
+                            <li>Подробный отчёт</li>
+                            <li>Консультация специалиста</li>
+                        </ul>
+                        <div class="service-footer">
+                            <span class="service-price">от 8 500 ₽</span>
+                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">Записаться</a>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="service-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="service-icon">
+                    <div class="service-media service-media--placeholder">
                         <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
                             <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/>
                             <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/>
                             <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
                         </svg>
                     </div>
-                    <h3 class="service-title">Сканирование AuraCloud® 3D</h3>
-                    <p class="service-description">
-                        Визуализация и анализ вашей энергетической ауры
-                    </p>
-                    <ul class="service-features">
-                        <li>3D сканирование ауры</li>
-                        <li>Детальная визуализация</li>
-                        <li>Анализ энергетики</li>
-                        <li>Рекомендации по коррекции</li>
-                    </ul>
-                    <div class="service-footer">
-                        <span class="service-price">от 5 000 ₽</span>
-                        <a href="#contacts" class="btn btn-outline">Записаться</a>
+                    <div class="service-content">
+                        <h3 class="service-title">Сканирование AuraCloud® 3D</h3>
+                        <p class="service-description">
+                            Визуализация и анализ вашей энергетической ауры
+                        </p>
+                        <ul class="service-features">
+                            <li>3D сканирование ауры</li>
+                            <li>Детальная визуализация</li>
+                            <li>Анализ энергетики</li>
+                            <li>Рекомендации по коррекции</li>
+                        </ul>
+                        <div class="service-footer">
+                            <span class="service-price">от 5 000 ₽</span>
+                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">Записаться</a>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="service-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-icon">
+                    <div class="service-media service-media--placeholder">
                         <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5"/>
                             <circle cx="9" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/>
                             <path d="M22 21v-2a4 4 0 0 0-3-3.87M15 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="1.5"/>
                         </svg>
                     </div>
-                    <h3 class="service-title">Персональная консультация</h3>
-                    <p class="service-description">
-                        Индивидуальный подбор продуктов и программы применения
-                    </p>
-                    <ul class="service-features">
-                        <li>Диагностика состояния</li>
-                        <li>Подбор программы</li>
-                        <li>Рекомендации по применению</li>
-                        <li>Сопровождение 30 дней</li>
-                    </ul>
-                    <div class="service-footer">
-                        <span class="service-price">от 3 000 ₽</span>
-                        <a href="#contacts" class="btn btn-outline">Записаться</a>
+                    <div class="service-content">
+                        <h3 class="service-title">Персональная консультация</h3>
+                        <p class="service-description">
+                            Индивидуальный подбор продуктов и программы применения
+                        </p>
+                        <ul class="service-features">
+                            <li>Диагностика состояния</li>
+                            <li>Подбор программы</li>
+                            <li>Рекомендации по применению</li>
+                            <li>Сопровождение 30 дней</li>
+                        </ul>
+                        <div class="service-footer">
+                            <span class="service-price">от 3 000 ₽</span>
+                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">Записаться</a>
+                        </div>
                     </div>
                 </div>
             {% endif %}

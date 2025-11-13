@@ -25,21 +25,21 @@ class SectionBackgrounds(BaseContentModel):
                 'hero': {
                     'type': 'image',  # image или gradient
                     'image_url': '/static/img/hero.png',
-                    'gradient': 'linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)',
+                    'gradient': '#E5DED3',
                     'overlay_opacity': 0.3,  # Прозрачность наложения (0-1)
                     'overlay_color': '#000000'
                 },
                 'about': {
                     'type': 'gradient',
                     'image_url': '',
-                    'gradient': 'linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)',
+                    'gradient': '#E5DED3',
                     'overlay_opacity': 0.8,
                     'overlay_color': '#FFFFFF'
                 },
                 'products': {
                     'type': 'gradient',
                     'image_url': '',
-                    'gradient': 'linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)',
+                    'gradient': '#E5DED3',
                     'overlay_opacity': 0.8,
                     'overlay_color': '#FFFFFF'
                 },
@@ -53,7 +53,7 @@ class SectionBackgrounds(BaseContentModel):
                 'personalization': {
                     'type': 'gradient',
                     'image_url': '',
-                    'gradient': 'linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)',
+                    'gradient': '#E5DED3',
                     'overlay_opacity': 0.8,
                     'overlay_color': '#FFFFFF'
                 },
@@ -67,7 +67,7 @@ class SectionBackgrounds(BaseContentModel):
                 'blog': {
                     'type': 'gradient',
                     'image_url': '',
-                    'gradient': 'linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)',
+                    'gradient': '#E5DED3',
                     'overlay_opacity': 0.8,
                     'overlay_color': '#FFFFFF'
                 },
@@ -152,21 +152,21 @@ class SectionBackgrounds(BaseContentModel):
             'hero': {
                 'type': 'gradient',
                 'image_url': '',
-                'gradient': 'linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)',
+                'gradient': '#E5DED3',
                 'overlay_opacity': 0.3,
                 'overlay_color': '#000000'
             },
             'about': {
                 'type': 'gradient',
                 'image_url': '',
-                'gradient': 'linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)',
+                'gradient': '#E5DED3',
                 'overlay_opacity': 0.8,
                 'overlay_color': '#FFFFFF'
             },
             'products': {
                 'type': 'gradient',
                 'image_url': '',
-                'gradient': 'linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)',
+                'gradient': '#E5DED3',
                 'overlay_opacity': 0.8,
                 'overlay_color': '#FFFFFF'
             }

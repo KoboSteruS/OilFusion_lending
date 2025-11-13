@@ -19,6 +19,7 @@
             <div class="products-slider" id="productsSlider">
                 {% if products.products_list %}
                     {% for product in products.products_list %}
+                    {% set product_slug = product.name|lower|replace(' ', '-')|replace('\"', '')|replace(\"'\", '')|replace('«', '')|replace('»', '')|replace('“', '')|replace('”', '') %}
                     <div class="product-card">
                         <div class="product-image">
                             <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">
@@ -32,7 +33,12 @@
                             <p class="product-description">{{ product.description }}</p>
                             <div class="product-footer">
                                 <span class="product-price">{{ product.price }}</span>
-                                <button class="btn btn-sm btn-primary">Подробнее</button>
+                                <a href="{{ url_for('main.catalog') }}#product-{{ product_slug }}" 
+                                   class="btn btn-sm btn-primary product-card-cta"
+                                   data-track-event="catalog-cta"
+                                   data-track-label="slider-product-{{ product_slug }}">
+                                    Подробнее
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -50,7 +56,7 @@
                             </p>
                             <div class="product-footer">
                                 <span class="product-price">от 3 500 ₽</span>
-                                <button class="btn btn-sm btn-primary">Подробнее</button>
+                        <a href="{{ url_for('main.catalog') }}" class="btn btn-sm btn-primary catalog-cta" data-track-event="catalog-cta" data-track-label="slider-placeholder-0">Подробнее</a>
                             </div>
                         </div>
                     </div>
@@ -66,7 +72,7 @@
                             </p>
                             <div class="product-footer">
                                 <span class="product-price">от 4 200 ₽</span>
-                                <button class="btn btn-sm btn-primary">Подробнее</button>
+                        <a href="{{ url_for('main.catalog') }}" class="btn btn-sm btn-primary catalog-cta" data-track-event="catalog-cta" data-track-label="slider-placeholder-1">Подробнее</a>
                             </div>
                         </div>
                     </div>
@@ -82,7 +88,7 @@
                             </p>
                             <div class="product-footer">
                                 <span class="product-price">от 12 000 ₽</span>
-                                <button class="btn btn-sm btn-primary">Подробнее</button>
+                        <a href="{{ url_for('main.catalog') }}" class="btn btn-sm btn-primary catalog-cta" data-track-event="catalog-cta" data-track-label="slider-placeholder-2">Подробнее</a>
                             </div>
                         </div>
                     </div>
@@ -108,7 +114,12 @@
         </div>
         
         <div class="section-cta" data-aos="fade-up">
-            <a href="#" class="btn btn-primary btn-lg">Смотреть каталог</a>
+            <a href="{{ url_for('main.catalog') }}" 
+               class="btn btn-primary btn-lg catalog-cta" 
+               data-track-event="catalog-cta" 
+               data-track-label="slider-view-catalog">
+                Смотреть каталог
+            </a>
         </div>
     </div>
 </section>

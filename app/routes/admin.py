@@ -63,8 +63,13 @@ def about_update(token):
     
     # Обработка фонового изображения
     background_image_url = request.form.get('background_image_url', '')
-    background_overlay_opacity = float(request.form.get('background_overlay_opacity', 0.8))
-    background_overlay_color = request.form.get('background_overlay_color', '#FFFFFF')
+    background_overlay_opacity_raw = request.form.get('background_overlay_opacity', '0.8')
+    try:
+        background_overlay_opacity = float(background_overlay_opacity_raw)
+    except (TypeError, ValueError):
+        background_overlay_opacity = 0.8
+    background_overlay_opacity = max(0.0, min(1.0, background_overlay_opacity))
+    background_overlay_color = request.form.get('background_overlay_color', '#FFFFFF') or '#FFFFFF'
     
     # Обработка загруженного файла
     if 'background_image' in request.files:
@@ -625,12 +630,14 @@ def hero_save(token):
     if background_image_url:
         from app.models.images import SectionBackgrounds
         backgrounds = SectionBackgrounds()
-        backgrounds.update_section_background('hero', {
-            'type': 'image',
-            'image_url': background_image_url,
-            'overlay_opacity': 0.3,
-            'overlay_color': '#000000'
-        })
+        backgrounds.update_section_background(
+            section='hero',
+            bg_type='image',
+            image_url=background_image_url,
+            gradient='',
+            overlay_opacity=0.3,
+            overlay_color='#000000'
+        )
     
     # Обновляем контент Hero
     data = {

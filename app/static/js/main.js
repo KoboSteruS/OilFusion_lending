@@ -18,6 +18,7 @@
         initProductsSlider();
         initAuraCloudSlider(); // AuraCloud slider
         initNavbarSections(); // Navbar sections tracking
+        initCatalogCtaTracking(); // Tracking CTA кликов каталога
     });
     
     // ===== Мобильное меню =====
@@ -234,14 +235,18 @@
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.nav-link');
         
-        let current = '';
+        const visibleNavLinks = Array.from(navLinks).map(link => link.getAttribute('href'));
+        let current = sections.length ? sections[0].getAttribute('id') : '';
         
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
             
             if (window.pageYOffset >= sectionTop - 100) {
-                current = section.getAttribute('id');
+                const sectionId = section.getAttribute('id');
+                if (visibleNavLinks.includes(`#${sectionId}`)) {
+                    current = sectionId;
+                }
             }
         });
         
@@ -289,42 +294,58 @@
         
         const cards = slider.querySelectorAll('.product-card');
         console.log('Found cards:', cards.length);
-        const cardWidth = 350; // 320px + 30px gap
+        if (!cards.length) {
+            return;
+        }
+        
         let currentIndex = 0;
         let autoScrollInterval;
+        let metrics = calculateMetrics();
         
-        // Создаем индикаторы
+        function calculateGap() {
+            const sliderStyles = window.getComputedStyle(slider);
+            const gap = parseFloat(sliderStyles.columnGap || sliderStyles.gap || '0');
+            return isNaN(gap) ? 0 : gap;
+        }
+        
+        function calculateMetrics() {
+            const gap = calculateGap();
+            const cardRect = cards[0].getBoundingClientRect();
+            const cardFullWidth = cardRect.width + gap;
+            const sliderWidth = slider.clientWidth;
+            const visible = Math.max(1, Math.floor((sliderWidth + gap) / Math.max(cardFullWidth, 1)));
+            const total = Math.max(1, Math.ceil(cards.length / visible));
+            const pageWidth = sliderWidth;
+            return { gap, cardWidth: cardFullWidth, visible, total, pageWidth };
+        }
+        
+        function ensureIndexBounds() {
+            if (currentIndex > metrics.total - 1) {
+                currentIndex = metrics.total - 1;
+            }
+            if (currentIndex < 0) {
+                currentIndex = 0;
+            }
+        }
+        
         function createDots() {
             if (!dotsContainer) return;
-            
             dotsContainer.innerHTML = '';
-            const totalSlides = Math.ceil(cards.length / 3); // Показываем по 3 карточки
-            
-            for (let i = 0; i < totalSlides; i++) {
+            for (let i = 0; i < metrics.total; i++) {
                 const dot = document.createElement('div');
                 dot.className = 'slider-dot';
-                if (i === 0) dot.classList.add('active');
-                dot.addEventListener('click', () => goToSlide(i));
+                if (i === currentIndex) {
+                    dot.classList.add('active');
+                }
+                dot.addEventListener('click', () => {
+                    stopAutoScroll();
+                    goToSlide(i);
+                    startAutoScroll();
+                });
                 dotsContainer.appendChild(dot);
             }
         }
         
-        // Переход к слайду
-        function goToSlide(index) {
-            const totalSlides = Math.ceil(cards.length / 3);
-            currentIndex = Math.max(0, Math.min(index, totalSlides - 1));
-            
-            console.log('Going to slide:', currentIndex, 'totalSlides:', totalSlides);
-            slider.scrollTo({
-                left: currentIndex * cardWidth * 3,
-                behavior: 'smooth'
-            });
-            
-            updateDots();
-            updateButtons();
-        }
-        
-        // Обновление индикаторов
         function updateDots() {
             if (!dotsContainer) return;
             const dots = dotsContainer.querySelectorAll('.slider-dot');
@@ -333,54 +354,106 @@
             });
         }
         
-        // Обновление кнопок
         function updateButtons() {
-            const totalSlides = Math.ceil(cards.length / 3);
             prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex === totalSlides - 1;
+            nextBtn.disabled = currentIndex >= metrics.total - 1;
         }
         
-        // Автопрокрутка
+        function goToSlide(index, animate = true) {
+            currentIndex = Math.max(0, Math.min(index, metrics.total - 1));
+            const target = currentIndex * metrics.pageWidth;
+            const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+            const scrollLeft = Math.min(target, maxScrollLeft);
+            slider.scrollTo({
+                left: scrollLeft,
+                behavior: animate ? 'smooth' : 'auto'
+            });
+            updateDots();
+            updateButtons();
+        }
+        
         function startAutoScroll() {
+            if (metrics.total <= 1) return;
+            stopAutoScroll();
             autoScrollInterval = setInterval(() => {
-                const totalSlides = Math.ceil(cards.length / 3);
-                if (currentIndex < totalSlides - 1) {
+                if (currentIndex < metrics.total - 1) {
                     goToSlide(currentIndex + 1);
                 } else {
                     goToSlide(0);
                 }
-            }, 5000); // 5 секунд
+            }, 5000);
         }
         
         function stopAutoScroll() {
             if (autoScrollInterval) {
                 clearInterval(autoScrollInterval);
+                autoScrollInterval = undefined;
             }
         }
         
-        // Обработчики событий
         prevBtn.addEventListener('click', () => {
-            console.log('Previous button clicked, currentIndex:', currentIndex);
             stopAutoScroll();
             goToSlide(currentIndex - 1);
             startAutoScroll();
         });
         
         nextBtn.addEventListener('click', () => {
-            console.log('Next button clicked, currentIndex:', currentIndex);
             stopAutoScroll();
             goToSlide(currentIndex + 1);
             startAutoScroll();
         });
         
-        // Остановка автопрокрутки при наведении
         slider.addEventListener('mouseenter', stopAutoScroll);
         slider.addEventListener('mouseleave', startAutoScroll);
         
-        // Инициализация
+        window.addEventListener('resize', () => {
+            const previousTotal = metrics.total;
+            metrics = calculateMetrics();
+            ensureIndexBounds();
+            if (metrics.total !== previousTotal) {
+                createDots();
+            }
+            goToSlide(currentIndex, false);
+            updateButtons();
+        });
+        
         createDots();
         updateButtons();
+        goToSlide(0, false);
         startAutoScroll();
+    }
+
+    // ===== Отслеживание кликов по CTA каталога =====
+    function initCatalogCtaTracking() {
+        const trackableElements = document.querySelectorAll('[data-track-event="catalog-cta"]');
+        if (!trackableElements.length) {
+            return;
+        }
+
+        const pushAnalyticsEvent = (label) => {
+            const payload = {
+                event: 'catalog_cta_click',
+                label,
+                timestamp: Date.now()
+            };
+
+            if (window.dataLayer && Array.isArray(window.dataLayer)) {
+                window.dataLayer.push(payload);
+            } else if (typeof window.gtag === 'function') {
+                window.gtag('event', 'catalog_cta_click', {
+                    event_label: label,
+                    event_category: 'catalog',
+                    value: Date.now()
+                });
+            } else {
+                console.info('Catalog CTA click', payload);
+            }
+        };
+
+        trackableElements.forEach((element) => {
+            const label = element.dataset.trackLabel || element.textContent.trim();
+            element.addEventListener('click', () => pushAnalyticsEvent(label), { passive: true });
+        });
     }
 
     // ===== AuraCloud Слайдер До/После =====
@@ -472,14 +545,14 @@
         
         function updateActiveSection() {
             const scrollPos = window.scrollY + 100;
-            let activeSection = 'hero';
+            let activeSection = sections.length ? sections[0].getAttribute('id') : '';
             
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.offsetHeight;
                 const sectionId = section.getAttribute('id');
                 
-                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight && visibilityHasLink(sectionId)) {
                     activeSection = sectionId;
                 }
             });
@@ -499,6 +572,10 @@
                     link.classList.add('active');
                 }
             });
+        }
+
+        function visibilityHasLink(sectionId) {
+            return Array.from(navLinks).some(link => link.getAttribute('href') === `#${sectionId}`);
         }
         
         // Отслеживаем скролл

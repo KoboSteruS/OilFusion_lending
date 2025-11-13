@@ -2,21 +2,21 @@
   "hero": {
     "type": "image",
     "image_url": "/static/img/hero.png",
-    "gradient": "linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)",
+    "gradient": "#E5DED3",
     "overlay_opacity": 0.3,
     "overlay_color": "#000000"
   },
   "about": {
     "type": "gradient",
     "image_url": "",
-    "gradient": "linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)",
+    "gradient": "#E5DED3",
     "overlay_opacity": 0.8,
     "overlay_color": "#FFFFFF"
   },
   "products": {
     "type": "gradient",
     "image_url": "",
-    "gradient": "linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)",
+    "gradient": "#E5DED3",
     "overlay_opacity": 0.8,
     "overlay_color": "#FFFFFF"
   },
@@ -30,7 +30,7 @@
   "personalization": {
     "type": "gradient",
     "image_url": "",
-    "gradient": "linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)",
+    "gradient": "#E5DED3",
     "overlay_opacity": 0.8,
     "overlay_color": "#FFFFFF"
   },
@@ -44,7 +44,7 @@
   "blog": {
     "type": "gradient",
     "image_url": "",
-    "gradient": "linear-gradient(135deg, #FFA48F 0%, #FFF4BB 100%)",
+    "gradient": "#E5DED3",
     "overlay_opacity": 0.8,
     "overlay_color": "#FFFFFF"
   },

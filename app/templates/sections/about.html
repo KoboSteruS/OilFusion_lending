@@ -64,35 +64,10 @@
             </div>
             
             <div class="about-visual" data-aos="fade-left">
-                <!-- Слайдер "До/После" для визуализации ауры -->
-                <div class="before-after-slider">
-                    <div class="slider-wrapper">
-                        <div class="before-image">
-                            <img src="{{ url_for('static', filename='images/aura-before.jpg') }}" 
-                                 alt="Аура до использования продуктов" 
-                                 class="slider-image">
-                            <span class="slider-label">До</span>
-                        </div>
-                        <div class="after-image">
-                            <img src="{{ url_for('static', filename='images/aura-after.jpg') }}" 
-                                 alt="Аура после использования продуктов" 
-                                 class="slider-image">
-                            <span class="slider-label">После</span>
-                        </div>
-                        <div class="slider-handle" id="sliderHandle">
-                            <div class="handle-line"></div>
-                            <div class="handle-button">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="slider-caption">
-                        Визуализация изменения ауры с помощью технологии AuraCloud® 3D
-                    </p>
-                </div>
+                {% set about_visual_image = about.background.image_url if about.background and about.background.image_url else url_for('static', filename='img/hero.png') %}
+                <figure class="about-image-wrapper">
+                    <img src="{{ about_visual_image }}" alt="OilFusion - визуализация технологий AuraCloud® 3D" class="about-image">
+                </figure>
             </div>
         </div>
     </div>

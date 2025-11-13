@@ -16,37 +16,62 @@
                 
                 <div class="visibility-controls">
                     <div class="visibility-item">
-                        <label class="visibility-label">
+                        <div class="visibility-item-info">
+                            <span class="visibility-title">Hero секция (главный экран)</span>
+                            <span class="visibility-subtitle">Показывать на сайте</span>
+                        </div>
+                        <label class="visibility-toggle">
                             <input type="checkbox" name="hero" {% if sections_visibility.hero %}checked{% endif %}>
-                            <span class="visibility-text">Hero секция (главный экран)</span>
+                            <span class="toggle-track"></span>
+                            <span class="toggle-text" data-active="Показывается" data-inactive="Скрыто"></span>
                         </label>
                     </div>
                     
                     <div class="visibility-item">
-                        <label class="visibility-label">
+                        <div class="visibility-item-info">
+                            <span class="visibility-title">О компании</span>
+                            <span class="visibility-subtitle">Показывать на сайте</span>
+                        </div>
+                        <label class="visibility-toggle">
                             <input type="checkbox" name="about" {% if sections_visibility.about %}checked{% endif %}>
-                            <span class="visibility-text">О компании</span>
+                            <span class="toggle-track"></span>
+                            <span class="toggle-text" data-active="Показывается" data-inactive="Скрыто"></span>
                         </label>
                     </div>
                     
                     <div class="visibility-item">
-                        <label class="visibility-label">
+                        <div class="visibility-item-info">
+                            <span class="visibility-title">Продукция</span>
+                            <span class="visibility-subtitle">Показывать на сайте</span>
+                        </div>
+                        <label class="visibility-toggle">
                             <input type="checkbox" name="products" {% if sections_visibility.products %}checked{% endif %}>
-                            <span class="visibility-text">Продукция</span>
+                            <span class="toggle-track"></span>
+                            <span class="toggle-text" data-active="Показывается" data-inactive="Скрыто"></span>
                         </label>
                     </div>
                     
                     <div class="visibility-item">
-                        <label class="visibility-label">
+                        <div class="visibility-item-info">
+                            <span class="visibility-title">Услуги</span>
+                            <span class="visibility-subtitle">Показывать на сайте</span>
+                        </div>
+                        <label class="visibility-toggle">
                             <input type="checkbox" name="services" {% if sections_visibility.services %}checked{% endif %}>
-                            <span class="visibility-text">Услуги</span>
+                            <span class="toggle-track"></span>
+                            <span class="toggle-text" data-active="Показывается" data-inactive="Скрыто"></span>
                         </label>
                     </div>
                     
                     <div class="visibility-item">
-                        <label class="visibility-label">
+                        <div class="visibility-item-info">
+                            <span class="visibility-title">Персонализация</span>
+                            <span class="visibility-subtitle">Показывать на сайте</span>
+                        </div>
+                        <label class="visibility-toggle">
                             <input type="checkbox" name="personalization" {% if sections_visibility.personalization %}checked{% endif %}>
-                            <span class="visibility-text">Персонализация</span>
+                            <span class="toggle-track"></span>
+                            <span class="toggle-text" data-active="Показывается" data-inactive="Скрыто"></span>
                         </label>
                     </div>
                 </div>
@@ -57,23 +82,38 @@
                 
                 <div class="visibility-controls">
                     <div class="visibility-item">
-                        <label class="visibility-label">
+                        <div class="visibility-item-info">
+                            <span class="visibility-title">Отзывы</span>
+                            <span class="visibility-subtitle">Показывать на сайте</span>
+                        </div>
+                        <label class="visibility-toggle">
                             <input type="checkbox" name="reviews" {% if sections_visibility.reviews %}checked{% endif %}>
-                            <span class="visibility-text">Отзывы</span>
+                            <span class="toggle-track"></span>
+                            <span class="toggle-text" data-active="Показывается" data-inactive="Скрыто"></span>
                         </label>
                     </div>
                     
                     <div class="visibility-item">
-                        <label class="visibility-label">
+                        <div class="visibility-item-info">
+                            <span class="visibility-title">Блог</span>
+                            <span class="visibility-subtitle">Показывать на сайте</span>
+                        </div>
+                        <label class="visibility-toggle">
                             <input type="checkbox" name="blog" {% if sections_visibility.blog %}checked{% endif %}>
-                            <span class="visibility-text">Блог</span>
+                            <span class="toggle-track"></span>
+                            <span class="toggle-text" data-active="Показывается" data-inactive="Скрыто"></span>
                         </label>
                     </div>
                     
                     <div class="visibility-item">
-                        <label class="visibility-label">
+                        <div class="visibility-item-info">
+                            <span class="visibility-title">Контакты</span>
+                            <span class="visibility-subtitle">Показывать на сайте</span>
+                        </div>
+                        <label class="visibility-toggle">
                             <input type="checkbox" name="contacts" {% if sections_visibility.contacts %}checked{% endif %}>
-                            <span class="visibility-text">Контакты</span>
+                            <span class="toggle-track"></span>
+                            <span class="toggle-text" data-active="Показывается" data-inactive="Скрыто"></span>
                         </label>
                     </div>
                 </div>
@@ -95,10 +135,14 @@
 }
 
 .visibility-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background: var(--admin-bg-light);
     border: 1px solid var(--admin-border);
-    border-radius: 8px;
-    padding: 16px;
+    border-radius: 12px;
+    padding: 20px 24px;
+    gap: 24px;
     transition: all 0.3s ease;
 }
 
@@ -107,26 +151,80 @@
     box-shadow: 0 2px 8px rgba(166, 124, 82, 0.1);
 }
 
-.visibility-label {
+.visibility-item-info {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.visibility-title {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--admin-text);
 }
 
-.visibility-label input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    accent-color: var(--admin-primary);
+.visibility-subtitle {
+    font-size: 0.875rem;
+    color: var(--admin-text-light);
+}
+
+.visibility-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
     cursor: pointer;
 }
 
-.visibility-text {
-    flex: 1;
-    line-height: 1.5;
+.visibility-toggle input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-track {
+    position: relative;
+    width: 56px;
+    height: 30px;
+    background: rgba(166, 124, 82, 0.2);
+    border-radius: 999px;
+    transition: background 0.3s ease;
+}
+
+.toggle-track::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.visibility-toggle input[type="checkbox"]:checked + .toggle-track {
+    background: var(--admin-primary);
+}
+
+.visibility-toggle input[type="checkbox"]:checked + .toggle-track::after {
+    transform: translateX(26px);
+}
+
+.toggle-text {
+    font-size: 0.875rem;
+    color: var(--admin-text-light);
+    min-width: 100px;
+    text-align: right;
+    position: relative;
+}
+
+.toggle-text::before {
+    content: attr(data-inactive);
+    display: inline-block;
+}
+
+.visibility-toggle input[type="checkbox"]:checked + .toggle-track + .toggle-text::before {
+    content: attr(data-active);
+    color: var(--admin-primary-dark);
 }
 
 .admin-subsection-title {
@@ -144,6 +242,19 @@
     margin-top: 32px;
     padding-top: 24px;
     border-top: 1px solid var(--admin-border);
+}
+
+@media (max-width: 768px) {
+    .visibility-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .toggle-text {
+        min-width: 0;
+        text-align: left;
+    }
 }
 </style>
 {% endblock %}

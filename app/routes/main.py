@@ -112,6 +112,29 @@ def index():
     )
 
 
+@main_bp.route('/catalog')
+def catalog():
+    """
+    Каталог продукции.
+    
+    Returns:
+        Отрендеренный HTML каталог с полным списком продуктов
+    """
+    logger.info("Запрос страницы каталога продукции")
+    
+    backgrounds = SectionBackgrounds()
+    products_store = ProductsContent()
+    
+    catalog_products = products_store.list()
+    catalog_background = backgrounds.get_section_background('products')
+    
+    return render_template(
+        'catalog.html',
+        products=catalog_products,
+        background=catalog_background
+    )
+
+
 @main_bp.route('/health')
 def health_check():
     """
