@@ -19,7 +19,7 @@
             <div class="products-slider" id="productsSlider">
                 {% if products.products_list %}
                     {% for product in products.products_list %}
-                    {% set product_slug = product.name|lower|replace(' ', '-')|replace('\"', '')|replace(\"'\", '')|replace('«', '')|replace('»', '')|replace('“', '')|replace('”', '') %}
+                    {% set product_slug = product.name|lower|replace(' ', '-')|replace('"', '')|replace("'", '')|replace('«', '')|replace('»', '')|replace('“', '')|replace('”', '') %}
                     <div class="product-card">
                         <div class="product-image">
                             <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">

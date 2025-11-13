@@ -1,0 +1,71 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Переводы - Админка OilFusion{% endblock %}
+
+{% block content %}
+<div class="admin-edit-page">
+    <div class="admin-page-header">
+        <h1 class="admin-page-title">Переводы интерфейса</h1>
+        <p class="admin-page-subtitle">
+            Управляйте автопереводами и вручную корректируйте текстовые элементы для языков LV и EN.
+        </p>
+    </div>
+
+    {% if records %}
+    <div class="admin-section">
+        <div class="translations-grid">
+            {% for record in records %}
+            <section class="translation-entry">
+                <header class="translation-meta">
+                    <span class="translation-key">{{ record.key }}</span>
+                    <p class="translation-original">{{ record.original }}</p>
+                </header>
+                <div class="translation-forms">
+                    {% for lang in languages %}
+                    {% set info = record.translations.get(lang) or {} %}
+                    <form method="POST"
+                          action="{{ url_for('admin.translations_update', token=token) }}"
+                          class="translation-form">
+                        <input type="hidden" name="key" value="{{ record.key }}">
+                        <input type="hidden" name="locale" value="{{ lang }}">
+                        <label class="translation-label" for="{{ record.key }}-{{ lang }}">
+                            {{ language_labels.get(lang, lang|upper) }}
+                            {% if info.source %}
+                            <span class="translation-badge translation-badge--{{ info.source }}">
+                                {{ 'Авто' if info.source == 'auto' else 'Ручной' }}
+                            </span>
+                            {% endif %}
+                        </label>
+                        <textarea id="{{ record.key }}-{{ lang }}"
+                                  name="value"
+                                  class="translation-textarea"
+                                  rows="4"
+                                  placeholder="Введите перевод...">{{ info.value or '' }}</textarea>
+                        <div class="translation-actions">
+                            <button type="submit" class="admin-btn admin-btn-primary">Сохранить</button>
+                            <button type="submit"
+                                    class="admin-btn admin-btn-secondary"
+                                    formaction="{{ url_for('admin.translations_auto', token=token) }}">
+                                Авто-перевод
+                            </button>
+                        </div>
+                        {% if info.updated_at %}
+                        <p class="translation-updated">Обновлено: {{ info.updated_at }}</p>
+                        {% endif %}
+                    </form>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <div class="admin-section">
+        <p class="admin-empty-state">
+            Переводов пока нет. Откройте публичную страницу для генерации текстов, затем обновите эту вкладку.
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

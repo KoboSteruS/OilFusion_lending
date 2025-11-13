@@ -3,18 +3,78 @@
 Защищены JWT токеном в URL: /<token>/admin/...
 """
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
-from app.models.content import AboutContent, PersonalizationContent, BlogContent
-from app.models.products import ProductsContent
-from app.models.services import ServicesContent
-from app.models.contacts import ContactsContent
-from app.models.hero import HeroContent
-from app.models.sections_visibility import SectionsVisibility
+from datetime import datetime
+from pathlib import Path
+from typing import Optional
+
+from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
+from werkzeug.datastructures import FileStorage
+from werkzeug.utils import secure_filename
+
+from app.i18n.adapters import (
+    translate_about,
+    translate_auracloud_slider,
+    translate_blog,
+    translate_contacts,
+    translate_hero,
+    translate_personalization,
+    translate_products,
+    translate_reviews,
+    translate_services,
+)
+from app.i18n.const import DEFAULT_LANGUAGE, LANGUAGE_LABELS, SUPPORTED_LANGUAGES
+from app.i18n.manager import translation_manager
 from app.models.auracloud_slider import AuraCloudSlider
-from app.utils.logger import get_logger
+from app.models.contacts import ContactsContent
+from app.models.content import AboutContent, BlogContent, PersonalizationContent
+from app.models.hero import HeroContent
+from app.models.products import ProductsContent
+from app.models.sections_visibility import SectionsVisibility
+from app.models.services import ServicesContent
 from app.utils.auth import require_admin_token
+from app.utils.logger import get_logger
 
 logger = get_logger()
+
+ALLOWED_IMAGE_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp', 'gif'}
+
+
+def _save_uploaded_image(file: FileStorage, prefix: str) -> Optional[str]:
+    """
+    Сохранение загруженного изображения в папку static/img.
+
+    Args:
+        file: Объект FileStorage из Flask.
+        prefix: Префикс для формирования имени файла.
+
+    Returns:
+        Относительный URL сохранённого файла или None, если файл не загружен.
+
+    Raises:
+        ValueError: Если файл имеет недопустимое расширение.
+        OSError: Если не удалось сохранить файл.
+    """
+    if not file or not file.filename:
+        return None
+
+    filename = secure_filename(file.filename)
+    if '.' not in filename:
+        raise ValueError('Файл изображения должен иметь расширение.')
+
+    extension = filename.rsplit('.', 1)[1].lower()
+    if extension not in ALLOWED_IMAGE_EXTENSIONS:
+        raise ValueError('Недопустимое расширение файла. Разрешены: PNG, JPG, JPEG, WEBP, GIF.')
+
+    upload_folder = Path(current_app.root_path) / 'static' / 'img'
+    upload_folder.mkdir(parents=True, exist_ok=True)
+
+    unique_filename = f"{prefix}_{int(datetime.now().timestamp())}_{filename}"
+    target_path = upload_folder / unique_filename
+    file.save(target_path)
+
+    logger.info(f"Изображение сохранено: {unique_filename}")
+    return f"/static/img/{unique_filename}"
+
 
 # Создание Blueprint для админских маршрутов
 admin_bp = Blueprint('admin', __name__)
@@ -62,7 +122,9 @@ def about_update(token):
     about_content = AboutContent()
     
     # Обработка фонового изображения
-    background_image_url = request.form.get('background_image_url', '')
+    background_image_url = (request.form.get('background_image_url') or '').strip()
+    if background_image_url.lower() in {'none', 'null', 'undefined'}:
+        background_image_url = ''
     background_overlay_opacity_raw = request.form.get('background_overlay_opacity', '0.8')
     try:
         background_overlay_opacity = float(background_overlay_opacity_raw)
@@ -71,30 +133,18 @@ def about_update(token):
     background_overlay_opacity = max(0.0, min(1.0, background_overlay_opacity))
     background_overlay_color = request.form.get('background_overlay_color', '#FFFFFF') or '#FFFFFF'
     
-    # Обработка загруженного файла
-    if 'background_image' in request.files:
-        file = request.files['background_image']
-        if file and file.filename:
-            from werkzeug.utils import secure_filename
-            from datetime import datetime
-            from pathlib import Path
-            
-            # Проверяем расширение файла
-            if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'webp', 'gif'}:
-                filename = secure_filename(file.filename)
-                # Создаём уникальное имя файла
-                timestamp = int(datetime.now().timestamp())
-                unique_filename = f"about_{timestamp}_{filename}"
-                
-                # Путь для сохранения
-                upload_folder = Path('app/static/img')
-                upload_folder.mkdir(parents=True, exist_ok=True)
-                
-                file_path = upload_folder / unique_filename
-                file.save(str(file_path))
-                
-                background_image_url = f"/static/img/{unique_filename}"
-                logger.info(f"Загружено изображение для секции 'О компании': {unique_filename}")
+    background_file_error: Optional[str] = None
+    uploaded_background = request.files.get('background_image')
+    if uploaded_background and uploaded_background.filename:
+        try:
+            saved_url = _save_uploaded_image(uploaded_background, 'about')
+            if saved_url:
+                background_image_url = saved_url
+        except ValueError as exc:
+            background_file_error = str(exc)
+        except OSError as exc:
+            background_file_error = 'Не удалось сохранить фоновое изображение. Попробуйте загрузить файл ещё раз.'
+            logger.exception("Ошибка сохранения фона для секции 'О компании': %s", exc)
     
     update_data = {
         'title': request.form.get('title', ''),
@@ -110,6 +160,9 @@ def about_update(token):
     else:
         flash('Ошибка при обновлении контента!', 'error')
     
+    if background_file_error:
+        flash(background_file_error, 'error')
+    
     return redirect(url_for('admin.about_edit', token=token))
 
 
@@ -122,32 +175,22 @@ def about_feature_add(token):
     about_content = AboutContent()
     
     # Обработка изображения особенности
-    feature_image_url = request.form.get('feature_image_url', '')
+    feature_image_url = (request.form.get('feature_image_url') or '').strip()
+    if feature_image_url.lower() in {'none', 'null', 'undefined'}:
+        feature_image_url = ''
     
-    # Обработка загруженного файла
-    if 'feature_image' in request.files:
-        file = request.files['feature_image']
-        if file and file.filename:
-            from werkzeug.utils import secure_filename
-            from datetime import datetime
-            from pathlib import Path
-            
-            # Проверяем расширение файла
-            if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'webp', 'gif'}:
-                filename = secure_filename(file.filename)
-                # Создаём уникальное имя файла
-                timestamp = int(datetime.now().timestamp())
-                unique_filename = f"feature_{timestamp}_{filename}"
-                
-                # Путь для сохранения
-                upload_folder = Path('app/static/img')
-                upload_folder.mkdir(parents=True, exist_ok=True)
-                
-                file_path = upload_folder / unique_filename
-                file.save(str(file_path))
-                
-                feature_image_url = f"/static/img/{unique_filename}"
-                logger.info(f"Загружено изображение для особенности: {unique_filename}")
+    feature_file_error: Optional[str] = None
+    uploaded_feature = request.files.get('feature_image')
+    if uploaded_feature and uploaded_feature.filename:
+        try:
+            saved_url = _save_uploaded_image(uploaded_feature, 'feature')
+            if saved_url:
+                feature_image_url = saved_url
+        except ValueError as exc:
+            feature_file_error = str(exc)
+        except OSError as exc:
+            feature_file_error = 'Не удалось сохранить изображение особенности.'
+            logger.exception("Ошибка сохранения изображения особенности: %s", exc)
     
     feature_data = {
         'title': request.form.get('feature_title', ''),
@@ -161,6 +204,9 @@ def about_feature_add(token):
     else:
         flash('Ошибка при добавлении особенности!', 'error')
     
+    if feature_file_error:
+        flash(feature_file_error, 'error')
+    
     return redirect(url_for('admin.about_edit', token=token))
 
 
@@ -173,32 +219,22 @@ def about_feature_update(token, index):
     about_content = AboutContent()
     
     # Обработка изображения особенности
-    feature_image_url = request.form.get('feature_image_url', '')
+    feature_image_url = (request.form.get('feature_image_url') or '').strip()
+    if feature_image_url.lower() in {'none', 'null', 'undefined'}:
+        feature_image_url = ''
     
-    # Обработка загруженного файла
-    if 'feature_image' in request.files:
-        file = request.files['feature_image']
-        if file and file.filename:
-            from werkzeug.utils import secure_filename
-            from datetime import datetime
-            from pathlib import Path
-            
-            # Проверяем расширение файла
-            if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'webp', 'gif'}:
-                filename = secure_filename(file.filename)
-                # Создаём уникальное имя файла
-                timestamp = int(datetime.now().timestamp())
-                unique_filename = f"feature_{timestamp}_{filename}"
-                
-                # Путь для сохранения
-                upload_folder = Path('app/static/img')
-                upload_folder.mkdir(parents=True, exist_ok=True)
-                
-                file_path = upload_folder / unique_filename
-                file.save(str(file_path))
-                
-                feature_image_url = f"/static/img/{unique_filename}"
-                logger.info(f"Загружено изображение для особенности: {unique_filename}")
+    feature_file_error: Optional[str] = None
+    uploaded_feature = request.files.get('feature_image')
+    if uploaded_feature and uploaded_feature.filename:
+        try:
+            saved_url = _save_uploaded_image(uploaded_feature, 'feature')
+            if saved_url:
+                feature_image_url = saved_url
+        except ValueError as exc:
+            feature_file_error = str(exc)
+        except OSError as exc:
+            feature_file_error = 'Не удалось сохранить изображение особенности.'
+            logger.exception("Ошибка обновления изображения особенности: %s", exc)
     
     feature_data = {
         'title': request.form.get('feature_title', ''),
@@ -211,6 +247,9 @@ def about_feature_update(token, index):
         flash('Особенность успешно обновлена!', 'success')
     else:
         flash('Ошибка при обновлении особенности!', 'error')
+    
+    if feature_file_error:
+        flash(feature_file_error, 'error')
     
     return redirect(url_for('admin.about_edit', token=token))
 
@@ -259,25 +298,30 @@ def personalization_update(token):
         'bio_well_url': request.form.get('bio_well_url', '')
     }
     
-    # обработка изображений секций
-    from pathlib import Path
-    from datetime import datetime
-    from werkzeug.utils import secure_filename
-    def _save_image(prefix: str, file_field: str, fallback_url: str) -> str:
-        url = request.form.get(fallback_url, '')
-        if file_field in request.files:
-            file = request.files[file_field]
-            if file and file.filename and '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in {'png','jpg','jpeg','webp','gif'}:
-                filename = secure_filename(file.filename)
-                unique = f"{prefix}_{int(datetime.now().timestamp())}_{filename}"
-                folder = Path('app/static/img')
-                folder.mkdir(parents=True, exist_ok=True)
-                file.save(str(folder / unique))
-                return f"/static/img/{unique}"
-        return url
+    def resolve_image(prefix: str, file_field: str, url_field: str) -> str:
+        file_error: Optional[str] = None
+        current_url = (request.form.get(url_field) or '').strip()
+        if current_url.lower() in {'none', 'null', 'undefined'}:
+            current_url = ''
 
-    dna_image = _save_image('dna', 'dna_image', 'dna_image_url')
-    auracloud_image = _save_image('auracloud', 'auracloud_image', 'auracloud_image_url')
+        uploaded = request.files.get(file_field)
+        if uploaded and uploaded.filename:
+            try:
+                saved_url = _save_uploaded_image(uploaded, prefix)
+                if saved_url:
+                    return saved_url
+            except ValueError as exc:
+                file_error = str(exc)
+            except OSError as exc:
+                file_error = 'Не удалось сохранить изображение. Попробуйте снова.'
+                logger.exception("Ошибка сохранения изображения %s: %s", prefix, exc)
+
+        if file_error:
+            flash(file_error, 'error')
+        return current_url
+
+    dna_image = resolve_image('dna', 'dna_image', 'dna_image_url')
+    auracloud_image = resolve_image('auracloud', 'auracloud_image', 'auracloud_image_url')
 
     dna_data = {
         'title': request.form.get('dna_title', ''),
@@ -599,45 +643,39 @@ def hero_save(token):
     hero = HeroContent()
     
     # Обработка фонового изображения
-    background_image_url = request.form.get('hero_background_url', '')
-    
-    # Обработка загруженного файла
-    if 'hero_background_image' in request.files:
-        file = request.files['hero_background_image']
-        if file and file.filename:
-            from werkzeug.utils import secure_filename
-            from datetime import datetime
-            from pathlib import Path
-            
-            # Проверяем расширение файла
-            if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'webp', 'gif'}:
-                filename = secure_filename(file.filename)
-                # Создаём уникальное имя файла
-                timestamp = int(datetime.now().timestamp())
-                unique_filename = f"hero_{timestamp}_{filename}"
-                
-                # Путь для сохранения
-                upload_folder = Path('app/static/img')
-                upload_folder.mkdir(parents=True, exist_ok=True)
-                
-                file_path = upload_folder / unique_filename
-                file.save(str(file_path))
-                
-                background_image_url = f"/static/img/{unique_filename}"
-                logger.info(f"Загружено изображение для Hero секции: {unique_filename}")
+    background_image_url = (request.form.get('hero_background_url') or '').strip()
+    if background_image_url.lower() in {'none', 'null', 'undefined'}:
+        background_image_url = ''
+
+    file_error: Optional[str] = None
+    uploaded_file = request.files.get('hero_background_image')
+    if uploaded_file and uploaded_file.filename:
+        try:
+            saved_url = _save_uploaded_image(uploaded_file, 'hero')
+            if saved_url:
+                background_image_url = saved_url
+        except ValueError as exc:
+            file_error = str(exc)
+        except OSError as exc:
+            file_error = 'Не удалось сохранить изображение. Попробуйте ещё раз позже.'
+            logger.exception("Ошибка сохранения изображения для Hero секции: %s", exc)
     
     # Обновляем фоновое изображение через SectionBackgrounds
     if background_image_url:
-        from app.models.images import SectionBackgrounds
-        backgrounds = SectionBackgrounds()
-        backgrounds.update_section_background(
-            section='hero',
-            bg_type='image',
-            image_url=background_image_url,
-            gradient='',
-            overlay_opacity=0.3,
-            overlay_color='#000000'
-        )
+        try:
+            from app.models.images import SectionBackgrounds
+            backgrounds = SectionBackgrounds()
+            backgrounds.update_section_background(
+                section='hero',
+                bg_type='image',
+                image_url=background_image_url,
+                gradient='',
+                overlay_opacity=0.3,
+                overlay_color='#000000'
+            )
+        except Exception as exc:  # noqa: BLE001
+            file_error = 'Не удалось обновить фоновое изображение Hero секции.'
+            logger.exception("Ошибка обновления фона Hero секции: %s", exc)
     
     # Обновляем контент Hero
     data = {
@@ -648,6 +686,8 @@ def hero_save(token):
         'scroll_text': request.form.get('scroll_text', ''),
     }
     ok = hero.update_content(data)
+    if file_error:
+        flash(file_error, 'error')
     flash('Hero контент сохранён' if ok else 'Ошибка сохранения Hero контента', 'success' if ok else 'error')
     return redirect(url_for('admin.hero_edit', token=token))
 
@@ -707,6 +747,64 @@ def sections_visibility_update(token):
         flash('Ошибка при сохранении настроек!', 'error')
     
     return redirect(url_for('admin.sections_visibility', token=token))
+
+
+@admin_bp.route('/<token>/admin/translations')
+@require_admin_token
+def translations(token):
+    """
+    Управление переводами контента.
+    """
+    logger.info("Запрос страницы управления переводами")
+    _prime_translation_entries()
+    records = translation_manager.list_records()
+    return render_template(
+        'admin/translations.html',
+        records=records,
+        token=token,
+        languages=[lang for lang in SUPPORTED_LANGUAGES if lang != DEFAULT_LANGUAGE],
+        language_labels=LANGUAGE_LABELS,
+    )
+
+
+@admin_bp.route('/<token>/admin/translations/update', methods=['POST'])
+@require_admin_token
+def translations_update(token):
+    """
+    Сохранение ручного перевода.
+    """
+    key = (request.form.get('key') or '').strip()
+    locale = (request.form.get('locale') or '').lower()
+    value = request.form.get('value', '')
+
+    if not key or locale not in SUPPORTED_LANGUAGES or locale == DEFAULT_LANGUAGE:
+        flash('Некорректные данные для сохранения перевода', 'error')
+    else:
+        translation_manager.set_manual_translation(key, locale, value)
+        flash('Перевод обновлён', 'success')
+
+    return redirect(url_for('admin.translations', token=token))
+
+
+@admin_bp.route('/<token>/admin/translations/auto', methods=['POST'])
+@require_admin_token
+def translations_auto(token):
+    """
+    Принудительный автоперевод для выбранного ключа.
+    """
+    key = (request.form.get('key') or '').strip()
+    locale = (request.form.get('locale') or '').lower()
+
+    if not key or locale not in SUPPORTED_LANGUAGES or locale == DEFAULT_LANGUAGE:
+        flash('Невозможно выполнить автоперевод для выбранных параметров', 'error')
+    else:
+        result = translation_manager.auto_translate(key, locale)
+        if result is None:
+            flash('Автоматический перевод отключён', 'error')
+        else:
+            flash('Автоперевод выполнен', 'success')
+
+    return redirect(url_for('admin.translations', token=token))
 
 
 @admin_bp.route('/<token>/admin/auracloud-slider')
@@ -770,3 +868,66 @@ def auracloud_slider_update(token):
         flash('Ошибка при сохранении настроек!', 'error')
     
     return redirect(url_for('admin.auracloud_slider', token=token))
+
+
+def _prime_translation_entries() -> None:
+    """
+    Подготавливает ключи переводов на основе текущего контента.
+    """
+    backgrounds = SectionBackgrounds()
+
+    hero_content = HeroContent()
+    hero_data = {
+        'slogan': hero_content.get_slogan(),
+        'subtitle': hero_content.get_subtitle(),
+        'cta_primary': hero_content.get_cta_primary(),
+        'cta_secondary': hero_content.get_cta_secondary(),
+        'scroll_text': hero_content.get_scroll_text(),
+        'background': backgrounds.get_section_background('hero'),
+    }
+    translate_hero(hero_data, DEFAULT_LANGUAGE)
+
+    about_content = AboutContent()
+    about_data = about_content.get_all()
+    about_data['background'] = backgrounds.get_section_background('about')
+    translate_about(about_data, DEFAULT_LANGUAGE)
+
+    products_store = ProductsContent()
+    products_data = {
+        'title': 'Наша продукция',
+        'products_list': products_store.list(),
+        'background': backgrounds.get_section_background('products'),
+    }
+    translate_products(products_data, DEFAULT_LANGUAGE)
+
+    services_store = ServicesContent()
+    services_data = {
+        'title': 'Наши услуги',
+        'services_list': services_store.list(),
+    }
+    translate_services(services_data, DEFAULT_LANGUAGE)
+
+    personalization_content = PersonalizationContent()
+    personalization_data = personalization_content.get_all()
+    translate_personalization(personalization_data, DEFAULT_LANGUAGE)
+
+    blog_content = BlogContent()
+    blog_data = {
+        'title': blog_content.get('title', 'Блог'),
+        'subtitle': blog_content.get('subtitle', ''),
+        'articles_list': blog_content.get_published_articles(),
+    }
+    translate_blog(blog_data, DEFAULT_LANGUAGE)
+
+    contacts_store = ContactsContent()
+    contacts_data = contacts_store.get_all()
+    translate_contacts(contacts_data, DEFAULT_LANGUAGE)
+
+    auracloud_slider_store = AuraCloudSlider()
+    translate_auracloud_slider(auracloud_slider_store.get_all(), DEFAULT_LANGUAGE)
+
+    reviews_data = {
+        'title': 'Отзывы наших клиентов',
+        'reviews_list': [],
+    }
+    translate_reviews(reviews_data, DEFAULT_LANGUAGE)

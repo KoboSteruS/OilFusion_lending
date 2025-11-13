@@ -61,9 +61,9 @@
           
           <div class="admin-form-group">
             <div class="admin-image-info">
-              <div id="hero_bg_preview" class="admin-preview-image">
+              <div id="hero_bg_preview" class="admin-preview-image admin-preview-image--wide">
                 {% if hero.background and hero.background.image_url %}
-                <img src="{{ hero.background.image_url }}" alt="Превью фона Hero" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);">
+                <img src="{{ hero.background.image_url }}" alt="Превью фона Hero">
                 {% endif %}
               </div>
             </div>
@@ -85,7 +85,7 @@ function previewImage(input, previewId) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            preview.innerHTML = `<img src="${e.target.result}" alt="Предварительный просмотр" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);">`;
+            preview.innerHTML = `<img src="${e.target.result}" alt="Предварительный просмотр">`;
         };
         reader.readAsDataURL(input.files[0]);
     }
@@ -95,7 +95,7 @@ function previewImageFromUrl(input, previewId) {
     const preview = document.getElementById(previewId);
     const url = input.value.trim();
     if (url) {
-        preview.innerHTML = `<img src="${url}" alt="Предварительный просмотр" style="max-width: 200px; border-radius: 8px; border: 1px solid var(--admin-border);" onerror="this.style.display='none'">`;
+        preview.innerHTML = `<img src="${url}" alt="Предварительный просмотр" onerror="this.style.display='none'">`;
     } else {
         preview.innerHTML = '';
     }

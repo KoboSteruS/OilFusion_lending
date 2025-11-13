@@ -266,15 +266,15 @@
 }
 
 .admin-flash-success {
-    background-color: #D4EDDA;
-    color: #155724;
-    border: 1px solid #C3E6CB;
+    background-color: rgba(166, 124, 82, 0.12);
+    color: var(--admin-primary-dark);
+    border: 1px solid rgba(166, 124, 82, 0.35);
 }
 
 .admin-flash-error {
-    background-color: #F8D7DA;
-    color: #721C24;
-    border: 1px solid #F5C6CB;
+    background-color: rgba(140, 46, 46, 0.12);
+    color: #7A2E2E;
+    border: 1px solid rgba(140, 46, 46, 0.3);
 }
 
 .admin-flash-text {

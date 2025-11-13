@@ -55,6 +55,11 @@ class Config:
     GOOGLE_MAPS_API_KEY: str = os.getenv('GOOGLE_MAPS_API_KEY', '')
     COMPANY_LATITUDE: str = os.getenv('COMPANY_LATITUDE', '55.751244')
     COMPANY_LONGITUDE: str = os.getenv('COMPANY_LONGITUDE', '37.618423')
+
+    # Настройки интернационализации
+    SUPPORTED_LANGUAGES = ('ru', 'lv', 'en')
+    DEFAULT_LANGUAGE = os.getenv('DEFAULT_LANGUAGE', 'ru')
+    AUTO_TRANSLATION_ENABLED: bool = os.getenv('AUTO_TRANSLATION_ENABLED', 'true').lower() == 'true'
     
     @classmethod
     def init_app(cls, app):

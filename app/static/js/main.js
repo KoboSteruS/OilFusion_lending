@@ -19,6 +19,7 @@
         initAuraCloudSlider(); // AuraCloud slider
         initNavbarSections(); // Navbar sections tracking
         initCatalogCtaTracking(); // Tracking CTA кликов каталога
+        initLanguageSwitcher(); // Language switcher
     });
     
     // ===== Мобильное меню =====
@@ -284,143 +285,139 @@
         const prevBtn = document.getElementById('productsPrev');
         const nextBtn = document.getElementById('productsNext');
         const dotsContainer = document.getElementById('productsDots');
-        
+    
         if (!slider || !prevBtn || !nextBtn) {
-            console.log('Products slider elements not found');
             return;
         }
-        
-        console.log('Products slider initialized');
-        
-        const cards = slider.querySelectorAll('.product-card');
-        console.log('Found cards:', cards.length);
+    
+        const cards = Array.from(slider.querySelectorAll('.product-card'));
         if (!cards.length) {
             return;
         }
-        
-        let currentIndex = 0;
+    
+        let currentPage = 0;
         let autoScrollInterval;
-        let metrics = calculateMetrics();
-        
-        function calculateGap() {
-            const sliderStyles = window.getComputedStyle(slider);
-            const gap = parseFloat(sliderStyles.columnGap || sliderStyles.gap || '0');
-            return isNaN(gap) ? 0 : gap;
+        let metrics = buildMetrics();
+    
+        function getGap() {
+            const styles = window.getComputedStyle(slider);
+            const gap = parseFloat(styles.columnGap || styles.gap || '0');
+            return Number.isNaN(gap) ? 0 : gap;
         }
-        
-        function calculateMetrics() {
-            const gap = calculateGap();
+    
+        function buildMetrics() {
+            const sliderWidth = slider.clientWidth || slider.getBoundingClientRect().width || 1;
+            const gap = getGap();
             const cardRect = cards[0].getBoundingClientRect();
-            const cardFullWidth = cardRect.width + gap;
-            const sliderWidth = slider.clientWidth;
-            const visible = Math.max(1, Math.floor((sliderWidth + gap) / Math.max(cardFullWidth, 1)));
-            const total = Math.max(1, Math.ceil(cards.length / visible));
-            const pageWidth = sliderWidth;
-            return { gap, cardWidth: cardFullWidth, visible, total, pageWidth };
-        }
-        
-        function ensureIndexBounds() {
-            if (currentIndex > metrics.total - 1) {
-                currentIndex = metrics.total - 1;
+            const cardWidth = cardRect.width || 320;
+            const visibleCount = Math.max(1, Math.floor((sliderWidth + gap) / Math.max(cardWidth + gap, 1)));
+            const totalPages = Math.max(1, Math.ceil(cards.length / visibleCount));
+            const maxScroll = Math.max(0, slider.scrollWidth - sliderWidth);
+    
+            const pageOffsets = [];
+            for (let page = 0; page < totalPages; page += 1) {
+                const firstIndex = Math.min(page * visibleCount, Math.max(cards.length - visibleCount, 0));
+                const offset = cards[firstIndex]?.offsetLeft ?? 0;
+                pageOffsets.push(Math.min(offset, maxScroll));
             }
-            if (currentIndex < 0) {
-                currentIndex = 0;
+    
+            if (!pageOffsets.includes(maxScroll) && maxScroll > 0) {
+                pageOffsets[pageOffsets.length - 1] = maxScroll;
             }
+    
+            return { gap, cardWidth, visibleCount, totalPages, pageOffsets, maxScroll };
         }
-        
-        function createDots() {
+    
+        function updateDots() {
             if (!dotsContainer) return;
             dotsContainer.innerHTML = '';
-            for (let i = 0; i < metrics.total; i++) {
+            for (let i = 0; i < metrics.totalPages; i += 1) {
                 const dot = document.createElement('div');
                 dot.className = 'slider-dot';
-                if (i === currentIndex) {
+                if (i === currentPage) {
                     dot.classList.add('active');
                 }
                 dot.addEventListener('click', () => {
                     stopAutoScroll();
-                    goToSlide(i);
+                    goToPage(i);
                     startAutoScroll();
-                });
+                }, { passive: true });
                 dotsContainer.appendChild(dot);
             }
         }
-        
-        function updateDots() {
-            if (!dotsContainer) return;
-            const dots = dotsContainer.querySelectorAll('.slider-dot');
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
-            });
-        }
-        
+    
         function updateButtons() {
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex >= metrics.total - 1;
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage >= metrics.totalPages - 1;
         }
-        
-        function goToSlide(index, animate = true) {
-            currentIndex = Math.max(0, Math.min(index, metrics.total - 1));
-            const target = currentIndex * metrics.pageWidth;
-            const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
-            const scrollLeft = Math.min(target, maxScrollLeft);
+    
+        function goToPage(pageIndex, animated = true) {
+            const boundedIndex = Math.max(0, Math.min(pageIndex, metrics.totalPages - 1));
+            currentPage = boundedIndex;
+            const targetLeft = metrics.pageOffsets[boundedIndex] ?? 0;
             slider.scrollTo({
-                left: scrollLeft,
-                behavior: animate ? 'smooth' : 'auto'
+                left: targetLeft,
+                behavior: animated ? 'smooth' : 'auto'
             });
-            updateDots();
             updateButtons();
+            if (dotsContainer) {
+                const dots = dotsContainer.querySelectorAll('.slider-dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentPage);
+                });
+            }
         }
-        
+    
         function startAutoScroll() {
-            if (metrics.total <= 1) return;
+            if (metrics.totalPages <= 1) return;
             stopAutoScroll();
-            autoScrollInterval = setInterval(() => {
-                if (currentIndex < metrics.total - 1) {
-                    goToSlide(currentIndex + 1);
+            autoScrollInterval = window.setInterval(() => {
+                if (currentPage < metrics.totalPages - 1) {
+                    goToPage(currentPage + 1);
                 } else {
-                    goToSlide(0);
+                    goToPage(0);
                 }
-            }, 5000);
+            }, 6000);
         }
-        
+    
         function stopAutoScroll() {
             if (autoScrollInterval) {
-                clearInterval(autoScrollInterval);
+                window.clearInterval(autoScrollInterval);
                 autoScrollInterval = undefined;
             }
         }
-        
+    
         prevBtn.addEventListener('click', () => {
             stopAutoScroll();
-            goToSlide(currentIndex - 1);
+            goToPage(currentPage - 1);
             startAutoScroll();
         });
-        
+    
         nextBtn.addEventListener('click', () => {
             stopAutoScroll();
-            goToSlide(currentIndex + 1);
+            goToPage(currentPage + 1);
             startAutoScroll();
         });
-        
+    
         slider.addEventListener('mouseenter', stopAutoScroll);
         slider.addEventListener('mouseleave', startAutoScroll);
-        
+    
         window.addEventListener('resize', () => {
-            const previousTotal = metrics.total;
-            metrics = calculateMetrics();
-            ensureIndexBounds();
-            if (metrics.total !== previousTotal) {
-                createDots();
-            }
-            goToSlide(currentIndex, false);
+            const previousPage = currentPage;
+            metrics = buildMetrics();
+            currentPage = Math.min(previousPage, metrics.totalPages - 1);
+            updateDots();
+            goToPage(currentPage, false);
             updateButtons();
         });
-        
-        createDots();
-        updateButtons();
-        goToSlide(0, false);
-        startAutoScroll();
+    
+        requestAnimationFrame(() => {
+            metrics = buildMetrics();
+            updateDots();
+            updateButtons();
+            goToPage(0, false);
+            startAutoScroll();
+        });
     }
 
     // ===== Отслеживание кликов по CTA каталога =====
@@ -583,6 +580,57 @@
         
         // Инициализация
         updateActiveSection();
+    }
+
+    // ===== Переключатель языка =====
+    function initLanguageSwitcher() {
+        const langButtons = document.querySelectorAll('.lang-btn');
+        
+        if (langButtons.length === 0) return;
+        
+        // Получаем текущий язык из localStorage или используем 'ru' по умолчанию
+        let currentLang = localStorage.getItem('selectedLanguage') || 'ru';
+        
+        // Устанавливаем активную кнопку при загрузке
+        langButtons.forEach(btn => {
+            const lang = btn.getAttribute('data-lang');
+            if (lang === currentLang) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // Обработчик клика на кнопки языка
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const selectedLang = this.getAttribute('data-lang');
+                
+                // Убираем активный класс со всех кнопок
+                langButtons.forEach(b => b.classList.remove('active'));
+                
+                // Добавляем активный класс к выбранной кнопке
+                this.classList.add('active');
+                
+                // Сохраняем выбранный язык
+                localStorage.setItem('selectedLanguage', selectedLang);
+                
+                // Отправляем запрос на сервер для смены языка
+                fetch(`/set_language/${selectedLang}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Перезагружаем страницу для применения нового языка
+                        window.location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка при смене языка:', error);
+                });
+            });
+        });
     }
 
 })();
