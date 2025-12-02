@@ -5,7 +5,6 @@
 
 from flask import (
     Blueprint,
-    current_app,
     g,
     redirect,
     render_template,
@@ -14,26 +13,8 @@ from flask import (
     url_for,
 )
 
-from app.i18n.adapters import (
-    translate_about,
-    translate_auracloud_slider,
-    translate_blog,
-    translate_contacts,
-    translate_hero,
-    translate_personalization,
-    translate_products,
-    translate_reviews,
-    translate_services,
-)
+from app.database import ContentRepository, ImageRepository, SettingRepository
 from app.i18n.const import DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES
-from app.models.auracloud_slider import AuraCloudSlider
-from app.models.contacts import ContactsContent
-from app.models.content import AboutContent, BlogContent, PersonalizationContent
-from app.models.hero import HeroContent
-from app.models.images import SectionBackgrounds
-from app.models.products import ProductsContent
-from app.models.sections_visibility import SectionsVisibility
-from app.models.services import ServicesContent
 from app.utils.logger import get_logger
 
 logger = get_logger()
@@ -56,68 +37,39 @@ def index():
 
     locale = getattr(g, "locale", DEFAULT_LANGUAGE)
 
-    backgrounds = SectionBackgrounds()
-    sections_visibility = SectionsVisibility()
-    auracloud_slider_store = AuraCloudSlider()
-    slider_data = auracloud_slider_store.get_all()
-
-    hero_content = HeroContent()
-    hero_data = {
-        "slogan": hero_content.get_slogan(),
-        "subtitle": hero_content.get_subtitle(),
-        "cta_primary": hero_content.get_cta_primary(),
-        "cta_secondary": hero_content.get_cta_secondary(),
-        "scroll_text": hero_content.get_scroll_text(),
-        "background": backgrounds.get_section_background("hero"),
-    }
-
-    about_content = AboutContent()
-    about_data = about_content.get_all()
-    about_data["background"] = backgrounds.get_section_background("about")
-
-    products_store = ProductsContent()
-    products_data = {
-        "title": "Наша продукция",
-        "products_list": products_store.list(),
-        "background": backgrounds.get_section_background("products"),
-    }
-
-    services_store = ServicesContent()
-    services_data = {
-        "title": "Наши услуги",
-        "services_list": services_store.list(),
-    }
-
-    personalization_content = PersonalizationContent()
-    personalization_data = personalization_content.get_all()
-
+    # Получаем контент на текущем языке из БД
+    hero_data = ContentRepository.get_section("hero", locale)
+    about_data = ContentRepository.get_section("about", locale)
+    products_data = ContentRepository.get_section("products", locale)
+    services_data = ContentRepository.get_section("services", locale)
+    personalization_data = ContentRepository.get_section("personalization", locale)
+    blog_data = ContentRepository.get_section("blog", locale)
+    contacts_data = ContentRepository.get_section("contacts", locale)
+    auracloud_slider_data = ContentRepository.get_section("auracloud_slider", locale)
+    
+    # Получаем настройки видимости секций
+    sections_visibility = {}
+    for section in ['hero', 'about', 'products', 'services', 'personalization', 'reviews', 'blog', 'contacts']:
+        visible = SettingRepository.get(f'section_visible_{section}', 'true')
+        sections_visibility[section] = visible.lower() == 'true'
+    
+    # Получаем изображения
+    hero_bg = ImageRepository.get_by_section_field('hero', 'background')
+    about_bg = ImageRepository.get_by_section_field('about', 'background')
+    products_bg = ImageRepository.get_by_section_field('products', 'background')
+    
+    if hero_bg:
+        hero_data['background'] = {'image_url': hero_bg.url}
+    if about_bg:
+        about_data['background'] = {'image_url': about_bg.url}
+    if products_bg:
+        products_data['background'] = {'image_url': products_bg.url}
+    
+    # Reviews заглушка
     reviews_data = {
-        "title": "Отзывы наших клиентов",
+        "title": ContentRepository.get("reviews", "title", locale, "Отзывы наших клиентов"),
         "reviews_list": [],
     }
-
-    blog_content = BlogContent()
-    blog_data = {
-        "title": blog_content.get("title", "Блог"),
-        "subtitle": blog_content.get(
-            "subtitle", "Полезная информация о здоровье и персонализации"
-        ),
-        "articles_list": blog_content.get_published_articles(),
-    }
-
-    contacts_store = ContactsContent()
-    contacts_data = contacts_store.get_all()
-
-    # Применяем переводы
-    hero_data = translate_hero(hero_data, locale)
-    about_data = translate_about(about_data, locale)
-    products_data = translate_products(products_data, locale)
-    services_data = translate_services(services_data, locale)
-    personalization_data = translate_personalization(personalization_data, locale)
-    reviews_data = translate_reviews(reviews_data, locale)
-    blog_data = translate_blog(blog_data, locale)
-    contacts_data = translate_contacts(contacts_data, locale)
-    slider_data = translate_auracloud_slider(slider_data, locale)
 
     return render_template(
         "index.html",
@@ -129,8 +81,8 @@ def index():
         reviews=reviews_data,
         blog=blog_data,
         contacts=contacts_data,
-        sections_visibility=sections_visibility.get_all_sections(),
-        auracloud_slider=slider_data,
+        sections_visibility=sections_visibility,
+        auracloud_slider=auracloud_slider_data,
     )
 
 
@@ -164,11 +116,15 @@ def catalog():
     """
     logger.info("Запрос страницы каталога продукции")
     
-    backgrounds = SectionBackgrounds()
-    products_store = ProductsContent()
+    locale = getattr(g, "locale", DEFAULT_LANGUAGE)
     
-    catalog_products = products_store.list()
-    catalog_background = backgrounds.get_section_background('products')
+    # Получаем продукты из БД
+    products_data = ContentRepository.get_section("products", locale)
+    catalog_products = products_data.get('products', [])
+    
+    # Получаем фон
+    products_bg = ImageRepository.get_by_section_field('products', 'background')
+    catalog_background = {'image_url': products_bg.url} if products_bg else None
     
     return render_template(
         'catalog.html',

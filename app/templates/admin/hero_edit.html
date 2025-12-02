@@ -1,4 +1,5 @@
 {% extends "admin/base.html" %}
+{% from 'admin/components/multilang_field.html' import input, textarea %}
 
 {% block title %}Hero секция - Админка OilFusion{% endblock %}
 
@@ -6,42 +7,58 @@
 <div class="admin-edit-page">
   <div class="admin-page-header">
     <h1 class="admin-page-title">Hero секция</h1>
-    <p class="admin-page-subtitle">Редактирование главного баннера и призывов к действию</p>
+    <p class="admin-page-subtitle">Редактирование главного баннера и призывов к действию (🇷🇺 RU / 🇱🇻 LV / 🇬🇧 EN)</p>
   </div>
 
   <div class="admin-section">
     <h2 class="admin-section-title">Контент Hero секции</h2>
     <form method="POST" action="{{ url_for('admin.hero_save', token=token) }}" class="admin-form" enctype="multipart/form-data">
-      <div class="admin-form-group">
-        <label class="admin-form-label">Слоган (заголовок)</label>
-        <input class="admin-form-input" name="slogan" value="{{ hero.slogan or '' }}" placeholder="Balance in every drop" required>
-        <div class="admin-form-help">Основной заголовок на главной странице</div>
-      </div>
+      {{ input(
+          name='slogan',
+          label='Слоган (заголовок)',
+          content_obj=hero_slogan,
+          placeholder='Balance in every drop',
+          required=true,
+          help_text='Основной заголовок на главной странице'
+      ) }}
       
-      <div class="admin-form-group">
-        <label class="admin-form-label">Подзаголовок</label>
-        <textarea class="admin-form-textarea" name="subtitle" rows="3" placeholder="Персонализированные масла на основе технологий AuraCloud® 3D и ДНК-тестирования">{{ hero.subtitle or '' }}</textarea>
-        <div class="admin-form-help">Описание под основным заголовком</div>
-      </div>
+      {{ textarea(
+          name='subtitle',
+          label='Подзаголовок',
+          content_obj=hero_subtitle,
+          rows=3,
+          placeholder='Персонализированные масла на основе технологий AuraCloud® 3D и ДНК-тестирования',
+          help_text='Описание под основным заголовком'
+      ) }}
       
       <div class="admin-form-row">
-        <div class="admin-form-group">
-          <label class="admin-form-label">Основная кнопка</label>
-          <input class="admin-form-input" name="cta_primary" value="{{ hero.cta_primary or '' }}" placeholder="Подобрать масло">
-          <div class="admin-form-help">Текст первой кнопки</div>
+        <div style="flex: 1;">
+          {{ input(
+              name='cta_primary',
+              label='Основная кнопка',
+              content_obj=hero_cta_primary,
+              placeholder='Подобрать масло',
+              help_text='Текст первой кнопки'
+          ) }}
         </div>
-        <div class="admin-form-group">
-          <label class="admin-form-label">Вторичная кнопка</label>
-          <input class="admin-form-input" name="cta_secondary" value="{{ hero.cta_secondary or '' }}" placeholder="Записаться">
-          <div class="admin-form-help">Текст второй кнопки</div>
+        <div style="flex: 1;">
+          {{ input(
+              name='cta_secondary',
+              label='Вторичная кнопка',
+              content_obj=hero_cta_secondary,
+              placeholder='Записаться',
+              help_text='Текст второй кнопки'
+          ) }}
         </div>
       </div>
       
-      <div class="admin-form-group">
-        <label class="admin-form-label">Текст скролл индикатора</label>
-        <input class="admin-form-input" name="scroll_text" value="{{ hero.scroll_text or '' }}" placeholder="Листайте вниз">
-        <div class="admin-form-help">Текст под кнопками для указания скролла</div>
-      </div>
+      {{ input(
+          name='scroll_text',
+          label='Текст скролл индикатора',
+          content_obj=hero_scroll_text,
+          placeholder='Листайте вниз',
+          help_text='Текст под кнопками для указания скролла'
+      ) }}
       
       <div class="admin-form-group">
         <label class="admin-form-label">Фоновое изображение Hero секции</label>
@@ -55,15 +72,15 @@
           <div class="admin-form-group">
             <label for="hero_background_url" class="admin-form-label">Или URL изображения</label>
             <input type="url" id="hero_background_url" name="hero_background_url" class="admin-form-input" 
-                   value="{{ hero.background.image_url if hero.background else '' }}"
+                   value="{{ hero_background.image_url if hero_background else '' }}"
                    placeholder="/static/img/hero.png" onchange="previewImageFromUrl(this, 'hero_bg_preview')">
           </div>
           
           <div class="admin-form-group">
             <div class="admin-image-info">
               <div id="hero_bg_preview" class="admin-preview-image admin-preview-image--wide">
-                {% if hero.background and hero.background.image_url %}
-                <img src="{{ hero.background.image_url }}" alt="Превью фона Hero">
+                {% if hero_background and hero_background.image_url %}
+                <img src="{{ hero_background.image_url }}" alt="Превью фона Hero">
                 {% endif %}
               </div>
             </div>
