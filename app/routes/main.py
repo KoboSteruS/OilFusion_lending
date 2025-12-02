@@ -5,6 +5,7 @@
 
 from flask import (
     Blueprint,
+    current_app,
     g,
     redirect,
     render_template,
@@ -13,8 +14,10 @@ from flask import (
     url_for,
 )
 
-from app.database import ContentRepository, ImageRepository, SettingRepository
+from app.database import ContentRepository
 from app.i18n.const import DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES
+from app.models.images import SectionBackgrounds
+from app.models.sections_visibility import SectionsVisibility
 from app.utils.logger import get_logger
 
 logger = get_logger()
@@ -37,62 +40,34 @@ def index():
 
     locale = getattr(g, "locale", DEFAULT_LANGUAGE)
 
-    # Получаем контент на текущем языке из БД
+    backgrounds = SectionBackgrounds()
+    sections_visibility = SectionsVisibility()
+
+    # Получаем контент напрямую из БД на нужном языке
     hero_data = ContentRepository.get_section("hero", locale)
+    hero_data["background"] = backgrounds.get_section_background("hero")
+
     about_data = ContentRepository.get_section("about", locale)
+    about_data["background"] = backgrounds.get_section_background("about")
+
     products_data = ContentRepository.get_section("products", locale)
+    products_data["background"] = backgrounds.get_section_background("products")
+
     services_data = ContentRepository.get_section("services", locale)
+
     personalization_data = ContentRepository.get_section("personalization", locale)
+
+    reviews_data = ContentRepository.get_section("reviews", locale)
+    if not reviews_data.get("title"):
+        reviews_data["title"] = "Отзывы наших клиентов"
+    reviews_data["reviews_list"] = []
+
     blog_data = ContentRepository.get_section("blog", locale)
+    blog_data["articles_list"] = blog_data.get("articles", [])
+
     contacts_data = ContentRepository.get_section("contacts", locale)
-    auracloud_slider_data = ContentRepository.get_section("auracloud_slider", locale)
-    
-    # Получаем настройки видимости секций
-    sections_visibility = {}
-    for section in ['hero', 'about', 'products', 'services', 'personalization', 'reviews', 'blog', 'contacts']:
-        visible = SettingRepository.get(f'section_visible_{section}', 'true')
-        sections_visibility[section] = visible.lower() == 'true'
-    
-    # Получаем изображения и формируем структуру как ожидается в шаблонах
-    hero_bg = ImageRepository.get_by_section_field('hero', 'background')
-    about_bg = ImageRepository.get_by_section_field('about', 'background')
-    products_bg = ImageRepository.get_by_section_field('products', 'background')
-    
-    if hero_bg:
-        hero_data['background'] = {
-            'type': 'image',
-            'image_url': hero_bg.url,
-            'overlay_opacity': 0.3,
-            'overlay_color': '#000000'
-        }
-    else:
-        hero_data['background'] = {'type': 'gradient', 'gradient': '', 'overlay_opacity': 0}
-    
-    if about_bg:
-        about_data['background'] = {
-            'type': 'image',
-            'image_url': about_bg.url,
-            'overlay_opacity': 0.3,
-            'overlay_color': '#000000'
-        }
-    else:
-        about_data['background'] = {'type': 'gradient', 'gradient': '', 'overlay_opacity': 0}
-    
-    if products_bg:
-        products_data['background'] = {
-            'type': 'image',
-            'image_url': products_bg.url,
-            'overlay_opacity': 0.3,
-            'overlay_color': '#000000'
-        }
-    else:
-        products_data['background'] = {'type': 'gradient', 'gradient': '', 'overlay_opacity': 0}
-    
-    # Reviews заглушка
-    reviews_data = {
-        "title": ContentRepository.get("reviews", "title", locale, "Отзывы наших клиентов"),
-        "reviews_list": [],
-    }
+
+    slider_data = ContentRepository.get_section("auracloud_slider", locale)
 
     return render_template(
         "index.html",
@@ -104,8 +79,8 @@ def index():
         reviews=reviews_data,
         blog=blog_data,
         contacts=contacts_data,
-        sections_visibility=sections_visibility,
-        auracloud_slider=auracloud_slider_data,
+        sections_visibility=sections_visibility.get_all_sections(),
+        auracloud_slider=slider_data,
     )
 
 
@@ -139,15 +114,11 @@ def catalog():
     """
     logger.info("Запрос страницы каталога продукции")
     
-    locale = getattr(g, "locale", DEFAULT_LANGUAGE)
+    backgrounds = SectionBackgrounds()
+    products_store = ProductsContent()
     
-    # Получаем продукты из БД
-    products_data = ContentRepository.get_section("products", locale)
-    catalog_products = products_data.get('products', [])
-    
-    # Получаем фон
-    products_bg = ImageRepository.get_by_section_field('products', 'background')
-    catalog_background = {'image_url': products_bg.url} if products_bg else None
+    catalog_products = products_store.list()
+    catalog_background = backgrounds.get_section_background('products')
     
     return render_template(
         'catalog.html',

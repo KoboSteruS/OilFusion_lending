@@ -626,35 +626,21 @@ def contacts_save(token):
 @admin_bp.route('/<token>/admin/hero')
 @require_admin_token
 def hero_edit(token):
-    from app.database import ContentRepository, ImageRepository
+    hero = HeroContent()
+    hero_data = hero.get_all()
     
-    # Получаем объекты контента со всеми языками
-    hero_slogan = ContentRepository.get_content_object('hero', 'slogan')
-    hero_subtitle = ContentRepository.get_content_object('hero', 'subtitle')
-    hero_cta_primary = ContentRepository.get_content_object('hero', 'cta_primary')
-    hero_cta_secondary = ContentRepository.get_content_object('hero', 'cta_secondary')
-    hero_scroll_text = ContentRepository.get_content_object('hero', 'scroll_text')
+    # Получаем данные о фоне
+    from app.models.images import SectionBackgrounds
+    backgrounds = SectionBackgrounds()
+    hero_data['background'] = backgrounds.get_section_background('hero')
     
-    # Получаем фоновое изображение
-    hero_bg = ImageRepository.get_by_section_field('hero', 'background')
-    hero_background = {'image_url': hero_bg.url} if hero_bg else None
-    
-    return render_template(
-        'admin/hero_edit.html',
-        hero_slogan=hero_slogan,
-        hero_subtitle=hero_subtitle,
-        hero_cta_primary=hero_cta_primary,
-        hero_cta_secondary=hero_cta_secondary,
-        hero_scroll_text=hero_scroll_text,
-        hero_background=hero_background,
-        token=token
-    )
+    return render_template('admin/hero_edit.html', hero=hero_data, token=token)
 
 
 @admin_bp.route('/<token>/admin/hero/save', methods=['POST'])
 @require_admin_token
 def hero_save(token):
-    from app.database import ContentRepository, ImageRepository
+    hero = HeroContent()
     
     # Обработка фонового изображения
     background_image_url = (request.form.get('hero_background_url') or '').strip()
@@ -668,45 +654,41 @@ def hero_save(token):
             saved_url = _save_uploaded_image(uploaded_file, 'hero')
             if saved_url:
                 background_image_url = saved_url
-                
-                # Сохраняем в БД
-                existing_img = ImageRepository.get_by_section_field('hero', 'background')
-                if existing_img:
-                    ImageRepository.update_url('hero', 'background', saved_url)
-                else:
-                    from pathlib import Path
-                    filename = Path(saved_url).name
-                    ImageRepository.create(
-                        filename=filename,
-                        original_filename=filename,
-                        url=saved_url,
-                        section='hero',
-                        field='background'
-                    )
         except ValueError as exc:
             file_error = str(exc)
         except OSError as exc:
             file_error = 'Не удалось сохранить изображение. Попробуйте ещё раз позже.'
             logger.exception("Ошибка сохранения изображения для Hero секции: %s", exc)
     
-    # Сохраняем мультиязычный контент Hero
-    try:
-        for key in ['slogan', 'subtitle', 'cta_primary', 'cta_secondary', 'scroll_text']:
-            ContentRepository.set(
+    # Обновляем фоновое изображение через SectionBackgrounds
+    if background_image_url:
+        try:
+            from app.models.images import SectionBackgrounds
+            backgrounds = SectionBackgrounds()
+            backgrounds.update_section_background(
                 section='hero',
-                key=key,
-                value_ru=request.form.get(f'{key}_ru', '').strip(),
-                value_lv=request.form.get(f'{key}_lv', '').strip(),
-                value_en=request.form.get(f'{key}_en', '').strip()
+                bg_type='image',
+                image_url=background_image_url,
+                gradient='',
+                overlay_opacity=0.3,
+                overlay_color='#000000'
             )
-        
-        if file_error:
-            flash(file_error, 'error')
-        flash('Hero контент сохранён на всех языках!', 'success')
-    except Exception as exc:
-        logger.exception("Ошибка сохранения Hero контента: %s", exc)
-        flash('Ошибка сохранения Hero контента', 'error')
+        except Exception as exc:  # noqa: BLE001
+            file_error = 'Не удалось обновить фоновое изображение Hero секции.'
+            logger.exception("Ошибка обновления фона Hero секции: %s", exc)
     
+    # Обновляем контент Hero
+    data = {
+        'slogan': request.form.get('slogan', ''),
+        'subtitle': request.form.get('subtitle', ''),
+        'cta_primary': request.form.get('cta_primary', ''),
+        'cta_secondary': request.form.get('cta_secondary', ''),
+        'scroll_text': request.form.get('scroll_text', ''),
+    }
+    ok = hero.update_content(data)
+    if file_error:
+        flash(file_error, 'error')
+    flash('Hero контент сохранён' if ok else 'Ошибка сохранения Hero контента', 'success' if ok else 'error')
     return redirect(url_for('admin.hero_edit', token=token))
 
 @admin_bp.route('/<token>/admin/blog/<int:index>/delete', methods=['POST'])
