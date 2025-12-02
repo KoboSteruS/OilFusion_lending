@@ -124,33 +124,31 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(180deg, rgba(211, 211, 211, 0.95) 0%, rgba(229, 222, 211, 0.9) 100%);
-    backdrop-filter: blur(10px);
+    background: transparent;
     z-index: 1000;
     transition: var(--transition);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: none;
 }
 
 .header.hero-active,
 .header.section-active,
 .header.scrolled {
-    background: linear-gradient(180deg, rgba(211, 211, 211, 0.95) 0%, rgba(229, 222, 211, 0.9) 100%);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background: transparent;
+    box-shadow: none;
 }
 
-/* Стили для navbar на Hero */
-.header.hero-active .nav-link {
+/* Стили для navbar - всегда прозрачный */
+.header .nav-link {
     color: #3C2F2F;
     text-shadow: none;
 }
 
-.header.hero-active .nav-link:hover {
+.header .nav-link:hover {
     color: #A67C52;
     background-color: rgba(166, 124, 82, 0.1);
 }
 
-.header.hero-active .navbar-toggle span {
+.header .navbar-toggle span {
     background-color: #3C2F2F;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
