@@ -57,6 +57,10 @@ def create_app(config_class=Config) -> Flask:
             "available_locales": SUPPORTED_LANGUAGES,
             "locale_labels": LANGUAGE_LABELS,
         }
+    
+    # Регистрируем хелперы для работы с контентом
+    from app.helpers import inject_content_helper
+    app.context_processor(inject_content_helper)
 
     logger.info("Flask приложение успешно инициализировано")
 

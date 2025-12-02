@@ -103,17 +103,26 @@ class ImageRepository:
 
 
 class ContentRepository:
-    """Репозиторий для работы с контентом."""
+    """Репозиторий для работы с мультиязычным контентом."""
     
     @staticmethod
-    def set(section: str, key: str, value: str, data_type: str = 'text') -> Content:
+    def set(
+        section: str,
+        key: str,
+        value_ru: Optional[str] = None,
+        value_lv: Optional[str] = None,
+        value_en: Optional[str] = None,
+        data_type: str = 'text'
+    ) -> Content:
         """
-        Установка значения контента.
+        Установка мультиязычного контента.
         
         Args:
             section: Секция
             key: Ключ
-            value: Значение
+            value_ru: Значение на русском
+            value_lv: Значение на латышском
+            value_en: Значение на английском
             data_type: Тип данных (text, json, html)
             
         Returns:
@@ -121,14 +130,21 @@ class ContentRepository:
         """
         content = Content.query.filter_by(section=section, key=key).first()
         if content:
-            content.value = value
+            if value_ru is not None:
+                content.value_ru = value_ru
+            if value_lv is not None:
+                content.value_lv = value_lv
+            if value_en is not None:
+                content.value_en = value_en
             content.data_type = data_type
             content.updated_at = datetime.utcnow()
         else:
             content = Content(
                 section=section,
                 key=key,
-                value=value,
+                value_ru=value_ru,
+                value_lv=value_lv,
+                value_en=value_en,
                 data_type=data_type
             )
             db.session.add(content)
@@ -136,25 +152,62 @@ class ContentRepository:
         return content
     
     @staticmethod
-    def get(section: str, key: str, default: Optional[str] = None) -> Optional[str]:
-        """Получение значения контента."""
+    def get(section: str, key: str, locale: str = 'ru', default: Optional[str] = None) -> Optional[str]:
+        """
+        Получение значения контента для указанного языка.
+        
+        Args:
+            section: Секция
+            key: Ключ
+            locale: Язык (ru, lv, en)
+            default: Значение по умолчанию
+            
+        Returns:
+            Значение контента или default
+        """
         content = Content.query.filter_by(section=section, key=key).first()
-        return content.value if content else default
+        if content:
+            return content.get_value(locale)
+        return default
     
     @staticmethod
-    def get_section(section: str) -> Dict[str, str]:
-        """Получение всех данных секции."""
+    def get_section(section: str, locale: str = 'ru') -> Dict[str, str]:
+        """
+        Получение всех данных секции для указанного языка.
+        
+        Args:
+            section: Секция
+            locale: Язык (ru, lv, en)
+            
+        Returns:
+            Словарь с контентом на указанном языке
+        """
         contents = Content.query.filter_by(section=section).all()
         result = {}
         for content in contents:
-            if content.data_type == 'json':
+            value = content.get_value(locale)
+            if value and content.data_type == 'json':
                 try:
-                    result[content.key] = json.loads(content.value)
+                    result[content.key] = json.loads(value)
                 except json.JSONDecodeError:
-                    result[content.key] = content.value
+                    result[content.key] = value
             else:
-                result[content.key] = content.value
+                result[content.key] = value
         return result
+    
+    @staticmethod
+    def get_content_object(section: str, key: str) -> Optional[Content]:
+        """
+        Получение объекта Content со всеми языками.
+        
+        Args:
+            section: Секция
+            key: Ключ
+            
+        Returns:
+            Объект Content или None
+        """
+        return Content.query.filter_by(section=section, key=key).first()
     
     @staticmethod
     def delete(section: str, key: str) -> bool:

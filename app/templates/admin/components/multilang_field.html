@@ -1,0 +1,173 @@
+{# Макрос для мультиязычного поля ввода #}
+{% macro input(name, label, content_obj=None, placeholder='', required=false, help_text='') %}
+<div class="admin-form-group multilang-field">
+    <label class="admin-form-label">{{ label }}</label>
+    
+    <div class="multilang-tabs-mini">
+        <div class="tabs-buttons">
+            <button type="button" class="tab-lang-btn active" data-target="{{ name }}_ru">🇷🇺 RU</button>
+            <button type="button" class="tab-lang-btn" data-target="{{ name }}_lv">🇱🇻 LV</button>
+            <button type="button" class="tab-lang-btn" data-target="{{ name }}_en">🇬🇧 EN</button>
+        </div>
+        
+        <div class="tabs-panels">
+            <input type="text" 
+                   id="{{ name }}_ru" 
+                   name="{{ name }}_ru" 
+                   class="admin-form-input tab-panel active" 
+                   value="{{ content_obj.value_ru if content_obj else '' }}" 
+                   placeholder="{{ placeholder }}" 
+                   {% if required %}required{% endif %}>
+            
+            <input type="text" 
+                   id="{{ name }}_lv" 
+                   name="{{ name }}_lv" 
+                   class="admin-form-input tab-panel" 
+                   value="{{ content_obj.value_lv if content_obj else '' }}" 
+                   placeholder="{{ placeholder }}">
+            
+            <input type="text" 
+                   id="{{ name }}_en" 
+                   name="{{ name }}_en" 
+                   class="admin-form-input tab-panel" 
+                   value="{{ content_obj.value_en if content_obj else '' }}" 
+                   placeholder="{{ placeholder }}">
+        </div>
+    </div>
+    
+    {% if help_text %}
+    <div class="admin-form-help">{{ help_text }}</div>
+    {% endif %}
+</div>
+{% endmacro %}
+
+{# Макрос для мультиязычного textarea #}
+{% macro textarea(name, label, content_obj=None, rows=3, placeholder='', required=false, help_text='') %}
+<div class="admin-form-group multilang-field">
+    <label class="admin-form-label">{{ label }}</label>
+    
+    <div class="multilang-tabs-mini">
+        <div class="tabs-buttons">
+            <button type="button" class="tab-lang-btn active" data-target="{{ name }}_ru">🇷🇺 RU</button>
+            <button type="button" class="tab-lang-btn" data-target="{{ name }}_lv">🇱🇻 LV</button>
+            <button type="button" class="tab-lang-btn" data-target="{{ name }}_en">🇬🇧 EN</button>
+        </div>
+        
+        <div class="tabs-panels">
+            <textarea id="{{ name }}_ru" 
+                      name="{{ name }}_ru" 
+                      class="admin-form-textarea tab-panel active" 
+                      rows="{{ rows }}" 
+                      placeholder="{{ placeholder }}" 
+                      {% if required %}required{% endif %}>{{ content_obj.value_ru if content_obj else '' }}</textarea>
+            
+            <textarea id="{{ name }}_lv" 
+                      name="{{ name }}_lv" 
+                      class="admin-form-textarea tab-panel" 
+                      rows="{{ rows }}" 
+                      placeholder="{{ placeholder }}">{{ content_obj.value_lv if content_obj else '' }}</textarea>
+            
+            <textarea id="{{ name }}_en" 
+                      name="{{ name }}_en" 
+                      class="admin-form-textarea tab-panel" 
+                      rows="{{ rows }}" 
+                      placeholder="{{ placeholder }}">{{ content_obj.value_en if content_obj else '' }}</textarea>
+        </div>
+    </div>
+    
+    {% if help_text %}
+    <div class="admin-form-help">{{ help_text }}</div>
+    {% endif %}
+</div>
+{% endmacro %}
+
+<style>
+.multilang-field {
+    margin-bottom: 20px;
+}
+
+.multilang-tabs-mini {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabs-buttons {
+    display: flex;
+    background: #f5f5f5;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.tab-lang-btn {
+    flex: 1;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    border-right: 1px solid #e0e0e0;
+}
+
+.tab-lang-btn:last-child {
+    border-right: none;
+}
+
+.tab-lang-btn:hover {
+    background: rgba(166, 124, 82, 0.1);
+}
+
+.tab-lang-btn.active {
+    background: white;
+    color: #A67C52;
+}
+
+.tabs-panels {
+    position: relative;
+    padding: 15px;
+    background: white;
+}
+
+.tab-panel {
+    display: none;
+    width: 100%;
+}
+
+.tab-panel.active {
+    display: block;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Инициализация переключателей языков для всех полей
+    document.querySelectorAll('.tab-lang-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.dataset.target;
+            const container = this.closest('.multilang-tabs-mini');
+            
+            // Убираем активный класс у всех кнопок в этом контейнере
+            container.querySelectorAll('.tab-lang-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+            
+            // Добавляем активный класс на текущую кнопку
+            this.classList.add('active');
+            
+            // Скрываем все панели в этом контейнере
+            container.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Показываем целевую панель
+            const targetPanel = document.getElementById(targetId);
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+            }
+        });
+    });
+});
+</script>
+

@@ -33,14 +33,19 @@ class Image(db.Model):
 
 class Content(db.Model):
     """
-    Модель для хранения контента секций.
+    Модель для хранения мультиязычного контента секций.
     """
     __tablename__ = 'content'
     
     id = db.Column(db.Integer, primary_key=True)
     section = db.Column(db.String(100), nullable=False, index=True)  # hero, about, products, etc.
     key = db.Column(db.String(255), nullable=False, index=True)  # slogan, title, description, etc.
-    value = db.Column(db.Text, nullable=False)
+    
+    # Мультиязычные поля
+    value_ru = db.Column(db.Text, nullable=True)  # Русский (основной)
+    value_lv = db.Column(db.Text, nullable=True)  # Латышский
+    value_en = db.Column(db.Text, nullable=True)  # Английский
+    
     data_type = db.Column(db.String(50), default='text')  # text, json, html
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
@@ -48,6 +53,32 @@ class Content(db.Model):
     __table_args__ = (
         db.UniqueConstraint('section', 'key', name='uq_section_key'),
     )
+    
+    def get_value(self, locale: str = 'ru') -> Optional[str]:
+        """
+        Получить значение для указанного языка с фоллбэком на русский.
+        
+        Args:
+            locale: Код языка (ru, lv, en)
+            
+        Returns:
+            Значение для языка или None
+        """
+        value = getattr(self, f'value_{locale}', None)
+        # Если нет перевода, возвращаем русский как фоллбэк
+        if not value and locale != 'ru':
+            value = self.value_ru
+        return value
+    
+    def set_value(self, value: str, locale: str = 'ru') -> None:
+        """
+        Установить значение для указанного языка.
+        
+        Args:
+            value: Значение для сохранения
+            locale: Код языка (ru, lv, en)
+        """
+        setattr(self, f'value_{locale}', value)
     
     def __repr__(self) -> str:
         return f'<Content {self.section}.{self.key}>'
