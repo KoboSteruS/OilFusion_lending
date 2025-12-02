@@ -5,10 +5,8 @@ from loguru import logger
 
 from app.i18n.const import DEFAULT_LANGUAGE
 
-try:
-    from googletrans import Translator
-except ImportError:  # python 3.13 без совместимого httpx
-    Translator = None  # type: ignore[arg-type]
+# Полностью отключаем googletrans для избежания конфликтов
+Translator = None
 
 
 @dataclass(frozen=True)
