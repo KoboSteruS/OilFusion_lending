@@ -52,6 +52,7 @@ def index():
 
     products_data = ContentRepository.get_section("products", locale)
     products_data["background"] = backgrounds.get_section_background("products")
+    # products - это уже распарсенный JSON из БД благодаря get_section()
 
     services_data = ContentRepository.get_section("services", locale)
 

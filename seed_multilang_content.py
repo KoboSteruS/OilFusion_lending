@@ -101,9 +101,9 @@ def seed_content():
         ContentRepository.set(
             section='products',
             key='subtitle',
-            value_ru='Персонализированные масла для вашего здоровья',
-            value_lv='Personalizētas eļļas jūsu veselībai',
-            value_en='Personalized oils for your health'
+            value_ru='Персонализированные масла для вашего здоровья и гармонии',
+            value_lv='Personalizētas eļļas jūsu veselībai un harmonijai',
+            value_en='Personalized oils for your health and harmony'
         )
         
         ContentRepository.set(
@@ -120,6 +120,62 @@ def seed_content():
             value_ru='Подробнее',
             value_lv='Sīkāk',
             value_en='Learn More'
+        )
+        
+        # Продукты в виде JSON
+        import json
+        products_list = [
+            {
+                'id': 1,
+                'name_ru': 'Персонализированное масло',
+                'name_lv': 'Personalizēta eļļa',
+                'name_en': 'Personalized Oil',
+                'description_ru': 'Уникальная формула, подобранная на основе вашего ДНК-профиля',
+                'description_lv': 'Unikāla formula, izvēlēta, pamatojoties uz jūsu DNS profilu',
+                'description_en': 'Unique formula selected based on your DNA profile',
+                'price': 'от 3 500 ₽',
+                'price_lv': 'no 3 500 ₽',
+                'price_en': 'from 3 500 ₽',
+                'image': '/static/img/leaf-icon.png',
+                'featured': True
+            },
+            {
+                'id': 2,
+                'name_ru': 'Масло для ауры',
+                'name_lv': 'Auras eļļa',
+                'name_en': 'Aura Oil',
+                'description_ru': 'Специальная смесь для гармонизации энергетического поля',
+                'description_lv': 'Īpaša maisījums enerģētiskā lauka harmonizācijai',
+                'description_en': 'Special blend for harmonizing your energy field',
+                'price': 'от 4 200 ₽',
+                'price_lv': 'no 4 200 ₽',
+                'price_en': 'from 4 200 ₽',
+                'image': '/static/img/star-icon.png',
+                'featured': True
+            },
+            {
+                'id': 3,
+                'name_ru': 'Комплексная программа',
+                'name_lv': 'Kompleksa programma',
+                'name_en': 'Comprehensive Program',
+                'description_ru': 'Полный набор продуктов с индивидуальным сопровождением',
+                'description_lv': 'Pilns produktu komplekts ar individuālu atbalstu',
+                'description_en': 'Complete product set with individual support',
+                'price': 'от 12 000 ₽',
+                'price_lv': 'no 12 000 ₽',
+                'price_en': 'from 12 000 ₽',
+                'image': '/static/img/microscope-icon.png',
+                'featured': True
+            }
+        ]
+        
+        ContentRepository.set(
+            section='products',
+            key='products',
+            value_ru=json.dumps(products_list, ensure_ascii=False),
+            value_lv=json.dumps(products_list, ensure_ascii=False),
+            value_en=json.dumps(products_list, ensure_ascii=False),
+            data_type='json'
         )
         
         # ===== УСЛУГИ =====

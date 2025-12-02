@@ -10,34 +10,41 @@
     {% endif %}
     <div class="container">
         <div class="section-header" data-aos="fade-up">
-            <h2 class="section-title">{{ products.title }}</h2>
-            <p class="section-subtitle">Персонализированные масла для вашего здоровья и гармонии</p>
+            <h2 class="section-title">{{ products.title or get_content('products', 'title', 'Наша продукция') }}</h2>
+            <p class="section-subtitle">{{ products.subtitle or get_content('products', 'subtitle', 'Персонализированные масла для вашего здоровья и гармонии') }}</p>
         </div>
         
         <!-- Горизонтальный слайдер продуктов -->
         <div class="products-slider-container" data-aos="fade-up">
             <div class="products-slider" id="productsSlider">
-                {% if products.products_list %}
-                    {% for product in products.products_list %}
-                    {% set product_slug = product.name|lower|replace(' ', '-')|replace('"', '')|replace("'", '')|replace('«', '')|replace('»', '')|replace('“', '')|replace('”', '') %}
+                {% if products.products %}
+                    {% for product in products.products %}
+                    {% set product_name = product['name_' + current_locale] if 'name_' + current_locale in product else product.get('name_ru', product.get('name', '')) %}
+                    {% set product_desc = product['description_' + current_locale] if 'description_' + current_locale in product else product.get('description_ru', product.get('description', '')) %}
+                    {% set product_price = product['price_' + current_locale] if 'price_' + current_locale in product else product.get('price', '') %}
+                    {% set product_slug = product_name|lower|replace(' ', '-')|replace('"', '')|replace("'", '')|replace('«', '')|replace('»', '')|replace('"', '')|replace('"', '') %}
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+                            <img src="{{ product.image }}" alt="{{ product_name }}" loading="lazy">
+                            {% if product.category %}
                             <div class="product-badge">{{ product.category }}</div>
+                            {% endif %}
                             {% if product.featured %}
-                            <div class="product-featured-badge">Избранное</div>
+                            <div class="product-featured-badge">
+                                {% if current_locale == 'lv' %}Populārs{% elif current_locale == 'en' %}Featured{% else %}Избранное{% endif %}
+                            </div>
                             {% endif %}
                         </div>
                         <div class="product-content">
-                            <h3 class="product-title">{{ product.name }}</h3>
-                            <p class="product-description">{{ product.description }}</p>
+                            <h3 class="product-title">{{ product_name }}</h3>
+                            <p class="product-description">{{ product_desc }}</p>
                             <div class="product-footer">
-                                <span class="product-price">{{ product.price }}</span>
+                                <span class="product-price">{{ product_price }}</span>
                                 <a href="{{ url_for('main.catalog') }}#product-{{ product_slug }}" 
                                    class="btn btn-sm btn-primary product-card-cta"
                                    data-track-event="catalog-cta"
                                    data-track-label="slider-product-{{ product_slug }}">
-                                    Подробнее
+                                    {{ get_content('products', 'details_button', 'Подробнее') }}
                                 </a>
                             </div>
                         </div>
