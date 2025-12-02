@@ -53,17 +53,40 @@ def index():
         visible = SettingRepository.get(f'section_visible_{section}', 'true')
         sections_visibility[section] = visible.lower() == 'true'
     
-    # Получаем изображения
+    # Получаем изображения и формируем структуру как ожидается в шаблонах
     hero_bg = ImageRepository.get_by_section_field('hero', 'background')
     about_bg = ImageRepository.get_by_section_field('about', 'background')
     products_bg = ImageRepository.get_by_section_field('products', 'background')
     
     if hero_bg:
-        hero_data['background'] = {'image_url': hero_bg.url}
+        hero_data['background'] = {
+            'type': 'image',
+            'image_url': hero_bg.url,
+            'overlay_opacity': 0.3,
+            'overlay_color': '#000000'
+        }
+    else:
+        hero_data['background'] = {'type': 'gradient', 'gradient': '', 'overlay_opacity': 0}
+    
     if about_bg:
-        about_data['background'] = {'image_url': about_bg.url}
+        about_data['background'] = {
+            'type': 'image',
+            'image_url': about_bg.url,
+            'overlay_opacity': 0.3,
+            'overlay_color': '#000000'
+        }
+    else:
+        about_data['background'] = {'type': 'gradient', 'gradient': '', 'overlay_opacity': 0}
+    
     if products_bg:
-        products_data['background'] = {'image_url': products_bg.url}
+        products_data['background'] = {
+            'type': 'image',
+            'image_url': products_bg.url,
+            'overlay_opacity': 0.3,
+            'overlay_color': '#000000'
+        }
+    else:
+        products_data['background'] = {'type': 'gradient', 'gradient': '', 'overlay_opacity': 0}
     
     # Reviews заглушка
     reviews_data = {
