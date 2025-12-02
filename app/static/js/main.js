@@ -65,17 +65,35 @@
         if (!header) return;
         
         let lastScrollY = window.scrollY;
+        let ticking = false;
         
         window.addEventListener('scroll', function() {
-            const currentScrollY = window.scrollY;
-            
-            if (currentScrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+            if (!ticking) {
+                window.requestAnimationFrame(function() {
+                    const currentScrollY = window.scrollY;
+                    
+                    // Скрываем хедер при скролле вниз, показываем при скролле вверх
+                    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                        // Скроллим вниз
+                        header.classList.add('header-hidden');
+                        header.classList.add('scrolled');
+                    } else {
+                        // Скроллим вверх
+                        header.classList.remove('header-hidden');
+                        
+                        if (currentScrollY > 100) {
+                            header.classList.add('scrolled');
+                        } else {
+                            header.classList.remove('scrolled');
+                        }
+                    }
+                    
+                    lastScrollY = currentScrollY;
+                    ticking = false;
+                });
+                
+                ticking = true;
             }
-            
-            lastScrollY = currentScrollY;
         });
     }
     

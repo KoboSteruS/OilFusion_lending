@@ -126,8 +126,16 @@ body {
     right: 0;
     background: transparent;
     z-index: 1000;
-    transition: var(--transition);
+    transition: transform 0.3s ease, opacity 0.3s ease;
     box-shadow: none;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.header.header-hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .header.hero-active,
