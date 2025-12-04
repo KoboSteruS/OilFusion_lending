@@ -13,7 +13,7 @@
         </p>
     </div>
 
-    <form method="POST" action="{{ url_for('admin.blog_save', token=token) }}" class="admin-form admin-blog-form">
+    <form method="POST" action="{{ url_for('admin.blog_save', token=token) }}" class="admin-form admin-blog-form" enctype="multipart/form-data">
         {% if article_index is not none %}
         <input type="hidden" name="article_index" value="{{ article_index }}">
         {% endif %}
@@ -55,15 +55,31 @@
             </div>
 
             <div class="admin-form-group">
-                <label for="image" class="admin-form-label">URL изображения</label>
-                <input type="url" id="image" name="image" class="admin-form-input" 
-                       value="{{ article.image if article else '' }}"
-                       placeholder="https://example.com/image.jpg">
-                {% if article and article.image %}
-                <div class="admin-image-preview">
-                    <img src="{{ article.image }}" alt="Превью" class="admin-preview-image">
+                <label class="admin-form-label">Изображение статьи</label>
+                <div class="admin-image-upload-section">
+                    <div class="admin-form-group">
+                        <label for="blog_image_file" class="admin-form-label">Загрузить изображение</label>
+                        <input type="file" id="blog_image_file" name="blog_image_file" class="admin-form-input" accept="image/*" onchange="previewBlogImage(this)">
+                        <div class="admin-form-help">PNG, JPG, JPEG, WEBP, GIF до 16MB</div>
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <label for="image" class="admin-form-label">Или URL изображения</label>
+                        <input type="url" id="image" name="image" class="admin-form-input" 
+                               value="{{ article.image if article else '' }}"
+                               placeholder="https://example.com/image.jpg" onchange="previewBlogImageUrl(this)">
+                    </div>
+                    
+                    <div class="admin-form-group">
+                        <div class="admin-image-info">
+                            <div id="blog_image_preview" class="admin-preview-image-container">
+                                {% if article and article.image %}
+                                <img src="{{ article.image }}" alt="Превью" class="admin-preview-image">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                {% endif %}
             </div>
 
             <div class="admin-form-group">
@@ -156,6 +172,36 @@
     margin-top: 4px;
 }
 
+.admin-image-upload-section {
+    background: var(--admin-bg-light);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
+}
+
+.admin-image-info {
+    margin-top: 16px;
+}
+
+.admin-preview-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    background: var(--admin-bg);
+    border: 2px dashed var(--admin-border);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.admin-preview-image-container img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
+}
+
 @media (max-width: 768px) {
     .admin-form-row {
         grid-template-columns: 1fr;
@@ -164,7 +210,30 @@
 </style>
 
 <script>
-// Предварительный просмотр изображения
+// Предварительный просмотр изображения при загрузке файла
+function previewBlogImage(input) {
+    const preview = document.getElementById('blog_image_preview');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `<img src="${e.target.result}" alt="Предварительный просмотр" class="admin-preview-image">`;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// Предварительный просмотр изображения по URL
+function previewBlogImageUrl(input) {
+    const preview = document.getElementById('blog_image_preview');
+    const url = input.value.trim();
+    if (url) {
+        preview.innerHTML = `<img src="${url}" alt="Предварительный просмотр" class="admin-preview-image" onerror="this.style.display='none'">`;
+    } else {
+        preview.innerHTML = '';
+    }
+}
+
+// Оставшийся старый код
 document.getElementById('image').addEventListener('input', function() {
     const url = this.value;
     const preview = document.querySelector('.admin-image-preview');

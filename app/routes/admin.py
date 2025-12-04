@@ -443,15 +443,36 @@ def blog_save(token):
     blog_content = BlogContent()
     article_index = request.form.get('article_index')
     
+    # Обработка изображения
+    image_url = (request.form.get('image') or '').strip()
+    if image_url.lower() in {'none', 'null', 'undefined'}:
+        image_url = ''
+    
+    file_error: Optional[str] = None
+    uploaded_file = request.files.get('blog_image_file')
+    if uploaded_file and uploaded_file.filename:
+        try:
+            saved_url = _save_uploaded_image(uploaded_file, 'blog')
+            if saved_url:
+                image_url = saved_url
+        except ValueError as exc:
+            file_error = str(exc)
+        except OSError as exc:
+            file_error = 'Не удалось сохранить изображение. Попробуйте ещё раз позже.'
+            logger.exception("Ошибка сохранения изображения для статьи блога: %s", exc)
+    
     article_data = {
         'title': request.form.get('title', ''),
         'content': request.form.get('content', ''),
         'excerpt': request.form.get('excerpt', ''),
         'category': request.form.get('category', ''),
         'read_time': int(request.form.get('read_time', 5)),
-        'image': request.form.get('image', ''),
+        'image': image_url,
         'published': request.form.get('published') == 'on'
     }
+    
+    if file_error:
+        flash(file_error, 'error')
     
     if article_index is not None:
         index = int(article_index)
