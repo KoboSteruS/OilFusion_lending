@@ -28,6 +28,7 @@ from app.models.auracloud_slider import AuraCloudSlider
 from app.models.contacts import ContactsContent
 from app.models.content import AboutContent, BlogContent, PersonalizationContent
 from app.models.hero import HeroContent
+from app.models.images import SectionBackgrounds
 from app.models.products import ProductsContent
 from app.models.sections_visibility import SectionsVisibility
 from app.models.services import ServicesContent
