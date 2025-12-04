@@ -366,11 +366,12 @@
 
 .admin-preview-image--wide {
     width: 100%;
-    max-width: 520px;
+    max-width: 800px;
     aspect-ratio: 4 / 3;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 auto;
 }
 
 .admin-preview-image--wide img {
@@ -378,6 +379,7 @@
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .admin-image-info {
