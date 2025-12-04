@@ -15,11 +15,19 @@
                 opacity: {{ background.overlay_opacity if background.type == 'image' else 1 }};"></div>
     {% endif %}
     <div class="container catalog-hero__content" data-aos="fade-up">
-        <h1 class="catalog-hero__title">Полный каталог OilFusion</h1>
-        <p class="catalog-hero__subtitle">Подбор персонализированных масел и комплексных программ для вашей гармонии</p>
+        <h1 class="catalog-hero__title">
+            {% if current_locale == 'lv' %}Pilns OilFusion katalogs{% elif current_locale == 'en' %}Complete OilFusion Catalog{% else %}Полный каталог OilFusion{% endif %}
+        </h1>
+        <p class="catalog-hero__subtitle">
+            {% if current_locale == 'lv' %}Personalizētu eļļu un kompleksu programmu izvēle jūsu harmonijas labā{% elif current_locale == 'en' %}Selection of personalized oils and comprehensive programs for your harmony{% else %}Подбор персонализированных масел и комплексных программ для вашей гармонии{% endif %}
+        </p>
         <div class="catalog-hero__actions">
-            <a href="#catalog-products" class="btn btn-primary btn-lg catalog-cta" data-track-event="catalog-cta" data-track-label="catalog-hero-scroll">Перейти к товарам</a>
-            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-outline btn-lg catalog-cta" data-track-event="catalog-cta" data-track-label="catalog-contact">Связаться с консультантом</a>
+            <a href="#catalog-products" class="btn btn-primary btn-lg catalog-cta" data-track-event="catalog-cta" data-track-label="catalog-hero-scroll">
+                {% if current_locale == 'lv' %}Pāriet uz produktiem{% elif current_locale == 'en' %}Go to products{% else %}Перейти к товарам{% endif %}
+            </a>
+            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-outline btn-lg catalog-cta" data-track-event="catalog-cta" data-track-label="catalog-contact">
+                {% if current_locale == 'lv' %}Sazināties ar konsultantu{% elif current_locale == 'en' %}Contact consultant{% else %}Связаться с консультантом{% endif %}
+            </a>
         </div>
     </div>
 </section>
@@ -27,30 +35,39 @@
 <section id="catalog-products" class="catalog-section">
     <div class="container" data-aos="fade-up">
         <header class="catalog-section__header">
-            <span class="catalog-section__eyebrow">Каталог</span>
-            <h2 class="catalog-section__title">Персонализированные программы и масла</h2>
-            <p class="catalog-section__description">Каждый продукт создаётся с учётом AuraCloud® 3D и ДНК-тестирования. Выберите решение, соответствующее вашим целям.</p>
+            <span class="catalog-section__eyebrow">
+                {% if current_locale == 'lv' %}Katalogs{% elif current_locale == 'en' %}Catalog{% else %}Каталог{% endif %}
+            </span>
+            <h2 class="catalog-section__title">{{ products_title or 'Персонализированные программы и масла' }}</h2>
+            <p class="catalog-section__description">{{ products_subtitle or 'Каждый продукт создаётся с учётом AuraCloud® 3D и ДНК-тестирования. Выберите решение, соответствующее вашим целям.' }}</p>
         </header>
 
         <div class="catalog-grid">
             {% for product in products %}
-            {% set product_slug = product.name|lower|replace(' ', '-')|replace('\"', '')|replace(\"'\", '')|replace('«', '')|replace('»', '')|replace('“', '')|replace('”', '') %}
+            {% set product_name = product['name_' + current_locale] if 'name_' + current_locale in product else product.get('name_ru', product.get('name', '')) %}
+            {% set product_desc = product['description_' + current_locale] if 'description_' + current_locale in product else product.get('description_ru', product.get('description', '')) %}
+            {% set product_price = product['price_' + current_locale] if 'price_' + current_locale in product else product.get('price', '') %}
+            {% set product_slug = product_name|lower|replace(' ', '-')|replace('"', '')|replace("'", '')|replace('«', '')|replace('»', '')|replace('"', '')|replace('"', '') %}
             <article id="product-{{ product_slug }}" class="product-card catalog-card" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 50 }}">
                 <div class="product-image">
-                    <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+                    <img src="{{ product.image }}" alt="{{ product_name }}" loading="lazy">
                     {% if product.category %}
                     <span class="product-badge">{{ product.category }}</span>
                     {% endif %}
                     {% if product.featured %}
-                    <span class="product-featured-badge">Избранное</span>
+                    <span class="product-featured-badge">
+                        {% if current_locale == 'lv' %}Populārs{% elif current_locale == 'en' %}Featured{% else %}Избранное{% endif %}
+                    </span>
                     {% endif %}
                 </div>
                 <div class="product-content">
-                    <h3 class="product-title">{{ product.name }}</h3>
-                    <p class="product-description">{{ product.description }}</p>
+                    <h3 class="product-title">{{ product_name }}</h3>
+                    <p class="product-description">{{ product_desc }}</p>
                     <div class="product-footer">
-                        <span class="product-price">{{ product.price }}</span>
-                        <a href="{{ url_for('main.index') }}#contacts" class="btn btn-sm btn-primary product-card-cta" data-track-event="catalog-cta" data-track-label="catalog-product-{{ product_slug }}">Заказать</a>
+                        <span class="product-price">{{ product_price }}</span>
+                        <a href="{{ url_for('main.index') }}#contacts" class="btn btn-sm btn-primary product-card-cta" data-track-event="catalog-cta" data-track-label="catalog-product-{{ product_slug }}">
+                            {% if current_locale == 'lv' %}Pasūtīt{% elif current_locale == 'en' %}Order{% else %}Заказать{% endif %}
+                        </a>
                     </div>
                 </div>
             </article>
@@ -61,9 +78,15 @@
 
 <section class="catalog-section catalog-section--cta">
     <div class="container catalog-section__cta" data-aos="fade-up">
-        <h2>Нужна консультация перед выбором?</h2>
-        <p>Наши эксперты помогут подобрать индивидуальную программу ухода и составят персональные рекомендации.</p>
-        <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary btn-lg catalog-cta" data-track-event="catalog-cta" data-track-label="catalog-final-cta">Записаться на консультацию</a>
+        <h2>
+            {% if current_locale == 'lv' %}Nepieciešama konsultācija pirms izvēles?{% elif current_locale == 'en' %}Need consultation before choosing?{% else %}Нужна консультация перед выбором?{% endif %}
+        </h2>
+        <p>
+            {% if current_locale == 'lv' %}Mūsu eksperti palīdzēs izvēlēties individuālu aprūpes programmu un sniegs personalizētus ieteikumus.{% elif current_locale == 'en' %}Our experts will help you choose an individual care program and provide personalized recommendations.{% else %}Наши эксперты помогут подобрать индивидуальную программу ухода и составят персональные рекомендации.{% endif %}
+        </p>
+        <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary btn-lg catalog-cta" data-track-event="catalog-cta" data-track-label="catalog-final-cta">
+            {% if current_locale == 'lv' %}Pierakstīties konsultācijai{% elif current_locale == 'en' %}Book a consultation{% else %}Записаться на консультацию{% endif %}
+        </a>
     </div>
 </section>
 {% endblock %}

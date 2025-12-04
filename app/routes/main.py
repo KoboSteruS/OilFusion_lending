@@ -144,16 +144,28 @@ def catalog():
     """
     logger.info("Запрос страницы каталога продукции")
     
+    locale = getattr(g, "locale", DEFAULT_LANGUAGE)
     backgrounds = SectionBackgrounds()
-    products_store = ProductsContent()
     
-    catalog_products = products_store.list()
+    # Получаем продукты из БД
+    products_data = ContentRepository.get_section("products", locale)
+    
+    # Парсим JSON для products (только если это строка)
+    if products_data.get('products') and isinstance(products_data['products'], str):
+        try:
+            products_data['products'] = json.loads(products_data['products'])
+        except json.JSONDecodeError:
+            products_data['products'] = []
+    
+    catalog_products = products_data.get('products', [])
     catalog_background = backgrounds.get_section_background('products')
     
     return render_template(
         'catalog.html',
         products=catalog_products,
-        background=catalog_background
+        background=catalog_background,
+        products_title=products_data.get('title', 'Каталог продукции'),
+        products_subtitle=products_data.get('subtitle', '')
     )
 
 
