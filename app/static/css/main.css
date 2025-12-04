@@ -124,10 +124,11 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background: transparent;
+    background: linear-gradient(180deg, rgba(211, 211, 211, 0.92) 0%, rgba(229, 222, 211, 0.88) 100%);
+    backdrop-filter: blur(10px);
     z-index: 1000;
     transition: transform 0.3s ease, opacity 0.3s ease;
-    box-shadow: none;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
     transform: translateY(0);
     opacity: 1;
 }
@@ -141,8 +142,9 @@ body {
 .header.hero-active,
 .header.section-active,
 .header.scrolled {
-    background: transparent;
-    box-shadow: none;
+    background: linear-gradient(180deg, rgba(211, 211, 211, 0.92) 0%, rgba(229, 222, 211, 0.88) 100%);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
 }
 
 /* Стили для navbar - всегда прозрачный */
@@ -245,8 +247,8 @@ body {
     right: -100%;
     width: 350px;
     height: 100vh;
-    background: linear-gradient(180deg, rgba(211, 211, 211, 0.98) 0%, rgba(229, 222, 211, 0.95) 100%);
-    backdrop-filter: blur(15px);
+    background: linear-gradient(180deg, rgba(211, 211, 211, 0.92) 0%, rgba(229, 222, 211, 0.88) 100%);
+    backdrop-filter: blur(10px);
     box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
     transition: right 0.3s ease;
     z-index: 1000;
