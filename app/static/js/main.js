@@ -656,6 +656,68 @@
             });
         });
     }
+    
+    // ===== Слайдер До/После =====
+    function initBeforeAfterSlider() {
+        const slider = document.getElementById('auracloudSlider');
+        if (!slider) return;
+        
+        const container = slider.querySelector('.slider-container');
+        const beforeImage = slider.querySelector('.before-image');
+        const handle = slider.querySelector('.slider-handle');
+        let isActive = false;
+        
+        function updateSlider(x) {
+            const rect = container.getBoundingClientRect();
+            let position = ((x - rect.left) / rect.width) * 100;
+            
+            // Ограничиваем позицию в пределах 0-100%
+            position = Math.max(0, Math.min(100, position));
+            
+            // Обновляем позицию
+            beforeImage.style.clipPath = `inset(0 ${100 - position}% 0 0)`;
+            handle.style.left = `${position}%`;
+        }
+        
+        function onMove(e) {
+            if (!isActive) return;
+            
+            const x = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            updateSlider(x);
+        }
+        
+        function onStart(e) {
+            isActive = true;
+            slider.classList.add('active');
+            
+            const x = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            updateSlider(x);
+        }
+        
+        function onEnd() {
+            isActive = false;
+            slider.classList.remove('active');
+        }
+        
+        // Mouse events
+        slider.addEventListener('mousedown', onStart);
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onEnd);
+        
+        // Touch events
+        slider.addEventListener('touchstart', onStart, { passive: true });
+        document.addEventListener('touchmove', onMove, { passive: true });
+        document.addEventListener('touchend', onEnd);
+        
+        // Click to move
+        slider.addEventListener('click', (e) => {
+            if (e.target.closest('.slider-button')) return;
+            updateSlider(e.clientX);
+        });
+    }
+    
+    // Инициализируем слайдер
+    initBeforeAfterSlider();
 
 })();
 
