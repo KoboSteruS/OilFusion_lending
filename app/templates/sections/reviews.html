@@ -3,7 +3,7 @@
     <div class="container">
         <div class="section-header" data-aos="fade-up">
             <h2 class="section-title">{{ reviews.title }}</h2>
-            <p class="section-subtitle">Истории наших клиентов</p>
+            <p class="section-subtitle">{{ reviews.subtitle or 'Истории наших клиентов' }}</p>
         </div>
         
         <div class="reviews-slider" data-aos="fade-up">
@@ -166,7 +166,7 @@
                     </svg>
                     {% endfor %}
                 </div>
-                <span class="rating-count">На основе 156 отзывов</span>
+                <span class="rating-count">{{ get_content('reviews', 'based_on', current_locale) or 'На основе' }} 156 {{ get_content('reviews', 'reviews_count', current_locale) or 'отзывов' }}</span>
             </div>
         </div>
     </div>

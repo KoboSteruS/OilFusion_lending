@@ -3,7 +3,7 @@
     <div class="container">
         <div class="section-header" data-aos="fade-up">
             <h2 class="section-title">{{ services.title }}</h2>
-            <p class="section-subtitle">Профессиональный подход к вашему здоровью</p>
+            <p class="section-subtitle">{{ services.subtitle or 'Профессиональный подход к вашему здоровью' }}</p>
         </div>
         
         <div class="services-grid">
@@ -23,7 +23,7 @@
                         </ul>
                         <div class="service-footer">
                             <span class="service-price">{{ service.price }}</span>
-                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">Записаться</a>
+                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary', current_locale) or 'Записаться' }}</a>
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                         </ul>
                         <div class="service-footer">
                             <span class="service-price">от 8 500 ₽</span>
-                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">Записаться</a>
+                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary', current_locale) or 'Записаться' }}</a>
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                         </ul>
                         <div class="service-footer">
                             <span class="service-price">от 5 000 ₽</span>
-                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">Записаться</a>
+                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary', current_locale) or 'Записаться' }}</a>
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                         </ul>
                         <div class="service-footer">
                             <span class="service-price">от 3 000 ₽</span>
-                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">Записаться</a>
+                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary', current_locale) or 'Записаться' }}</a>
                         </div>
                     </div>
                 </div>

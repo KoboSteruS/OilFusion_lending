@@ -58,7 +58,7 @@
                 
                 <div class="about-cta">
                     <a href="#personalization" class="btn btn-primary">
-                        Узнать больше о технологиях
+                        {{ get_content('personalization', 'learn_more_button', current_locale) or 'Узнать больше о технологиях' }}
                     </a>
                 </div>
             </div>

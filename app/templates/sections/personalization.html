@@ -40,7 +40,7 @@
                         </li>
                         {% endfor %}
                     </ul>
-                    <a href="#services" class="btn btn-primary">Пройти тестирование</a>
+                    <a href="#services" class="btn btn-primary">{{ get_content('personalization', 'testing_button', current_locale) or 'Пройти тестирование' }}</a>
                 </div>
             </div>
             
@@ -105,7 +105,7 @@
                         </li>
                         {% endfor %}
                     </ul>
-                    <a href="#services" class="btn btn-primary">Пройти сканирование</a>
+                    <a href="#services" class="btn btn-primary">{{ get_content('personalization', 'testing_button', current_locale) or 'Пройти сканирование' }}</a>
                 </div>
             </div>
         </div>
@@ -116,7 +116,7 @@
                 <h4>{{ personalization.info_text }}</h4>
                 <p>{{ personalization.info_description }}</p>
                 <a href="{{ personalization.bio_well_url }}" target="_blank" rel="noopener noreferrer" class="info-link">
-                    Узнать больше о Bio-Well
+                    {{ get_content('personalization', 'biowell_button', current_locale) or 'Узнать больше о Bio-Well' }}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>

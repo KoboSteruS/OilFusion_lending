@@ -48,3 +48,5 @@ def inject_content_helper():
         'get_section_content': get_section_content,
     }
 
+
+
