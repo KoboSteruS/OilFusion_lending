@@ -677,6 +677,23 @@ def hero_save(token):
             file_error = 'Не удалось обновить фоновое изображение Hero секции.'
             logger.exception("Ошибка обновления фона Hero секции: %s", exc)
     
+    # Обработка изображения флакона
+    bottle_image_url = (request.form.get('hero_bottle_url') or '').strip()
+    if bottle_image_url.lower() in {'none', 'null', 'undefined'}:
+        bottle_image_url = ''
+    
+    bottle_file = request.files.get('hero_bottle_image')
+    if bottle_file and bottle_file.filename:
+        try:
+            saved_bottle_url = _save_uploaded_image(bottle_file, 'hero_bottle')
+            if saved_bottle_url:
+                bottle_image_url = saved_bottle_url
+        except ValueError as exc:
+            file_error = str(exc)
+        except OSError as exc:
+            file_error = 'Не удалось сохранить изображение флакона. Попробуйте ещё раз позже.'
+            logger.exception("Ошибка сохранения изображения флакона для Hero секции: %s", exc)
+    
     # Обновляем контент Hero
     data = {
         'slogan': request.form.get('slogan', ''),
@@ -684,6 +701,7 @@ def hero_save(token):
         'cta_primary': request.form.get('cta_primary', ''),
         'cta_secondary': request.form.get('cta_secondary', ''),
         'scroll_text': request.form.get('scroll_text', ''),
+        'bottle_image_url': bottle_image_url,
     }
     ok = hero.update_content(data)
     if file_error:

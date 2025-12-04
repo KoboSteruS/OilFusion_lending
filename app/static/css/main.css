@@ -514,6 +514,50 @@ body {
     }
 }
 
+/* ===== Изображение флакона ===== */
+.hero-bottle {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    max-width: 500px;
+    width: 40%;
+}
+
+.hero-bottle-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+}
+
+@media (max-width: 1200px) {
+    .hero-bottle {
+        max-width: 400px;
+        width: 35%;
+        right: 2%;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-bottle {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        margin: 40px auto 0;
+        max-width: 300px;
+        width: 80%;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .hero-content {
+        margin-bottom: 20px;
+    }
+}
+
 /* ===== Кнопки ===== */
 .btn {
     display: inline-block;

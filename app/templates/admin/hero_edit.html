@@ -71,6 +71,34 @@
         </div>
       </div>
       
+      <div class="admin-form-group">
+        <label class="admin-form-label">Изображение флакона (бутылочка с маслом)</label>
+        <div class="admin-image-upload-section">
+          <div class="admin-form-group">
+            <label for="hero_bottle_image" class="admin-form-label">Загрузить изображение флакона</label>
+            <input type="file" id="hero_bottle_image" name="hero_bottle_image" class="admin-form-input" accept="image/*" onchange="previewImage(this, 'hero_bottle_preview')">
+            <div class="admin-form-help">PNG с прозрачным фоном рекомендуется. До 16MB</div>
+          </div>
+          
+          <div class="admin-form-group">
+            <label for="hero_bottle_url" class="admin-form-label">Или URL изображения флакона</label>
+            <input type="url" id="hero_bottle_url" name="hero_bottle_url" class="admin-form-input" 
+                   value="{{ hero.bottle_image_url or '' }}"
+                   placeholder="/static/img/bottle.png" onchange="previewImageFromUrl(this, 'hero_bottle_preview')">
+          </div>
+          
+          <div class="admin-form-group">
+            <div class="admin-image-info">
+              <div id="hero_bottle_preview" class="admin-preview-image">
+                {% if hero.bottle_image_url %}
+                <img src="{{ hero.bottle_image_url }}" alt="Превью флакона">
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div class="admin-form-actions">
         <button type="submit" class="admin-btn admin-btn-primary">Сохранить</button>
       </div>

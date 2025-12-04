@@ -34,6 +34,13 @@
             </div>
         </div>
         
+        <!-- Изображение флакона -->
+        {% if hero.bottle_image_url %}
+        <div class="hero-bottle" data-aos="fade-left" data-aos-delay="400">
+            <img src="{{ hero.bottle_image_url }}" alt="OilFusion масло" class="hero-bottle-image">
+        </div>
+        {% endif %}
+        
         <!-- Скролл индикатор -->
         <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="300">
             <span class="scroll-text">{{ hero.scroll_text }}</span>
