@@ -52,11 +52,11 @@ def index():
     about_data = ContentRepository.get_section("about", locale)
     about_data["background"] = backgrounds.get_section_background("about")
     
-    # Парсим JSON для features
-    if about_data.get('features'):
+    # Парсим JSON для features (только если это строка)
+    if about_data.get('features') and isinstance(about_data['features'], str):
         try:
             about_data['features'] = json.loads(about_data['features'])
-        except (json.JSONDecodeError, TypeError):
+        except json.JSONDecodeError:
             about_data['features'] = []
 
     products_data = ContentRepository.get_section("products", locale)
@@ -65,26 +65,26 @@ def index():
 
     services_data = ContentRepository.get_section("services", locale)
     
-    # Парсим JSON для services_list
-    if services_data.get('services_list'):
+    # Парсим JSON для services_list (только если это строка)
+    if services_data.get('services_list') and isinstance(services_data['services_list'], str):
         try:
             services_data['services_list'] = json.loads(services_data['services_list'])
-        except (json.JSONDecodeError, TypeError):
+        except json.JSONDecodeError:
             services_data['services_list'] = []
 
     personalization_data = ContentRepository.get_section("personalization", locale)
     
-    # Парсим JSON для dna_testing и auracloud
-    if personalization_data.get('dna_testing'):
+    # Парсим JSON для dna_testing и auracloud (только если это строки)
+    if personalization_data.get('dna_testing') and isinstance(personalization_data['dna_testing'], str):
         try:
             personalization_data['dna_testing'] = json.loads(personalization_data['dna_testing'])
-        except (json.JSONDecodeError, TypeError):
+        except json.JSONDecodeError:
             pass
     
-    if personalization_data.get('auracloud'):
+    if personalization_data.get('auracloud') and isinstance(personalization_data['auracloud'], str):
         try:
             personalization_data['auracloud'] = json.loads(personalization_data['auracloud'])
-        except (json.JSONDecodeError, TypeError):
+        except json.JSONDecodeError:
             pass
 
     reviews_data = ContentRepository.get_section("reviews", locale)
