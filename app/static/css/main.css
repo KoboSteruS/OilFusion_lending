@@ -1160,6 +1160,186 @@ body {
     font-size: 4rem;
 }
 
+/* ===== Персонализация ===== */
+.personalization-content {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.personalization-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.personalization-block-reverse {
+    grid-template-columns: 1fr 1fr;
+}
+
+.personalization-block-reverse .personalization-visual {
+    order: 2;
+}
+
+.personalization-block-reverse .personalization-text {
+    order: 1;
+}
+
+.personalization-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.personalization-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    transition: var(--transition);
+}
+
+.personalization-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+}
+
+.visual-placeholder {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-light);
+    border-radius: var(--border-radius);
+    color: var(--primary-color);
+}
+
+.personalization-text {
+    padding: 20px;
+}
+
+.personalization-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.personalization-description {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.personalization-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+}
+
+.personalization-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.personalization-features svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.personalization-divider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+}
+
+.personalization-info {
+    margin-top: 60px;
+}
+
+.info-card {
+    background: rgba(166, 124, 82, 0.1);
+    border: 1px solid rgba(166, 124, 82, 0.2);
+    border-radius: var(--border-radius);
+    padding: 40px;
+    text-align: center;
+}
+
+.info-card h4 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.info-card p {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    line-height: 1.7;
+}
+
+.info-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.info-link:hover {
+    gap: 12px;
+    opacity: 0.8;
+}
+
+@media (max-width: 992px) {
+    .personalization-block,
+    .personalization-block-reverse {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .personalization-block-reverse .personalization-visual,
+    .personalization-block-reverse .personalization-text {
+        order: unset;
+    }
+    
+    .personalization-image {
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 768px) {
+    .personalization-image {
+        max-width: 100%;
+    }
+    
+    .visual-placeholder {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .personalization-title {
+        font-size: 1.75rem;
+    }
+    
+    .info-card {
+        padding: 30px 20px;
+    }
+}
+
 /* ===== Каталог продукции ===== */
 .catalog-hero {
     position: relative;
