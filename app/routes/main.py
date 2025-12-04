@@ -51,12 +51,26 @@ def index():
 
     about_data = ContentRepository.get_section("about", locale)
     about_data["background"] = backgrounds.get_section_background("about")
+    
+    # Парсим JSON для features
+    if about_data.get('features'):
+        try:
+            about_data['features'] = json.loads(about_data['features'])
+        except (json.JSONDecodeError, TypeError):
+            about_data['features'] = []
 
     products_data = ContentRepository.get_section("products", locale)
     products_data["background"] = backgrounds.get_section_background("products")
     # products - это уже распарсенный JSON из БД благодаря get_section()
 
     services_data = ContentRepository.get_section("services", locale)
+    
+    # Парсим JSON для services_list
+    if services_data.get('services_list'):
+        try:
+            services_data['services_list'] = json.loads(services_data['services_list'])
+        except (json.JSONDecodeError, TypeError):
+            services_data['services_list'] = []
 
     personalization_data = ContentRepository.get_section("personalization", locale)
     
