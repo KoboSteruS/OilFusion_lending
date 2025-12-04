@@ -3,6 +3,8 @@
 Обрабатывает все запросы к главной странице и её секциям.
 """
 
+import json
+
 from flask import (
     Blueprint,
     current_app,
