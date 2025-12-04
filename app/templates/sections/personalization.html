@@ -2,15 +2,15 @@
 <section id="personalization" class="personalization-section section section-alt">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
-            <h2 class="section-title">{{ personalization.title }}</h2>
-            <p class="section-subtitle">{{ personalization.subtitle }}</p>
+            <h2 class="section-title">{{ personalization.get('title', 'Персонализация') }}</h2>
+            <p class="section-subtitle">{{ personalization.get('subtitle', '') }}</p>
         </div>
         
         <div class="personalization-content">
             <!-- ДНК-тестирование -->
             <div class="personalization-block" data-aos="fade-right">
                 <div class="personalization-visual">
-                    {% if personalization.dna_testing.image_url %}
+                    {% if personalization.get('dna_testing', {}).get('image_url') %}
                     <img src="{{ personalization.dna_testing.image_url }}" alt="ДНК-тестирование" class="personalization-image">
                     {% else %}
                     <div class="visual-placeholder dna-visual">
@@ -26,12 +26,12 @@
                     {% endif %}
                 </div>
                 <div class="personalization-text">
-                    <h3 class="personalization-title">{{ personalization.dna_testing.title }}</h3>
+                    <h3 class="personalization-title">{{ personalization.get('dna_testing', {}).get('title', 'ДНК-тестирование') }}</h3>
                     <p class="personalization-description">
-                        {{ personalization.dna_testing.description }}
+                        {{ personalization.get('dna_testing', {}).get('description', '') }}
                     </p>
                     <ul class="personalization-features">
-                        {% for feature in personalization.dna_testing.features %}
+                        {% for feature in personalization.get('dna_testing', {}).get('features', []) %}
                         <li>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
                             <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -76,7 +76,7 @@
                             </div>
                         </div>
                     </div>
-                    {% elif personalization.auracloud.image_url %}
+                    {% elif personalization.get('auracloud', {}).get('image_url') %}
                     <img src="{{ personalization.auracloud.image_url }}" alt="AuraCloud 3D" class="personalization-image">
                     {% else %}
                     <div class="visual-placeholder aura-visual">
@@ -91,12 +91,12 @@
                     {% endif %}
                 </div>
                 <div class="personalization-text">
-                    <h3 class="personalization-title">{{ personalization.auracloud.title }}</h3>
+                    <h3 class="personalization-title">{{ personalization.get('auracloud', {}).get('title', 'AuraCloud® 3D') }}</h3>
                     <p class="personalization-description">
-                        {{ personalization.auracloud.description }}
+                        {{ personalization.get('auracloud', {}).get('description', '') }}
                     </p>
                     <ul class="personalization-features">
-                        {% for feature in personalization.auracloud.features %}
+                        {% for feature in personalization.get('auracloud', {}).get('features', []) %}
                         <li>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
                             <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
