@@ -57,6 +57,19 @@ def index():
     services_data = ContentRepository.get_section("services", locale)
 
     personalization_data = ContentRepository.get_section("personalization", locale)
+    
+    # Парсим JSON для dna_testing и auracloud
+    if personalization_data.get('dna_testing'):
+        try:
+            personalization_data['dna_testing'] = json.loads(personalization_data['dna_testing'])
+        except (json.JSONDecodeError, TypeError):
+            pass
+    
+    if personalization_data.get('auracloud'):
+        try:
+            personalization_data['auracloud'] = json.loads(personalization_data['auracloud'])
+        except (json.JSONDecodeError, TypeError):
+            pass
 
     reviews_data = ContentRepository.get_section("reviews", locale)
     if not reviews_data.get("title"):
