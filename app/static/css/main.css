@@ -979,131 +979,111 @@ body {
 
 /* ===== Подвал ===== */
 .footer {
-    background-color: #1A1A1A;
-    color: white;
-    padding: 64px 0 40px;
+    background-color: #2B2B2B;
+    color: #FFFFFF;
+    padding: 50px 0 30px;
 }
 
-.footer-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr 1.2fr;
-    gap: 48px;
-}
-
-.footer-column {
+.footer-content {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-}
-
-.footer-column.footer-brand {
-    gap: 20px;
-}
-
-.footer-logo {
-    display: inline-flex;
     align-items: center;
-}
-
-.footer-logo img {
-    height: 56px;
-    width: auto;
-}
-
-.footer-description {
-    color: rgba(255, 255, 255, 0.7);
-    line-height: 1.7;
-    max-width: 320px;
-}
-
-.footer-heading {
-    font-size: 0.95rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.footer-links,
-.footer-contact {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.footer-links a,
-.footer-contact a {
-    color: rgba(255, 255, 255, 0.75);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.footer-links a:hover,
-.footer-contact a:hover {
-    color: white;
-}
-
-.footer-contact li {
-    color: rgba(255, 255, 255, 0.75);
+    justify-content: center;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .footer-social {
     display: flex;
-    gap: 12px;
-    margin-top: 12px;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
 }
 
-.footer-social a {
-    width: 40px;
-    height: 40px;
+.social-icon {
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.1);
-    color: white;
+    color: #FFFFFF;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
 
-.footer-social a:hover {
+.social-icon:hover {
     background-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+}
+
+.social-icon svg {
+    width: 24px;
+    height: 24px;
 }
 
 .footer-bottom {
-    margin-top: 48px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    width: 100%;
     text-align: center;
-    color: rgba(255, 255, 255, 0.55);
+}
+
+.footer-copyright {
+    color: rgba(255, 255, 255, 0.6);
     font-size: 0.875rem;
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: 0.3px;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 768px) {
     .footer {
-        padding: 56px 0 32px;
+        padding: 40px 0 24px;
     }
 
-    .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 32px;
+    .footer-social {
+        gap: 12px;
+    }
+
+    .social-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .social-icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .footer-copyright {
+        font-size: 0.8125rem;
     }
 }
 
-@media (max-width: 576px) {
-    .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
+@media (max-width: 480px) {
+    .footer {
+        padding: 32px 0 20px;
     }
 
-    .footer-logo img {
-        height: 48px;
+    .footer-content {
+        gap: 20px;
     }
 
-    .footer-description {
-        max-width: none;
+    .social-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .social-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .footer-copyright {
+        font-size: 0.75rem;
     }
 }
 
