@@ -1,28 +1,87 @@
 {
-  "title": "Персонализация",
-  "subtitle": "Технологии будущего для вашего здоровья сегодня",
+  "title": {
+    "ru": "Персонализация",
+    "lv": "Personalizācija",
+    "en": "Personalization"
+  },
+  "subtitle": {
+    "ru": "Технологии будущего для вашего здоровья сегодня",
+    "lv": "Nākotnes tehnoloģijas jūsu veselībai jau šodien",
+    "en": "Future technologies for your health today"
+  },
   "dna_testing": {
-    "title": "ДНК-тестирование",
-    "description": "Индивидуальный подбор масел на основе вашего генетического профиля",
-    "features": [
-      "",
-      "Определение индивидуальных потребностей",
-      "Точная формула под ваш организм",
-      "Научно обоснованный подход"
-    ]
+    "title": {
+      "ru": "ДНК-тестирование",
+      "lv": "DNS testēšana",
+      "en": "DNA Testing"
+    },
+    "description": {
+      "ru": "Индивидуальный подбор масел на основе вашего генетического профиля",
+      "lv": "Individuāla eļļu izvēle, pamatojoties uz jūsu ģenētisko profilu",
+      "en": "Individual oil selection based on your genetic profile"
+    },
+    "features": {
+      "ru": [
+        "Анализ генетических особенностей",
+        "Определение индивидуальных потребностей",
+        "Точная формула под ваш организм",
+        "Научно обоснованный подход"
+      ],
+      "lv": [
+        "Ģenētisko īpatnību analīze",
+        "Individuālo vajadzību noteikšana",
+        "Precīza formula jūsu ķermenim",
+        "Zinātniski pamatota pieeja"
+      ],
+      "en": [
+        "Genetic features analysis",
+        "Individual needs determination",
+        "Precise formula for your body",
+        "Scientifically based approach"
+      ]
+    }
   },
   "auracloud": {
-    "title": "AuraCloud® 3D",
-    "description": "Визуализация вашей энергетической ауры для точного подбора продуктов",
-    "features": [
-      "Трёхмерная визуализация ауры",
-      "Анализ энергетических центров",
-      "Определение дисбалансов",
-      "Отслеживание динамики изменений"
-    ]
+    "title": {
+      "ru": "AuraCloud® 3D",
+      "lv": "AuraCloud® 3D",
+      "en": "AuraCloud® 3D"
+    },
+    "description": {
+      "ru": "Визуализация вашей энергетической ауры для точного подбора продуктов",
+      "lv": "Jūsu enerģētiskās auras vizualizācija precīzai produktu izvēlei",
+      "en": "Visualization of your energy aura for accurate product selection"
+    },
+    "features": {
+      "ru": [
+        "Трёхмерная визуализация ауры",
+        "Анализ энергетических центров",
+        "Определение дисбалансов",
+        "Отслеживание динамики изменений"
+      ],
+      "lv": [
+        "Trīsdimensiju auras vizualizācija",
+        "Enerģētisko centru analīze",
+        "Nelīdzsvarotības noteikšana",
+        "Izmaiņu dinamikas izsekošana"
+      ],
+      "en": [
+        "Three-dimensional aura visualization",
+        "Energy center analysis",
+        "Imbalance detection",
+        "Change dynamics tracking"
+      ]
+    }
   },
-  "info_text": "Технология AuraCloud® 3D основана на Bio-Well системе",
-  "info_description": "Мы используем передовую технологию Bio-Well для визуализации энергетического поля человека. Эта система позволяет увидеть изменения в вашей ауре и подобрать оптимальные продукты.",
-  "bio_well_url": "https://bio-well.com/en-intl",
-  "updated_at": "2025-10-14T12:57:23.075290"
+  "info_text": {
+    "ru": "Технология AuraCloud® 3D основана на Bio-Well системе",
+    "lv": "AuraCloud® 3D tehnoloģija ir balstīta uz Bio-Well sistēmu",
+    "en": "AuraCloud® 3D technology is based on the Bio-Well system"
+  },
+  "info_description": {
+    "ru": "Мы используем передовую технологию Bio-Well для визуализации энергетического поля человека. Эта система позволяет увидеть изменения в вашей ауре и подобрать оптимальные продукты.",
+    "lv": "Mēs izmantojam progresīvu Bio-Well tehnoloģiju cilvēka enerģētiskā lauka vizualizācijai. Šī sistēma ļauj redzēt izmaiņas jūsu aurā un izvēlēties optimālos produktus.",
+    "en": "We use advanced Bio-Well technology to visualize the human energy field. This system allows you to see changes in your aura and select optimal products."
+  },
+  "bio_well_url": "https://bio-well.com/en-intl"
 }

@@ -5,11 +5,11 @@
     "en": "Our Services"
   },
   "subtitle": {
-    "ru": "Комплексный подход к персонализации",
-    "lv": "Kompleksa pieeja personalizācijai",
-    "en": "Comprehensive approach to personalization"
+    "ru": "Индивидуальный подход к каждому клиенту",
+    "lv": "Individuāla pieeja katram klientam",
+    "en": "Individual approach to each client"
   },
-  "services_list": [
+  "services": [
     {
       "name": {
         "ru": "ДНК-тестирование",
@@ -18,8 +18,8 @@
       },
       "description": {
         "ru": "Комплексный анализ генетических особенностей для подбора идеального масла.",
-        "lv": "Visaptverošs ģenētisko īpatnību analīze ideālās eļļas izvēlei.",
-        "en": "Comprehensive analysis of genetic characteristics for selecting the ideal oil."
+        "lv": "Visaptveroša ģenētisko īpatnību analīze ideālas eļļas izvēlei.",
+        "en": "Comprehensive analysis of genetic features to select the perfect oil."
       },
       "price": {
         "ru": "от 5 000 ₽",
@@ -28,9 +28,24 @@
       },
       "icon": "/static/img/service1.png",
       "features": {
-        "ru": ["Анализ 50+ генетических маркеров", "Персональные рекомендации", "Подробный отчет с результатами", "Консультация специалиста"],
-        "lv": ["50+ ģenētisko marķieru analīze", "Personīgie ieteikumi", "Detalizēts rezultātu ziņojums", "Speciālista konsultācija"],
-        "en": ["Analysis of 50+ genetic markers", "Personal recommendations", "Detailed results report", "Specialist consultation"]
+        "ru": [
+          "Анализ 50+ генетических маркеров",
+          "Персональные рекомендации",
+          "Подробный отчёт с результатами",
+          "Консультация специалиста"
+        ],
+        "lv": [
+          "50+ ģenētisko marķieru analīze",
+          "Personalizēti ieteikumi",
+          "Detalizēts ziņojums ar rezultātiem",
+          "Speciālista konsultācija"
+        ],
+        "en": [
+          "Analysis of 50+ genetic markers",
+          "Personal recommendations",
+          "Detailed report with results",
+          "Specialist consultation"
+        ]
       }
     },
     {
@@ -41,7 +56,7 @@
       },
       "description": {
         "ru": "Современная технология визуализации энергетического поля человека.",
-        "lv": "Mūsdienīga cilvēka enerģētiskā lauka vizualizācijas tehnoloģija.",
+        "lv": "Moderna tehnoloģija cilvēka enerģētiskā lauka vizualizācijai.",
         "en": "Modern technology for visualizing the human energy field."
       },
       "price": {
@@ -51,9 +66,24 @@
       },
       "icon": "/static/img/service2.png",
       "features": {
-        "ru": ["3D-модель ауры в реальном времени", "Анализ энергетических центров", "Рекомендации по балансировке", "Сравнение до и после"],
-        "lv": ["3D auras modelis reāllaikā", "Enerģētisko centru analīze", "Līdzsvarošanas ieteikumi", "Salīdzinājums pirms un pēc"],
-        "en": ["Real-time 3D aura model", "Energy center analysis", "Balancing recommendations", "Before and after comparison"]
+        "ru": [
+          "3D-модель ауры в реальном времени",
+          "Анализ энергетических центров",
+          "Рекомендации по балансировке",
+          "Сравнение до и после"
+        ],
+        "lv": [
+          "3D auras modelis reāllaikā",
+          "Enerģētisko centru analīze",
+          "Līdzsvarošanas ieteikumi",
+          "Salīdzinājums pirms un pēc"
+        ],
+        "en": [
+          "Real-time 3D aura model",
+          "Energy center analysis",
+          "Balancing recommendations",
+          "Before and after comparison"
+        ]
       }
     },
     {
@@ -74,9 +104,24 @@
       },
       "icon": "/static/img/service3.png",
       "features": {
-        "ru": ["Анализ состояния кожи", "Подбор продуктов", "План ухода на месяц", "Последующее сопровождение"],
-        "lv": ["Ādas stāvokļa analīze", "Produktu izvēle", "Mēneša kopšanas plāns", "Turpmākā atbalsta nodrošināšana"],
-        "en": ["Skin condition analysis", "Product selection", "Monthly care plan", "Follow-up support"]
+        "ru": [
+          "Анализ состояния кожи",
+          "Подбор продуктов",
+          "План ухода на месяц",
+          "Последующее сопровождение"
+        ],
+        "lv": [
+          "Ādas stāvokļa analīze",
+          "Produktu izvēle",
+          "Mēneša kopšanas plāns",
+          "Turpmākā atbalsts"
+        ],
+        "en": [
+          "Skin condition analysis",
+          "Product selection",
+          "Monthly care plan",
+          "Follow-up support"
+        ]
       }
     }
   ]

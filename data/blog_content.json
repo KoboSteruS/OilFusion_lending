@@ -1,37 +1,74 @@
 {
-  "title": "Блог",
-  "subtitle": "Полезная информация о здоровье и персонализации",
+  "title": {
+    "ru": "Блог",
+    "lv": "Blogs",
+    "en": "Blog"
+  },
+  "subtitle": {
+    "ru": "Полезная информация о здоровье и персонализации",
+    "lv": "Noderīga informācija par veselību un personalizāciju",
+    "en": "Useful information about health and personalization"
+  },
   "articles": [
     {
-      "title": "Как работает ДНК-тестирование для подбора масел",
-      "content": "Полное содержание статьи о ДНК-тестировании...",
-      "excerpt": "Узнайте о научных основах генетического тестирования и как это помогает подобрать идеальное масло именно для вас.",
-      "category": "Технологии",
+      "title": {
+        "ru": "Как работает ДНК-тестирование для подбора масел",
+        "lv": "Kā darbojas DNS testēšana eļļu izvēlei",
+        "en": "How DNA testing works for oil selection"
+      },
+      "excerpt": {
+        "ru": "Узнайте о научных основах генетического тестирования и как это помогает подобрать идеальное масло именно для вас.",
+        "lv": "Uzziniet par ģenētiskās testēšanas zinātniskajiem pamatiem un kā tas palīdz izvēlēties ideālu eļļu tieši jums.",
+        "en": "Learn about the scientific foundations of genetic testing and how it helps select the perfect oil for you."
+      },
+      "category": {
+        "ru": "Технологии",
+        "lv": "Tehnoloģijas",
+        "en": "Technologies"
+      },
       "read_time": 5,
       "image": "/static/images/blog/dna-testing.jpg",
-      "published": true,
-      "created_at": "2025-10-14T12:57:23.081400"
+      "published": true
     },
     {
-      "title": "AuraCloud® 3D: революция в энергетической диагностике",
-      "content": "Полное содержание статьи о AuraCloud® 3D...",
-      "excerpt": "Погрузитесь в мир передовых технологий визуализации ауры и узнайте, как это помогает улучшить ваше самочувствие.",
-      "category": "Здоровье",
+      "title": {
+        "ru": "AuraCloud® 3D: революция в энергетической диагностике",
+        "lv": "AuraCloud® 3D: revolūcija enerģētiskajā diagnostikā",
+        "en": "AuraCloud® 3D: Revolution in Energy Diagnostics"
+      },
+      "excerpt": {
+        "ru": "Погрузитесь в мир передовых технологий визуализации ауры и узнайте, как это помогает улучшить ваше самочувствие.",
+        "lv": "Iegremdējieties progresīvo auras vizualizācijas tehnoloģiju pasaulē un uzziniet, kā tas palīdz uzlabot jūsu pašsajūtu.",
+        "en": "Dive into the world of advanced aura visualization technologies and learn how it helps improve your well-being."
+      },
+      "category": {
+        "ru": "Здоровье",
+        "lv": "Veselība",
+        "en": "Health"
+      },
       "read_time": 7,
       "image": "/static/images/blog/auracloud.jpg",
-      "published": true,
-      "created_at": "2025-10-14T12:57:23.081415"
+      "published": true
     },
     {
-      "title": "10 правил использования персонализированных масел",
-      "content": "Полное содержание статьи о правилах использования...",
-      "excerpt": "Практические рекомендации по применению наших продуктов для достижения максимального эффекта и долгосрочного результата.",
-      "category": "Советы",
+      "title": {
+        "ru": "10 правил использования персонализированных масел",
+        "lv": "10 personalizēto eļļu lietošanas noteikumi",
+        "en": "10 Rules for Using Personalized Oils"
+      },
+      "excerpt": {
+        "ru": "Практические рекомендации по применению наших продуктов для достижения максимального эффекта и долгосрочного результата.",
+        "lv": "Praktiski ieteikumi mūsu produktu lietošanai maksimāla efekta un ilgtermiņa rezultātu sasniegšanai.",
+        "en": "Practical recommendations for using our products to achieve maximum effect and long-term results."
+      },
+      "category": {
+        "ru": "Советы",
+        "lv": "Padomi",
+        "en": "Tips"
+      },
       "read_time": 4,
       "image": "/static/images/blog/oil-usage.jpg",
-      "published": true,
-      "created_at": "2025-10-14T12:57:23.081519"
+      "published": true
     }
-  ],
-  "updated_at": "2025-10-14T12:57:23.081529"
+  ]
 }
