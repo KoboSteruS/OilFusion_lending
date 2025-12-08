@@ -1,8 +1,27 @@
 {
-  "slogan": "Balance in every drop",
-  "subtitle": "Персонализированные масла на основе технологий AuraCloud® 3D и ДНК-тестирования",
-  "cta_primary": "Подобрать масло",
-  "cta_secondary": "Записаться",
-  "scroll_text": "Листайте вниз",
-  "updated_at": "2025-10-22T10:25:42.974826"
+  "slogan": {
+    "ru": "Balance in every drop",
+    "lv": "Līdzsvars katrā pilienā",
+    "en": "Balance in every drop"
+  },
+  "subtitle": {
+    "ru": "Персонализированные масла на основе технологий AuraCloud® 3D и ДНК-тестирования",
+    "lv": "Personalizētas eļļas, pamatojoties uz AuraCloud® 3D un DNS testēšanas tehnoloģijām",
+    "en": "Personalized oils based on AuraCloud® 3D and DNA testing technologies"
+  },
+  "cta_primary": {
+    "ru": "Подобрать масло",
+    "lv": "Izvēlēties eļļu",
+    "en": "Select Oil"
+  },
+  "cta_secondary": {
+    "ru": "Записаться",
+    "lv": "Pierakstīties",
+    "en": "Book Appointment"
+  },
+  "scroll_text": {
+    "ru": "Листайте вниз",
+    "lv": "Ritiniet uz leju",
+    "en": "Scroll Down"
+  }
 }

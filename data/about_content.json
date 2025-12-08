@@ -1,18 +1,45 @@
 {
-  "title": "О нас",
-  "description": "Мы создаём уникальные масла, основываясь на передовых технологиях AuraCloud® 3D и ДНК-тестирования",
-  "philosophy": "Наша философия - баланс и гармония в каждой капле",
+  "title": {
+    "ru": "О нас",
+    "lv": "Par mums",
+    "en": "About Us"
+  },
+  "description": {
+    "ru": "Мы создаём уникальные масла, основываясь на передовых технологиях AuraCloud® 3D и ДНК-тестирования",
+    "lv": "Mēs radām unikālas eļļas, pamatojoties uz progresīvām AuraCloud® 3D un DNS testēšanas tehnoloģijām",
+    "en": "We create unique oils based on advanced AuraCloud® 3D and DNA testing technologies"
+  },
+  "philosophy": {
+    "ru": "Наша философия - баланс и гармония в каждой капле",
+    "lv": "Mūsu filosofija - līdzsvars un harmonija katrā pilienā",
+    "en": "Our philosophy - balance and harmony in every drop"
+  },
   "features": [
     {
-      "title": "AuraCloud® 3D",
-      "description": "Передовая технология визуализации энергетической ауры для точного подбора продуктов",
+      "title": {
+        "ru": "AuraCloud® 3D",
+        "lv": "AuraCloud® 3D",
+        "en": "AuraCloud® 3D"
+      },
+      "description": {
+        "ru": "Передовая технология визуализации энергетической ауры для точного подбора продуктов",
+        "lv": "Progresīva enerģētiskās auras vizualizācijas tehnoloģija precīzai produktu izvēlei",
+        "en": "Advanced energy aura visualization technology for accurate product selection"
+      },
       "icon": "aura"
     },
     {
-      "title": "ДНК-тестирование",
-      "description": "Индивидуальный подбор масел на основе вашего генетического профиля",
+      "title": {
+        "ru": "ДНК-тестирование",
+        "lv": "DNS testēšana",
+        "en": "DNA Testing"
+      },
+      "description": {
+        "ru": "Индивидуальный подбор масел на основе вашего генетического профиля",
+        "lv": "Individuāla eļļu izvēle, pamatojoties uz jūsu ģenētisko profilu",
+        "en": "Individual oil selection based on your genetic profile"
+      },
       "icon": "dna"
     }
-  ],
-  "updated_at": "2025-10-14T12:57:23.072870"
+  ]
 }
