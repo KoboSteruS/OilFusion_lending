@@ -147,7 +147,7 @@ def _migrate_section_data(section: str, data: Any, prefix: str = '') -> int:
                 ContentRepository.set(
                     section=section,
                     key=full_key,
-                    value=json.dumps(value, ensure_ascii=False),
+                    value_ru=json.dumps(value, ensure_ascii=False),
                     data_type='json'
                 )
                 count += 1
@@ -155,7 +155,7 @@ def _migrate_section_data(section: str, data: Any, prefix: str = '') -> int:
                 ContentRepository.set(
                     section=section,
                     key=full_key,
-                    value=value,
+                    value_ru=value,
                     data_type='text'
                 )
                 count += 1
@@ -164,7 +164,7 @@ def _migrate_section_data(section: str, data: Any, prefix: str = '') -> int:
                 ContentRepository.set(
                     section=section,
                     key=full_key,
-                    value=str(value),
+                    value_ru=str(value),
                     data_type='text'
                 )
                 count += 1
@@ -174,7 +174,7 @@ def _migrate_section_data(section: str, data: Any, prefix: str = '') -> int:
         ContentRepository.set(
             section=section,
             key=prefix or 'data',
-            value=json.dumps(data, ensure_ascii=False),
+            value_ru=json.dumps(data, ensure_ascii=False),
             data_type='json'
         )
         count += 1
@@ -263,11 +263,19 @@ def create_default_data() -> None:
     
     try:
         # Создаём базовый контент для Hero секции
-        ContentRepository.set('hero', 'slogan', 'Balance in every drop', 'text')
-        ContentRepository.set('hero', 'subtitle', 'Персонализированные масла на основе технологий AuraCloud® 3D и ДНК-тестирования', 'text')
-        ContentRepository.set('hero', 'cta_primary', 'Подобрать масло', 'text')
-        ContentRepository.set('hero', 'cta_secondary', 'Записаться', 'text')
-        ContentRepository.set('hero', 'scroll_text', 'Прокрутите вниз', 'text')
+        ContentRepository.set('hero', 'slogan', value_ru='Balance in every drop', data_type='text')
+        ContentRepository.set('hero', 'subtitle', value_ru='Персонализированные масла на основе технологий AuraCloud® 3D и ДНК-тестирования', data_type='text')
+        ContentRepository.set('hero', 'cta_primary', value_ru='Подобрать масло', data_type='text')
+        ContentRepository.set('hero', 'cta_secondary', value_ru='Записаться', data_type='text')
+        ContentRepository.set('hero', 'scroll_text', value_ru='Прокрутите вниз', data_type='text')
+        
+        # Создаём базовый контент для секции Contacts
+        ContentRepository.set('contacts', 'title', value_ru='Контакты', data_type='text')
+        ContentRepository.set('contacts', 'subtitle', value_ru='Свяжитесь с нами для консультации', data_type='text')
+        ContentRepository.set('contacts', 'phone', value_ru='+7 (000) 000-00-00', data_type='text')
+        ContentRepository.set('contacts', 'email', value_ru='info@example.com', data_type='text')
+        ContentRepository.set('contacts', 'address', value_ru='Адрес не указан', data_type='text')
+        ContentRepository.set('contacts', 'form_title', value_ru='Записаться на консультацию', data_type='text')
         
         # Создаём базовые переводы
         _create_default_translations()

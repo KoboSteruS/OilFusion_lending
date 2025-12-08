@@ -2,8 +2,8 @@
 <section id="contacts" class="contacts-section section">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
-            <h2 class="section-title">{{ contacts.title }}</h2>
-            <p class="section-subtitle">{{ contacts.subtitle or 'Свяжитесь с нами для консультации' }}</p>
+            <h2 class="section-title">{{ contacts.title|default('Контакты', true) }}</h2>
+            <p class="section-subtitle">{{ contacts.subtitle|default('Свяжитесь с нами для консультации', true) }}</p>
         </div>
         
         <div class="contacts-content">
@@ -18,10 +18,11 @@
                     </div>
                     <div class="contact-details">
                         <h4 class="contact-title">{{ get_content('contacts', 'address_label', current_locale) or 'Адрес' }}</h4>
-                        <p class="contact-text">{{ contacts.address }}</p>
+                        <p class="contact-text">{{ contacts.address|default('Адрес не указан', true) }}</p>
                     </div>
                 </div>
                 
+                {% set phone_number = contacts.phone|default('+7 (000) 000-00-00', true) %}
                 <div class="contact-item">
                     <div class="contact-icon">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
@@ -31,13 +32,14 @@
                     <div class="contact-details">
                         <h4 class="contact-title">{{ get_content('contacts', 'phone_label', current_locale) or 'Телефон' }}</h4>
                         <p class="contact-text">
-                            <a href="tel:{{ contacts.phone.replace(' ', '').replace('(', '').replace(')', '').replace('-', '') }}">
-                                {{ contacts.phone }}
+                            <a href="tel:{{ phone_number|replace(' ', '')|replace('(', '')|replace(')', '')|replace('-', '') }}">
+                                {{ phone_number }}
                             </a>
                         </p>
                     </div>
                 </div>
                 
+                {% set email_address = contacts.email|default('info@example.com', true) %}
                 <div class="contact-item">
                     <div class="contact-icon">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
@@ -48,7 +50,7 @@
                     <div class="contact-details">
                         <h4 class="contact-title">{{ get_content('contacts', 'email_label', current_locale) or 'Email' }}</h4>
                         <p class="contact-text">
-                            <a href="mailto:{{ contacts.email }}">{{ contacts.email }}</a>
+                            <a href="mailto:{{ email_address }}">{{ email_address }}</a>
                         </p>
                     </div>
                 </div>
@@ -70,7 +72,7 @@
             <!-- Правая колонка: Форма записи -->
             <div class="contacts-form" data-aos="fade-left">
                 <div class="contact-form-wrapper">
-                    <h3 class="form-title">{{ contacts.form_title or 'Записаться на консультацию' }}</h3>
+                    <h3 class="form-title">{{ contacts.form_title|default('Записаться на консультацию', true) }}</h3>
                     {% if contacts.form_subtitle %}
                     <p class="form-subtitle">{{ contacts.form_subtitle }}</p>
                     {% endif %}
