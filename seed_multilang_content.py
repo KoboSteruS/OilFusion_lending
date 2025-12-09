@@ -485,6 +485,82 @@ def seed_content():
             value_en='Read all articles'
         )
         
+        # Категории блога
+        ContentRepository.set(
+            section='blog',
+            key='category_tech',
+            value_ru='Технологии',
+            value_lv='Tehnoloģijas',
+            value_en='Technology'
+        )
+        
+        ContentRepository.set(
+            section='blog',
+            key='category_health',
+            value_ru='Здоровье',
+            value_lv='Veselība',
+            value_en='Health'
+        )
+        
+        ContentRepository.set(
+            section='blog',
+            key='category_tips',
+            value_ru='Советы',
+            value_lv='Padomi',
+            value_en='Tips'
+        )
+        
+        # Статья 1 - ДНК-тестирование
+        ContentRepository.set(
+            section='blog',
+            key='article1_title',
+            value_ru='Как работает ДНК-тестирование для подбора масел',
+            value_lv='Kā darbojas DNS testēšana eļļu izvēlei',
+            value_en='How DNA testing works for oil selection'
+        )
+        
+        ContentRepository.set(
+            section='blog',
+            key='article1_excerpt',
+            value_ru='Узнайте о научных основах генетического тестирования и как это помогает подобрать идеальное масло именно для вас.',
+            value_lv='Uzziniet par ģenētiskās testēšanas zinātniskajiem pamatiem un kā tas palīdz izvēlēties ideālo eļļu tieši jums.',
+            value_en='Learn about the scientific basis of genetic testing and how it helps select the perfect oil for you.'
+        )
+        
+        # Статья 2 - AuraCloud
+        ContentRepository.set(
+            section='blog',
+            key='article2_title',
+            value_ru='AuraCloud® 3D: революция в энергетической диагностике',
+            value_lv='AuraCloud® 3D: revolūcija enerģētiskajā diagnostikā',
+            value_en='AuraCloud® 3D: Revolution in energy diagnostics'
+        )
+        
+        ContentRepository.set(
+            section='blog',
+            key='article2_excerpt',
+            value_ru='Погрузитесь в мир передовых технологий визуализации ауры и узнайте, как это помогает улучшить ваше самочувствие.',
+            value_lv='Iegremdējieties progresīvo auras vizualizācijas tehnoloģiju pasaulē un uzziniet, kā tas palīdz uzlabot jūsu pašsajūtu.',
+            value_en='Dive into the world of advanced aura visualization technologies and learn how it helps improve your well-being.'
+        )
+        
+        # Статья 3 - Правила использования
+        ContentRepository.set(
+            section='blog',
+            key='article3_title',
+            value_ru='10 правил использования персонализированных масел',
+            value_lv='10 personalizēto eļļu lietošanas noteikumi',
+            value_en='10 rules for using personalized oils'
+        )
+        
+        ContentRepository.set(
+            section='blog',
+            key='article3_excerpt',
+            value_ru='Практические рекомендации по применению наших продуктов для достижения максимального эффекта и долгосрочного результата.',
+            value_lv='Praktiski ieteikumi mūsu produktu lietošanai, lai sasniegtu maksimālu efektu un ilgtermiņa rezultātu.',
+            value_en='Practical recommendations for using our products to achieve maximum effect and long-term results.'
+        )
+        
         # ===== КОНТАКТЫ =====
         logger.info("Заполнение Контактов...")
         
