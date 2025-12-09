@@ -741,6 +741,164 @@ def seed_content():
             value_en='© OilFusion 2024. All rights reserved.'
         )
         
+        # ===== НАВИГАЦИЯ =====
+        logger.info("Заполнение Навигации...")
+        
+        ContentRepository.set(
+            section='nav',
+            key='home',
+            value_ru='Главная',
+            value_lv='Sākums',
+            value_en='Home'
+        )
+        
+        ContentRepository.set(
+            section='nav',
+            key='about',
+            value_ru='О нас',
+            value_lv='Par mums',
+            value_en='About'
+        )
+        
+        ContentRepository.set(
+            section='nav',
+            key='products',
+            value_ru='Продукция',
+            value_lv='Produkti',
+            value_en='Products'
+        )
+        
+        ContentRepository.set(
+            section='nav',
+            key='services',
+            value_ru='Услуги',
+            value_lv='Pakalpojumi',
+            value_en='Services'
+        )
+        
+        ContentRepository.set(
+            section='nav',
+            key='personalization',
+            value_ru='Персонализация',
+            value_lv='Personalizācija',
+            value_en='Personalization'
+        )
+        
+        ContentRepository.set(
+            section='nav',
+            key='reviews',
+            value_ru='Отзывы',
+            value_lv='Atsauksmes',
+            value_en='Reviews'
+        )
+        
+        ContentRepository.set(
+            section='nav',
+            key='blog',
+            value_ru='Блог',
+            value_lv='Blogs',
+            value_en='Blog'
+        )
+        
+        ContentRepository.set(
+            section='nav',
+            key='contacts',
+            value_ru='Контакты',
+            value_lv='Kontakti',
+            value_en='Contacts'
+        )
+        
+        # ===== КОНТАКТЫ (дополнительные переводы) =====
+        logger.info("Дополнение переводов контактов...")
+        
+        ContentRepository.set(
+            section='contacts',
+            key='address_label',
+            value_ru='Адрес',
+            value_lv='Adrese',
+            value_en='Address'
+        )
+        
+        ContentRepository.set(
+            section='contacts',
+            key='phone_label',
+            value_ru='Телефон',
+            value_lv='Tālrunis',
+            value_en='Phone'
+        )
+        
+        ContentRepository.set(
+            section='contacts',
+            key='email_label',
+            value_ru='Email',
+            value_lv='E-pasts',
+            value_en='Email'
+        )
+        
+        ContentRepository.set(
+            section='contacts',
+            key='hours_label',
+            value_ru='Режим работы',
+            value_lv='Darba laiks',
+            value_en='Working hours'
+        )
+        
+        ContentRepository.set(
+            section='contacts',
+            key='hours_weekdays',
+            value_ru='Пн-Пт: 10:00 - 20:00',
+            value_lv='Pr-Pk: 10:00 - 20:00',
+            value_en='Mon-Fri: 10:00 AM - 8:00 PM'
+        )
+        
+        ContentRepository.set(
+            section='contacts',
+            key='hours_weekend',
+            value_ru='Сб-Вс: 11:00 - 18:00',
+            value_lv='Se-Sv: 11:00 - 18:00',
+            value_en='Sat-Sun: 11:00 AM - 6:00 PM'
+        )
+        
+        ContentRepository.set(
+            section='contacts',
+            key='form_name_placeholder',
+            value_ru='Ваше имя',
+            value_lv='Jūsu vārds',
+            value_en='Your name'
+        )
+        
+        ContentRepository.set(
+            section='contacts',
+            key='form_phone_placeholder',
+            value_ru='Телефон',
+            value_lv='Tālrunis',
+            value_en='Phone'
+        )
+        
+        ContentRepository.set(
+            section='contacts',
+            key='form_email_placeholder',
+            value_ru='Email',
+            value_lv='E-pasts',
+            value_en='Email'
+        )
+        
+        ContentRepository.set(
+            section='contacts',
+            key='form_message_placeholder',
+            value_ru='Комментарий',
+            value_lv='Komentārs',
+            value_en='Message'
+        )
+        
+        ContentRepository.set(
+            section='contacts',
+            key='form_submit',
+            value_ru='Отправить',
+            value_lv='Nosūtīt',
+            value_en='Submit'
+        )
+        
         logger.info("✅ Контент успешно заполнен для всех секций на трёх языках!")
         logger.info("Теперь можно переключать языки на сайте и редактировать в админке")
 

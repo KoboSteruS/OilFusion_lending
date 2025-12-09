@@ -50,28 +50,28 @@
                     
                     <ul class="navbar-nav">
                         {% if visibility.get('hero', True) %}
-                        <li><a href="#hero" class="nav-link">Главная</a></li>
+                        <li><a href="#hero" class="nav-link">{{ get_content('nav', 'home') or 'Главная' }}</a></li>
                         {% endif %}
                         {% if visibility.get('about', True) %}
-                        <li><a href="#about" class="nav-link">О нас</a></li>
+                        <li><a href="#about" class="nav-link">{{ get_content('nav', 'about') or 'О нас' }}</a></li>
                         {% endif %}
                         {% if visibility.get('products', True) %}
-                        <li><a href="#products" class="nav-link">Продукция</a></li>
+                        <li><a href="#products" class="nav-link">{{ get_content('nav', 'products') or 'Продукция' }}</a></li>
                         {% endif %}
                         {% if visibility.get('services', True) %}
-                        <li><a href="#services" class="nav-link">Услуги</a></li>
+                        <li><a href="#services" class="nav-link">{{ get_content('nav', 'services') or 'Услуги' }}</a></li>
                         {% endif %}
                         {% if visibility.get('personalization', True) %}
-                        <li><a href="#personalization" class="nav-link">Персонализация</a></li>
+                        <li><a href="#personalization" class="nav-link">{{ get_content('nav', 'personalization') or 'Персонализация' }}</a></li>
                         {% endif %}
                         {% if visibility.get('reviews', True) %}
-                        <li><a href="#reviews" class="nav-link">Отзывы</a></li>
+                        <li><a href="#reviews" class="nav-link">{{ get_content('nav', 'reviews') or 'Отзывы' }}</a></li>
                         {% endif %}
                         {% if visibility.get('blog', True) %}
-                        <li><a href="#blog" class="nav-link">Блог</a></li>
+                        <li><a href="#blog" class="nav-link">{{ get_content('nav', 'blog') or 'Блог' }}</a></li>
                         {% endif %}
                         {% if visibility.get('contacts', True) %}
-                        <li><a href="#contacts" class="nav-link">Контакты</a></li>
+                        <li><a href="#contacts" class="nav-link">{{ get_content('nav', 'contacts') or 'Контакты' }}</a></li>
                         {% endif %}
                     </ul>
                 </div>
