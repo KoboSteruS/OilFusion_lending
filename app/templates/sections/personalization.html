@@ -31,9 +31,9 @@
                     {% endif %}
                 </div>
                 <div class="personalization-text">
-                    <h3 class="personalization-title">{{ dna_testing_data.get('title', 'ДНК-тестирование') }}</h3>
+                    <h3 class="personalization-title">{{ personalization.get('dna_testing_title', 'ДНК-тестирование') }}</h3>
                     <p class="personalization-description">
-                        {{ dna_testing_data.get('description', '') or dna_text }}
+                        {{ dna_testing_data.get('description', '') or dna_text or personalization.get('dna_testing', '') }}
                     </p>
                     <ul class="personalization-features">
                         {% for feature in dna_testing_data.get('features', []) %}
@@ -96,9 +96,9 @@
                     {% endif %}
                 </div>
                 <div class="personalization-text">
-                    <h3 class="personalization-title">{{ auracloud_data.get('title', 'AuraCloud® 3D') }}</h3>
+                    <h3 class="personalization-title">{{ personalization.get('auracloud_title', 'AuraCloud® 3D') }}</h3>
                     <p class="personalization-description">
-                        {{ auracloud_data.get('description', '') or auracloud_text }}
+                        {{ auracloud_data.get('description', '') or auracloud_text or personalization.get('auracloud', '') }}
                     </p>
                     <ul class="personalization-features">
                         {% for feature in auracloud_data.get('features', []) %}

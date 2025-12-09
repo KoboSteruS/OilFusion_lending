@@ -9,27 +9,32 @@
         <div class="services-grid">
             {% if services.services_list %}
                 {% for service in services.services_list %}
+                {# Поддержка мультиязычного формата (dict с ru/lv/en) и старого формата #}
+                {% set svc_name = service.name[current_locale] if service.name is mapping else service.name %}
+                {% set svc_desc = service.description[current_locale] if service.description is mapping else service.description %}
+                {% set svc_price = service.price[current_locale] if service.price is mapping else service.price %}
+                {% set svc_features = service.features[current_locale] if service.features is mapping else service.features %}
                 <div class="service-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
                     <div class="service-media">
-                        <img src="{{ service.icon }}" alt="{{ service.name }}" loading="lazy">
+                        <img src="{{ service.icon }}" alt="{{ svc_name }}" loading="lazy">
                     </div>
                     <div class="service-content">
-                        <h3 class="service-title">{{ service.name }}</h3>
-                        <p class="service-description">{{ service.description }}</p>
+                        <h3 class="service-title">{{ svc_name }}</h3>
+                        <p class="service-description">{{ svc_desc }}</p>
                         <ul class="service-features">
-                            {% for feature in service.features %}
+                            {% for feature in svc_features %}
                             <li>{{ feature }}</li>
                             {% endfor %}
                         </ul>
                         <div class="service-footer">
-                            <span class="service-price">{{ service.price }}</span>
+                            <span class="service-price">{{ svc_price }}</span>
                             <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary', current_locale) or 'Записаться' }}</a>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
-                <!-- Заглушки для демонстрации -->
+                <!-- Заглушки с переводимым контентом -->
                 <div class="service-card" data-aos="fade-up">
                     <div class="service-media service-media--placeholder">
                         <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
@@ -38,18 +43,11 @@
                         </svg>
                     </div>
                     <div class="service-content">
-                        <h3 class="service-title">ДНК-тестирование</h3>
+                        <h3 class="service-title">{{ get_content('services', 'dna_testing_title', current_locale) or 'ДНК-тестирование' }}</h3>
                         <p class="service-description">
-                            Полный генетический анализ для индивидуального подбора масел
+                            {{ get_content('services', 'dna_testing_desc', current_locale) or 'Полный генетический анализ для индивидуального подбора масел' }}
                         </p>
-                        <ul class="service-features">
-                            <li>Забор биоматериала</li>
-                            <li>Лабораторный анализ</li>
-                            <li>Подробный отчёт</li>
-                            <li>Консультация специалиста</li>
-                        </ul>
                         <div class="service-footer">
-                            <span class="service-price">от 8 500 ₽</span>
                             <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary', current_locale) or 'Записаться' }}</a>
                         </div>
                     </div>
@@ -64,18 +62,11 @@
                         </svg>
                     </div>
                     <div class="service-content">
-                        <h3 class="service-title">Сканирование AuraCloud® 3D</h3>
+                        <h3 class="service-title">{{ get_content('services', 'auracloud_title', current_locale) or 'Сканирование AuraCloud® 3D' }}</h3>
                         <p class="service-description">
-                            Визуализация и анализ вашей энергетической ауры
+                            {{ get_content('services', 'auracloud_desc', current_locale) or 'Визуализация и анализ вашей энергетической ауры' }}
                         </p>
-                        <ul class="service-features">
-                            <li>3D сканирование ауры</li>
-                            <li>Детальная визуализация</li>
-                            <li>Анализ энергетики</li>
-                            <li>Рекомендации по коррекции</li>
-                        </ul>
                         <div class="service-footer">
-                            <span class="service-price">от 5 000 ₽</span>
                             <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary', current_locale) or 'Записаться' }}</a>
                         </div>
                     </div>
@@ -90,18 +81,11 @@
                         </svg>
                     </div>
                     <div class="service-content">
-                        <h3 class="service-title">Персональная консультация</h3>
+                        <h3 class="service-title">{{ get_content('services', 'consultation_title', current_locale) or 'Персональная консультация' }}</h3>
                         <p class="service-description">
-                            Индивидуальный подбор продуктов и программы применения
+                            {{ get_content('services', 'consultation_desc', current_locale) or 'Индивидуальный подбор продуктов и программы применения' }}
                         </p>
-                        <ul class="service-features">
-                            <li>Диагностика состояния</li>
-                            <li>Подбор программы</li>
-                            <li>Рекомендации по применению</li>
-                            <li>Сопровождение 30 дней</li>
-                        </ul>
                         <div class="service-footer">
-                            <span class="service-price">от 3 000 ₽</span>
                             <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary', current_locale) or 'Записаться' }}</a>
                         </div>
                     </div>

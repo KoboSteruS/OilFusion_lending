@@ -27,7 +27,7 @@
                     <div class="feature-item">
                         {% if feature.image_url %}
                         <div class="feature-image">
-                            <img src="{{ feature.image_url }}" alt="{{ feature.title }}" class="feature-img">
+                            <img src="{{ feature.image_url }}" alt="{{ feature.title[current_locale] if feature.title is mapping else feature.title }}" class="feature-img">
                         </div>
                         {% else %}
                         <div class="feature-icon">
@@ -50,8 +50,11 @@
                             {% endif %}
                         </div>
                         {% endif %}
-                        <h3 class="feature-title">{{ feature.title }}</h3>
-                        <p class="feature-description">{{ feature.description }}</p>
+                        {# Поддержка как старого формата (строка), так и нового (dict с ru/lv/en) #}
+                        {% set feature_title = feature.title[current_locale] if feature.title is mapping else feature.title %}
+                        {% set feature_desc = feature.description[current_locale] if feature.description is mapping else feature.description %}
+                        <h3 class="feature-title">{{ feature_title }}</h3>
+                        <p class="feature-description">{{ feature_desc }}</p>
                     </div>
                     {% endfor %}
                 </div>

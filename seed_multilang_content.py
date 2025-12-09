@@ -87,6 +87,46 @@ def seed_content():
             value_en='Our philosophy is based on a scientific approach to health and beauty'
         )
         
+        ContentRepository.set(
+            section='about',
+            key='learn_more_button',
+            value_ru='Узнать больше о технологиях',
+            value_lv='Uzziniet vairāk par tehnoloģijām',
+            value_en='Learn more about technologies'
+        )
+        
+        # Features для About секции в виде JSON с мультиязычностью
+        import json
+        about_features = [
+            {
+                'icon': 'aura',
+                'title': {'ru': 'AuraCloud® 3D', 'lv': 'AuraCloud® 3D', 'en': 'AuraCloud® 3D'},
+                'description': {
+                    'ru': 'Передовая технология визуализации энергетической ауры для точного подбора продуктов',
+                    'lv': 'Progresīva enerģētiskās auras vizualizācijas tehnoloģija precīzai produktu izvēlei',
+                    'en': 'Advanced energy aura visualization technology for precise product selection'
+                }
+            },
+            {
+                'icon': 'dna',
+                'title': {'ru': 'ДНК-тестирование', 'lv': 'DNS testēšana', 'en': 'DNA Testing'},
+                'description': {
+                    'ru': 'Индивидуальный подбор масел на основе вашего генетического профиля',
+                    'lv': 'Individuāla eļļu izvēle, pamatojoties uz jūsu ģenētisko profilu',
+                    'en': 'Individual oil selection based on your genetic profile'
+                }
+            }
+        ]
+        
+        ContentRepository.set(
+            section='about',
+            key='features',
+            value_ru=json.dumps(about_features, ensure_ascii=False),
+            value_lv=json.dumps(about_features, ensure_ascii=False),
+            value_en=json.dumps(about_features, ensure_ascii=False),
+            data_type='json'
+        )
+        
         # ===== ПРОДУКЦИЯ =====
         logger.info("Заполнение Продукции...")
         
@@ -245,6 +285,64 @@ def seed_content():
             value_en='Individual oil selection considering all factors'
         )
         
+        # Services list в формате JSON с мультиязычностью
+        services_list = [
+            {
+                'icon': '/static/img/dna-icon.svg',
+                'name': {'ru': 'ДНК-тестирование', 'lv': 'DNS testēšana', 'en': 'DNA Testing'},
+                'description': {
+                    'ru': 'Полный генетический анализ для индивидуального подбора масел',
+                    'lv': 'Pilna ģenētiskā analīze individuālai eļļu izvēlei',
+                    'en': 'Complete genetic analysis for individual oil selection'
+                },
+                'features': {
+                    'ru': ['Забор биоматериала', 'Лабораторный анализ', 'Подробный отчёт', 'Консультация специалиста'],
+                    'lv': ['Biomateriāla ņemšana', 'Laboratoriskā analīze', 'Detalizēts pārskats', 'Speciālista konsultācija'],
+                    'en': ['Sample collection', 'Laboratory analysis', 'Detailed report', 'Expert consultation']
+                },
+                'price': {'ru': 'от 8 500 ₽', 'lv': 'no 8 500 ₽', 'en': 'from 8 500 ₽'}
+            },
+            {
+                'icon': '/static/img/aura-icon.svg',
+                'name': {'ru': 'Сканирование AuraCloud® 3D', 'lv': 'AuraCloud® 3D skenēšana', 'en': 'AuraCloud® 3D Scanning'},
+                'description': {
+                    'ru': 'Визуализация и анализ вашей энергетической ауры',
+                    'lv': 'Jūsu enerģētiskās auras vizualizācija un analīze',
+                    'en': 'Visualization and analysis of your energy aura'
+                },
+                'features': {
+                    'ru': ['3D сканирование ауры', 'Детальная визуализация', 'Анализ энергетики', 'Рекомендации по коррекции'],
+                    'lv': ['3D auras skenēšana', 'Detalizēta vizualizācija', 'Enerģētikas analīze', 'Korekcijas rekomendācijas'],
+                    'en': ['3D aura scanning', 'Detailed visualization', 'Energy analysis', 'Correction recommendations']
+                },
+                'price': {'ru': 'от 5 000 ₽', 'lv': 'no 5 000 ₽', 'en': 'from 5 000 ₽'}
+            },
+            {
+                'icon': '/static/img/consult-icon.svg',
+                'name': {'ru': 'Персональная консультация', 'lv': 'Personīgā konsultācija', 'en': 'Personal Consultation'},
+                'description': {
+                    'ru': 'Индивидуальный подбор продуктов и программы применения',
+                    'lv': 'Individuāla produktu un lietošanas programmas izvēle',
+                    'en': 'Individual product and application program selection'
+                },
+                'features': {
+                    'ru': ['Диагностика состояния', 'Подбор программы', 'Рекомендации по применению', 'Сопровождение 30 дней'],
+                    'lv': ['Stāvokļa diagnostika', 'Programmas izvēle', 'Lietošanas rekomendācijas', 'Atbalsts 30 dienas'],
+                    'en': ['Condition diagnostics', 'Program selection', 'Application recommendations', '30 day support']
+                },
+                'price': {'ru': 'от 3 000 ₽', 'lv': 'no 3 000 ₽', 'en': 'from 3 000 ₽'}
+            }
+        ]
+        
+        ContentRepository.set(
+            section='services',
+            key='services_list',
+            value_ru=json.dumps(services_list, ensure_ascii=False),
+            value_lv=json.dumps(services_list, ensure_ascii=False),
+            value_en=json.dumps(services_list, ensure_ascii=False),
+            data_type='json'
+        )
+        
         # ===== ПЕРСОНАЛИЗАЦИЯ =====
         logger.info("Заполнение Персонализации...")
         
@@ -280,6 +378,70 @@ def seed_content():
             value_en='AuraCloud® 3D scanning shows current body condition'
         )
         
+        ContentRepository.set(
+            section='personalization',
+            key='dna_testing_title',
+            value_ru='ДНК-тестирование',
+            value_lv='DNS testēšana',
+            value_en='DNA Testing'
+        )
+        
+        ContentRepository.set(
+            section='personalization',
+            key='auracloud_title',
+            value_ru='AuraCloud® 3D',
+            value_lv='AuraCloud® 3D',
+            value_en='AuraCloud® 3D'
+        )
+        
+        ContentRepository.set(
+            section='personalization',
+            key='testing_button',
+            value_ru='Пройти тестирование',
+            value_lv='Iziet testēšanu',
+            value_en='Get Tested'
+        )
+        
+        ContentRepository.set(
+            section='personalization',
+            key='scanning_button',
+            value_ru='Пройти сканирование',
+            value_lv='Iziet skenēšanu',
+            value_en='Get Scanned'
+        )
+        
+        ContentRepository.set(
+            section='personalization',
+            key='info_text',
+            value_ru='Технология AuraCloud® 3D основана на Bio-Well системе',
+            value_lv='AuraCloud® 3D tehnoloģija ir balstīta uz Bio-Well sistēmu',
+            value_en='AuraCloud® 3D technology is based on the Bio-Well system'
+        )
+        
+        ContentRepository.set(
+            section='personalization',
+            key='info_description',
+            value_ru='Мы используем передовую технологию Bio-Well для визуализации энергетического поля человека. Эта система позволяет увидеть изменения в вашей ауре и подобрать оптимальные продукты.',
+            value_lv='Mēs izmantojam progresīvo Bio-Well tehnoloģiju cilvēka enerģētiskā lauka vizualizācijai. Šī sistēma ļauj redzēt izmaiņas jūsu aurā un izvēlēties optimālos produktus.',
+            value_en='We use advanced Bio-Well technology to visualize the human energy field. This system allows you to see changes in your aura and select optimal products.'
+        )
+        
+        ContentRepository.set(
+            section='personalization',
+            key='biowell_button',
+            value_ru='Узнать больше о Bio-Well',
+            value_lv='Uzziniet vairāk par Bio-Well',
+            value_en='Learn more about Bio-Well'
+        )
+        
+        ContentRepository.set(
+            section='personalization',
+            key='bio_well_url',
+            value_ru='https://bio-well.com',
+            value_lv='https://bio-well.com',
+            value_en='https://bio-well.com'
+        )
+        
         # ===== БЛОГ =====
         logger.info("Заполнение Блога...")
         
@@ -297,6 +459,30 @@ def seed_content():
             value_ru='Полезная информация о здоровье и персонализации',
             value_lv='Noderīga informācija par veselību un personalizāciju',
             value_en='Useful information about health and personalization'
+        )
+        
+        ContentRepository.set(
+            section='blog',
+            key='read_more',
+            value_ru='Читать далее',
+            value_lv='Lasīt vairāk',
+            value_en='Read more'
+        )
+        
+        ContentRepository.set(
+            section='blog',
+            key='min_read',
+            value_ru='мин чтения',
+            value_lv='min lasīšanas',
+            value_en='min read'
+        )
+        
+        ContentRepository.set(
+            section='blog',
+            key='all_articles',
+            value_ru='Читать все статьи',
+            value_lv='Lasīt visus rakstus',
+            value_en='Read all articles'
         )
         
         # ===== КОНТАКТЫ =====
@@ -450,6 +636,33 @@ def seed_content():
             value_ru='Что говорят о нас',
             value_lv='Ko saka par mums',
             value_en='What they say about us'
+        )
+        
+        ContentRepository.set(
+            section='reviews',
+            key='based_on',
+            value_ru='На основе',
+            value_lv='Pamatojoties uz',
+            value_en='Based on'
+        )
+        
+        ContentRepository.set(
+            section='reviews',
+            key='reviews_count',
+            value_ru='отзывов',
+            value_lv='atsauksmēm',
+            value_en='reviews'
+        )
+        
+        # ===== FOOTER =====
+        logger.info("Заполнение Footer...")
+        
+        ContentRepository.set(
+            section='footer',
+            key='copyright',
+            value_ru='© OilFusion 2024. Все права защищены.',
+            value_lv='© OilFusion 2024. Visas tiesības aizsargātas.',
+            value_en='© OilFusion 2024. All rights reserved.'
         )
         
         logger.info("✅ Контент успешно заполнен для всех секций на трёх языках!")
