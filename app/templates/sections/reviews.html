@@ -166,7 +166,7 @@
                     </svg>
                     {% endfor %}
                 </div>
-                <span class="rating-count">{{ get_content('reviews', 'based_on', current_locale) or 'На основе' }} 156 {{ get_content('reviews', 'reviews_count', current_locale) or 'отзывов' }}</span>
+                <span class="rating-count">{{ get_content('reviews', 'based_on') or 'На основе' }} 156 {{ get_content('reviews', 'reviews_count') or 'отзывов' }}</span>
             </div>
         </div>
     </div>

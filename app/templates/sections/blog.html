@@ -17,12 +17,12 @@
                     <div class="blog-content">
                         <div class="blog-meta">
                             <span class="blog-date">{{ article.date }}</span>
-                            <span class="blog-read-time">{{ article.read_time }} {{ get_content('blog', 'min_read', current_locale) or 'мин чтения' }}</span>
+                            <span class="blog-read-time">{{ article.read_time }} {{ get_content('blog', 'min_read') or 'мин чтения' }}</span>
                         </div>
                         <h3 class="blog-title">{{ article.title }}</h3>
                         <p class="blog-excerpt">{{ article.excerpt }}</p>
                         <a href="{{ article.url }}" class="blog-link">
-                            {{ get_content('blog', 'read_more', current_locale) or 'Читать далее' }}
+                            {{ get_content('blog', 'read_more') or 'Читать далее' }}
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
                                 <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -35,16 +35,16 @@
                 <article class="blog-card" data-aos="fade-up">
                     <div class="blog-image placeholder">
                         <div class="placeholder-icon">📝</div>
-                        <span class="blog-category">{{ get_content('blog', 'category_tech', current_locale) or 'Технологии' }}</span>
+                        <span class="blog-category">{{ get_content('blog', 'category_tech') or 'Технологии' }}</span>
                     </div>
                     <div class="blog-content">
                         <div class="blog-meta">
-                            <span class="blog-read-time">5 {{ get_content('blog', 'min_read', current_locale) or 'мин чтения' }}</span>
+                            <span class="blog-read-time">5 {{ get_content('blog', 'min_read') or 'мин чтения' }}</span>
                         </div>
-                        <h3 class="blog-title">{{ get_content('blog', 'article1_title', current_locale) or 'Как работает ДНК-тестирование для подбора масел' }}</h3>
-                        <p class="blog-excerpt">{{ get_content('blog', 'article1_excerpt', current_locale) or 'Узнайте о научных основах генетического тестирования и как это помогает подобрать идеальное масло именно для вас.' }}</p>
+                        <h3 class="blog-title">{{ get_content('blog', 'article1_title') or 'Как работает ДНК-тестирование для подбора масел' }}</h3>
+                        <p class="blog-excerpt">{{ get_content('blog', 'article1_excerpt') or 'Узнайте о научных основах генетического тестирования и как это помогает подобрать идеальное масло именно для вас.' }}</p>
                         <a href="#" class="blog-link">
-                            {{ get_content('blog', 'read_more', current_locale) or 'Читать далее' }}
+                            {{ get_content('blog', 'read_more') or 'Читать далее' }}
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
                                 <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -55,16 +55,16 @@
                 <article class="blog-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="blog-image placeholder">
                         <div class="placeholder-icon">✨</div>
-                        <span class="blog-category">{{ get_content('blog', 'category_health', current_locale) or 'Здоровье' }}</span>
+                        <span class="blog-category">{{ get_content('blog', 'category_health') or 'Здоровье' }}</span>
                     </div>
                     <div class="blog-content">
                         <div class="blog-meta">
-                            <span class="blog-read-time">7 {{ get_content('blog', 'min_read', current_locale) or 'мин чтения' }}</span>
+                            <span class="blog-read-time">7 {{ get_content('blog', 'min_read') or 'мин чтения' }}</span>
                         </div>
-                        <h3 class="blog-title">{{ get_content('blog', 'article2_title', current_locale) or 'AuraCloud® 3D: революция в энергетической диагностике' }}</h3>
-                        <p class="blog-excerpt">{{ get_content('blog', 'article2_excerpt', current_locale) or 'Погрузитесь в мир передовых технологий визуализации ауры и узнайте, как это помогает улучшить ваше самочувствие.' }}</p>
+                        <h3 class="blog-title">{{ get_content('blog', 'article2_title') or 'AuraCloud® 3D: революция в энергетической диагностике' }}</h3>
+                        <p class="blog-excerpt">{{ get_content('blog', 'article2_excerpt') or 'Погрузитесь в мир передовых технологий визуализации ауры и узнайте, как это помогает улучшить ваше самочувствие.' }}</p>
                         <a href="#" class="blog-link">
-                            {{ get_content('blog', 'read_more', current_locale) or 'Читать далее' }}
+                            {{ get_content('blog', 'read_more') or 'Читать далее' }}
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
                                 <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -75,16 +75,16 @@
                 <article class="blog-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="blog-image placeholder">
                         <div class="placeholder-icon">🌿</div>
-                        <span class="blog-category">{{ get_content('blog', 'category_tips', current_locale) or 'Советы' }}</span>
+                        <span class="blog-category">{{ get_content('blog', 'category_tips') or 'Советы' }}</span>
                     </div>
                     <div class="blog-content">
                         <div class="blog-meta">
-                            <span class="blog-read-time">4 {{ get_content('blog', 'min_read', current_locale) or 'мин чтения' }}</span>
+                            <span class="blog-read-time">4 {{ get_content('blog', 'min_read') or 'мин чтения' }}</span>
                         </div>
-                        <h3 class="blog-title">{{ get_content('blog', 'article3_title', current_locale) or '10 правил использования персонализированных масел' }}</h3>
-                        <p class="blog-excerpt">{{ get_content('blog', 'article3_excerpt', current_locale) or 'Практические рекомендации по применению наших продуктов для достижения максимального эффекта и долгосрочного результата.' }}</p>
+                        <h3 class="blog-title">{{ get_content('blog', 'article3_title') or '10 правил использования персонализированных масел' }}</h3>
+                        <p class="blog-excerpt">{{ get_content('blog', 'article3_excerpt') or 'Практические рекомендации по применению наших продуктов для достижения максимального эффекта и долгосрочного результата.' }}</p>
                         <a href="#" class="blog-link">
-                            {{ get_content('blog', 'read_more', current_locale) or 'Читать далее' }}
+                            {{ get_content('blog', 'read_more') or 'Читать далее' }}
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #A67C52;">
                                 <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -95,7 +95,7 @@
         </div>
         
         <div class="section-cta" data-aos="fade-up">
-            <a href="#" class="btn btn-primary btn-lg">{{ get_content('blog', 'all_articles', current_locale) or 'Читать все статьи' }}</a>
+            <a href="#" class="btn btn-primary btn-lg">{{ get_content('blog', 'all_articles') or 'Читать все статьи' }}</a>
         </div>
     </div>
 </section>

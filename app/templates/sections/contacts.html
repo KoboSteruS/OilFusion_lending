@@ -17,7 +17,7 @@
                         </svg>
                     </div>
                     <div class="contact-details">
-                        <h4 class="contact-title">{{ get_content('contacts', 'address_label', current_locale) or 'Адрес' }}</h4>
+                        <h4 class="contact-title">{{ get_content('contacts', 'address_label') or 'Адрес' }}</h4>
                         <p class="contact-text">{{ contacts.address|default('Адрес не указан', true) }}</p>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                         </svg>
                     </div>
                     <div class="contact-details">
-                        <h4 class="contact-title">{{ get_content('contacts', 'phone_label', current_locale) or 'Телефон' }}</h4>
+                        <h4 class="contact-title">{{ get_content('contacts', 'phone_label') or 'Телефон' }}</h4>
                         <p class="contact-text">
                             <a href="tel:{{ phone_number|replace(' ', '')|replace('(', '')|replace(')', '')|replace('-', '') }}">
                                 {{ phone_number }}
@@ -48,7 +48,7 @@
                         </svg>
                     </div>
                     <div class="contact-details">
-                        <h4 class="contact-title">{{ get_content('contacts', 'email_label', current_locale) or 'Email' }}</h4>
+                        <h4 class="contact-title">{{ get_content('contacts', 'email_label') or 'Email' }}</h4>
                         <p class="contact-text">
                             <a href="mailto:{{ email_address }}">{{ email_address }}</a>
                         </p>
@@ -63,7 +63,7 @@
                         </svg>
                     </div>
                     <div class="contact-details">
-                        <h4 class="contact-title">{{ get_content('contacts', 'hours_label', current_locale) or 'Режим работы' }}</h4>
+                        <h4 class="contact-title">{{ get_content('contacts', 'hours_label') or 'Режим работы' }}</h4>
                         <p class="contact-text">Пн-Пт: 10:00 - 20:00<br>Сб-Вс: 11:00 - 18:00</p>
                     </div>
                 </div>
@@ -78,18 +78,18 @@
                     {% endif %}
                     <form class="contact-form" id="contactForm">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="{{ get_content('contacts', 'form_name_placeholder', current_locale) or 'Ваше имя' }}" required>
+                            <input type="text" class="form-control" placeholder="{{ get_content('contacts', 'form_name_placeholder') or 'Ваше имя' }}" required>
                         </div>
                         <div class="form-group">
-                            <input type="tel" class="form-control" placeholder="{{ get_content('contacts', 'form_phone_placeholder', current_locale) or 'Телефон' }}" required>
+                            <input type="tel" class="form-control" placeholder="{{ get_content('contacts', 'form_phone_placeholder') or 'Телефон' }}" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="{{ get_content('contacts', 'form_email_placeholder', current_locale) or 'Email' }}" required>
+                            <input type="email" class="form-control" placeholder="{{ get_content('contacts', 'form_email_placeholder') or 'Email' }}" required>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" rows="3" placeholder="{{ get_content('contacts', 'form_message_placeholder', current_locale) or 'Комментарий' }}"></textarea>
+                            <textarea class="form-control" rows="3" placeholder="{{ get_content('contacts', 'form_message_placeholder') or 'Комментарий' }}"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">{{ get_content('contacts', 'form_submit', current_locale) or 'Отправить' }}</button>
+                        <button type="submit" class="btn btn-primary btn-block">{{ get_content('contacts', 'form_submit') or 'Отправить' }}</button>
                     </form>
                 </div>
             </div>

@@ -28,7 +28,7 @@
                         </ul>
                         <div class="service-footer">
                             <span class="service-price">{{ svc_price }}</span>
-                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary', current_locale) or 'Записаться' }}</a>
+                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary') or 'Записаться' }}</a>
                         </div>
                     </div>
                 </div>
@@ -43,12 +43,12 @@
                         </svg>
                     </div>
                     <div class="service-content">
-                        <h3 class="service-title">{{ get_content('services', 'dna_testing_title', current_locale) or 'ДНК-тестирование' }}</h3>
+                        <h3 class="service-title">{{ get_content('services', 'dna_testing_title') or 'ДНК-тестирование' }}</h3>
                         <p class="service-description">
-                            {{ get_content('services', 'dna_testing_desc', current_locale) or 'Полный генетический анализ для индивидуального подбора масел' }}
+                            {{ get_content('services', 'dna_testing_desc') or 'Полный генетический анализ для индивидуального подбора масел' }}
                         </p>
                         <div class="service-footer">
-                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary', current_locale) or 'Записаться' }}</a>
+                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary') or 'Записаться' }}</a>
                         </div>
                     </div>
                 </div>
@@ -62,12 +62,12 @@
                         </svg>
                     </div>
                     <div class="service-content">
-                        <h3 class="service-title">{{ get_content('services', 'auracloud_title', current_locale) or 'Сканирование AuraCloud® 3D' }}</h3>
+                        <h3 class="service-title">{{ get_content('services', 'auracloud_title') or 'Сканирование AuraCloud® 3D' }}</h3>
                         <p class="service-description">
-                            {{ get_content('services', 'auracloud_desc', current_locale) or 'Визуализация и анализ вашей энергетической ауры' }}
+                            {{ get_content('services', 'auracloud_desc') or 'Визуализация и анализ вашей энергетической ауры' }}
                         </p>
                         <div class="service-footer">
-                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary', current_locale) or 'Записаться' }}</a>
+                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary') or 'Записаться' }}</a>
                         </div>
                     </div>
                 </div>
@@ -81,12 +81,12 @@
                         </svg>
                     </div>
                     <div class="service-content">
-                        <h3 class="service-title">{{ get_content('services', 'consultation_title', current_locale) or 'Персональная консультация' }}</h3>
+                        <h3 class="service-title">{{ get_content('services', 'consultation_title') or 'Персональная консультация' }}</h3>
                         <p class="service-description">
-                            {{ get_content('services', 'consultation_desc', current_locale) or 'Индивидуальный подбор продуктов и программы применения' }}
+                            {{ get_content('services', 'consultation_desc') or 'Индивидуальный подбор продуктов и программы применения' }}
                         </p>
                         <div class="service-footer">
-                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary', current_locale) or 'Записаться' }}</a>
+                            <a href="{{ url_for('main.index') }}#contacts" class="btn btn-primary service-cta">{{ get_content('hero', 'cta_secondary') or 'Записаться' }}</a>
                         </div>
                     </div>
                 </div>
