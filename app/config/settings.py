@@ -35,7 +35,8 @@ class Config:
     ALLOWED_EXTENSIONS: set = {'png', 'jpg', 'jpeg', 'webp', 'gif'}
     
     # Настройки безопасности
-    SESSION_COOKIE_SECURE: bool = not DEBUG
+    # SESSION_COOKIE_SECURE = True требует HTTPS. Для HTTP установите SECURE_COOKIES=false
+    SESSION_COOKIE_SECURE: bool = os.getenv('SECURE_COOKIES', 'false').lower() == 'true'
     SESSION_COOKIE_HTTPONLY: bool = True
     SESSION_COOKIE_SAMESITE: str = 'Lax'
     PERMANENT_SESSION_LIFETIME: int = 3600  # 1 час

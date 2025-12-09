@@ -38,9 +38,8 @@ def index():
     Returns:
         Отрендеренный HTML шаблон главной страницы
     """
-    logger.info("Запрос главной страницы")
-
     locale = getattr(g, "locale", DEFAULT_LANGUAGE)
+    logger.info("Запрос главной страницы, локаль: {}", locale)
 
     backgrounds = SectionBackgrounds()
     sections_visibility = SectionsVisibility()
