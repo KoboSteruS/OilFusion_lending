@@ -1,32 +1,9 @@
 {
-  "title": {
-    "ru": "Контакты",
-    "lv": "Kontakti",
-    "en": "Contacts"
-  },
-  "subtitle": {
-    "ru": "Свяжитесь с нами для консультации",
-    "lv": "Sazinieties ar mums konsultācijai",
-    "en": "Contact us for consultation"
-  },
-  "email": "info@oilfusion.lv",
-  "phone": "+371 20 000 000",
-  "address": {
-    "ru": "Рига, Латвия",
-    "lv": "Rīga, Latvija",
-    "en": "Riga, Latvia"
-  },
-  "form_title": {
-    "ru": "Записаться на консультацию",
-    "lv": "Pierakstīties uz konsultāciju",
-    "en": "Book a Consultation"
-  },
-  "form_subtitle": {
-    "ru": "Оставьте заявку и мы свяжемся с вами в ближайшее время",
-    "lv": "Atstājiet pieteikumu un mēs ar jums sazināsimies tuvākajā laikā",
-    "en": "Leave a request and we will contact you shortly"
-  },
-  "latitude": 56.9496,
-  "longitude": 24.1052,
-  "maps_api_key": ""
+  "email": "info@oilfusion.example",
+  "phone": "+1-555-0100",
+  "address": "New York, NY",
+  "latitude": 40.7128,
+  "longitude": -74.006,
+  "maps_api_key": "",
+  "updated_at": "2025-10-17T12:36:22.146647"
 }

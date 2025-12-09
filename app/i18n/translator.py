@@ -1,12 +1,12 @@
-"""
-Провайдер переводов.
-В текущей версии автоматический перевод отключён - используются статические переводы из БД.
-"""
-
 from dataclasses import dataclass
 from typing import Optional
 
+from loguru import logger
+
 from app.i18n.const import DEFAULT_LANGUAGE
+
+# Полностью отключаем googletrans для избежания конфликтов
+Translator = None
 
 
 @dataclass(frozen=True)
@@ -19,16 +19,20 @@ class TranslationResult:
 
 class GoogleTranslationProvider:
     """
-    Провайдер перевода (заглушка).
-    
-    Автоматический перевод отключён. Все переводы хранятся статически в БД
-    и загружаются из мультиязычных JSON файлов при миграции.
+    Провайдер перевода на основе googletrans.
+
+    Если библиотека недоступна (например, Python 3.13), провайдер работает в degrade-режиме
+    и просто возвращает оригинальные строки.
     """
 
     def __init__(self) -> None:
-        self._translator = None
-        self.available = False
-        # Не выводим предупреждение - это нормальное поведение
+        self._translator = Translator() if Translator else None
+        self.available = self._translator is not None
+        if not self.available:
+            logger.warning(
+                "Модуль googletrans недоступен. Автоперевод будет отключён. "
+                "Проверьте совместимость Python и зависимостей."
+            )
 
     def translate(
         self,

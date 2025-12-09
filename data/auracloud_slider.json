@@ -1,30 +1,11 @@
 {
-  "title": {
-    "ru": "AuraCloud® 3D - До и После",
-    "lv": "AuraCloud® 3D - Pirms un Pēc",
-    "en": "AuraCloud® 3D - Before and After"
-  },
-  "subtitle": {
-    "ru": "Посмотрите, как меняется ваша аура после использования наших масел",
-    "lv": "Skatieties, kā mainās jūsu aura pēc mūsu eļļu lietošanas",
-    "en": "See how your aura changes after using our oils"
-  },
+  "title": "AuraCloud® 3D - До и После",
+  "subtitle": "Посмотрите, как меняется ваша аура после использования наших масел",
   "before_image": "",
   "after_image": "",
-  "before_label": {
-    "ru": "До",
-    "lv": "Pirms",
-    "en": "Before"
-  },
-  "after_label": {
-    "ru": "После",
-    "lv": "Pēc",
-    "en": "After"
-  },
-  "description": {
-    "ru": "Интерактивный слайдер показывает трансформацию энергетического поля человека",
-    "lv": "Interaktīvais slīdnis parāda cilvēka enerģētiskā lauka transformāciju",
-    "en": "Interactive slider shows the transformation of the human energy field"
-  },
-  "enabled": true
+  "before_label": "До",
+  "after_label": "После",
+  "description": "Интерактивный слайдер показывает трансформацию энергетического поля человека",
+  "enabled": true,
+  "updated_at": "2025-10-24T10:45:18.325799"
 }

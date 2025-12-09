@@ -1,128 +1,42 @@
 {
-  "title": {
-    "ru": "Наши услуги",
-    "lv": "Mūsu pakalpojumi",
-    "en": "Our Services"
-  },
-  "subtitle": {
-    "ru": "Индивидуальный подход к каждому клиенту",
-    "lv": "Individuāla pieeja katram klientam",
-    "en": "Individual approach to each client"
-  },
+  "title": "Наши услуги",
   "services": [
     {
-      "name": {
-        "ru": "ДНК-тестирование",
-        "lv": "DNS testēšana",
-        "en": "DNA Testing"
-      },
-      "description": {
-        "ru": "Комплексный анализ генетических особенностей для подбора идеального масла.",
-        "lv": "Visaptveroša ģenētisko īpatnību analīze ideālas eļļas izvēlei.",
-        "en": "Comprehensive analysis of genetic features to select the perfect oil."
-      },
-      "price": {
-        "ru": "от 5 000 ₽",
-        "lv": "no 50 €",
-        "en": "from €50"
-      },
+      "name": "ДНК-тестирование",
+      "description": "Комплексный анализ генетических особенностей для подбора идеального масла.",
+      "price": "от 5 000 ₽",
       "icon": "/static/img/service1.png",
-      "features": {
-        "ru": [
-          "Анализ 50+ генетических маркеров",
-          "Персональные рекомендации",
-          "Подробный отчёт с результатами",
-          "Консультация специалиста"
-        ],
-        "lv": [
-          "50+ ģenētisko marķieru analīze",
-          "Personalizēti ieteikumi",
-          "Detalizēts ziņojums ar rezultātiem",
-          "Speciālista konsultācija"
-        ],
-        "en": [
-          "Analysis of 50+ genetic markers",
-          "Personal recommendations",
-          "Detailed report with results",
-          "Specialist consultation"
-        ]
-      }
+      "features": [
+        "Анализ 50+ генетических маркеров",
+        "Персональные рекомендации",
+        "Подробный отчет с результатами",
+        "Консультация специалиста"
+      ]
     },
     {
-      "name": {
-        "ru": "AuraCloud® 3D диагностика",
-        "lv": "AuraCloud® 3D diagnostika",
-        "en": "AuraCloud® 3D Diagnostics"
-      },
-      "description": {
-        "ru": "Современная технология визуализации энергетического поля человека.",
-        "lv": "Moderna tehnoloģija cilvēka enerģētiskā lauka vizualizācijai.",
-        "en": "Modern technology for visualizing the human energy field."
-      },
-      "price": {
-        "ru": "от 3 500 ₽",
-        "lv": "no 35 €",
-        "en": "from €35"
-      },
+      "name": "AuraCloud® 3D диагностика",
+      "description": "Современная технология визуализации энергетического поля человека.",
+      "price": "от 3 500 ₽",
       "icon": "/static/img/service2.png",
-      "features": {
-        "ru": [
-          "3D-модель ауры в реальном времени",
-          "Анализ энергетических центров",
-          "Рекомендации по балансировке",
-          "Сравнение до и после"
-        ],
-        "lv": [
-          "3D auras modelis reāllaikā",
-          "Enerģētisko centru analīze",
-          "Līdzsvarošanas ieteikumi",
-          "Salīdzinājums pirms un pēc"
-        ],
-        "en": [
-          "Real-time 3D aura model",
-          "Energy center analysis",
-          "Balancing recommendations",
-          "Before and after comparison"
-        ]
-      }
+      "features": [
+        "3D-модель ауры в реальном времени",
+        "Анализ энергетических центров",
+        "Рекомендации по балансировке",
+        "Сравнение до и после"
+      ]
     },
     {
-      "name": {
-        "ru": "Персональная консультация",
-        "lv": "Personīgā konsultācija",
-        "en": "Personal Consultation"
-      },
-      "description": {
-        "ru": "Индивидуальная встреча с экспертом для подбора оптимального ухода.",
-        "lv": "Individuāla tikšanās ar ekspertu optimālās kopšanas izvēlei.",
-        "en": "Individual meeting with an expert to select optimal care."
-      },
-      "price": {
-        "ru": "от 2 000 ₽",
-        "lv": "no 20 €",
-        "en": "from €20"
-      },
+      "name": "Персональная консультация",
+      "description": "Индивидуальная встреча с экспертом для подбора оптимального ухода.",
+      "price": "от 2 000 ₽",
       "icon": "/static/img/service3.png",
-      "features": {
-        "ru": [
-          "Анализ состояния кожи",
-          "Подбор продуктов",
-          "План ухода на месяц",
-          "Последующее сопровождение"
-        ],
-        "lv": [
-          "Ādas stāvokļa analīze",
-          "Produktu izvēle",
-          "Mēneša kopšanas plāns",
-          "Turpmākā atbalsts"
-        ],
-        "en": [
-          "Skin condition analysis",
-          "Product selection",
-          "Monthly care plan",
-          "Follow-up support"
-        ]
-      }
+      "features": [
+        "Анализ состояния кожи",
+        "Подбор продуктов",
+        "План ухода на месяц",
+        "Последующее сопровождение"
+      ]
     }
-  ]
+  ],
+  "updated_at": "2025-10-17T12:39:57.598322"
 }

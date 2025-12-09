@@ -1,86 +1,30 @@
 {
-  "title": {
-    "ru": "Наша продукция",
-    "lv": "Mūsu produkti",
-    "en": "Our Products"
-  },
-  "subtitle": {
-    "ru": "Персонализированные масла для вашего здоровья и гармонии",
-    "lv": "Personalizētas eļļas jūsu veselībai un harmonijai",
-    "en": "Personalized oils for your health and harmony"
-  },
+  "title": "Наша продукция",
   "products": [
     {
-      "name": {
-        "ru": "Масло для лица \"Баланс\"",
-        "lv": "Sejas eļļa \"Līdzsvars\"",
-        "en": "Face Oil \"Balance\""
-      },
-      "category": {
-        "ru": "Уход за лицом",
-        "lv": "Sejas kopšana",
-        "en": "Face Care"
-      },
-      "description": {
-        "ru": "Персонализированное масло для нормализации работы сальных желез и восстановления естественного баланса кожи.",
-        "lv": "Personalizēta eļļa tauku dziedzeru normalizācijai un dabiskā ādas līdzsvara atjaunošanai.",
-        "en": "Personalized oil for normalizing sebaceous glands and restoring the natural skin balance."
-      },
-      "price": {
-        "ru": "от 3 500 ₽",
-        "lv": "no 35 €",
-        "en": "from €35"
-      },
+      "name": "Масло для лица \"Баланс\"",
+      "category": "Уход за лицом",
+      "description": "Персонализированное масло для нормализации работы сальных желез и восстановления естественного баланса кожи.",
+      "price": "от 3 500 ₽",
       "image": "/static/img/product1.jpg",
       "featured": true
     },
     {
-      "name": {
-        "ru": "Масло для тела \"Гармония\"",
-        "lv": "Ķermeņa eļļa \"Harmonija\"",
-        "en": "Body Oil \"Harmony\""
-      },
-      "category": {
-        "ru": "Уход за телом",
-        "lv": "Ķermeņa kopšana",
-        "en": "Body Care"
-      },
-      "description": {
-        "ru": "Увлажняющее масло с натуральными экстрактами для поддержания упругости и эластичности кожи.",
-        "lv": "Mitrinoša eļļa ar dabīgiem ekstraktiem ādas tvirtuma un elastības uzturēšanai.",
-        "en": "Moisturizing oil with natural extracts to maintain skin firmness and elasticity."
-      },
-      "price": {
-        "ru": "от 2 800 ₽",
-        "lv": "no 28 €",
-        "en": "from €28"
-      },
+      "name": "Масло для тела \"Гармония\"",
+      "category": "Уход за телом",
+      "description": "Увлажняющее масло с натуральными экстрактами для поддержания упругости и эластичности кожи.",
+      "price": "от 2 800 ₽",
       "image": "/static/img/product2.jpg",
       "featured": true
     },
     {
-      "name": {
-        "ru": "Масло для волос \"Сила\"",
-        "lv": "Matu eļļa \"Spēks\"",
-        "en": "Hair Oil \"Strength\""
-      },
-      "category": {
-        "ru": "Уход за волосами",
-        "lv": "Matu kopšana",
-        "en": "Hair Care"
-      },
-      "description": {
-        "ru": "Восстанавливающее масло для укрепления волосяных фолликулов и придания блеска.",
-        "lv": "Atjaunojoša eļļa matu folikulu stiprināšanai un spīduma piešķiršanai.",
-        "en": "Restorative oil for strengthening hair follicles and adding shine."
-      },
-      "price": {
-        "ru": "от 2 200 ₽",
-        "lv": "no 22 €",
-        "en": "from €22"
-      },
+      "name": "Масло для волос \"Сила\"",
+      "category": "Уход за волосами",
+      "description": "Восстанавливающее масло для укрепления волосяных фолликулов и придания блеска.",
+      "price": "от 2 200 ₽",
       "image": "/static/img/product3.jpg",
       "featured": true
     }
-  ]
+  ],
+  "updated_at": "2025-10-17T12:39:50.188109"
 }
